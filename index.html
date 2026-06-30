@@ -34,10 +34,11 @@
       <main class="repo-grid">
 
         <!-- ── Column 1: Governance & Templates ──────────────────── -->
-        <section class="col" style="--col-color: #1d4e89;">
-          <div class="col-header">
+        <details class="col" style="--col-color: #1d4e89;" open>
+          <summary class="col-header">
             <h2>Governance &amp; Templates / Spreadsheets</h2>
-          </div>
+            <span class="col-chevron">&#9660;</span>
+          </summary>
           <div class="col-body">
 
             <div class="sub-section">
@@ -62,13 +63,14 @@
             </div>
 
           </div>
-        </section>
+        </details>
 
         <!-- ── Column 2: Tech Transfers ──────────────────────────── -->
-        <section class="col" style="--col-color: #136076;">
-          <div class="col-header">
+        <details class="col" style="--col-color: #136076;" open>
+          <summary class="col-header">
             <h2>Tech Transfers</h2>
-          </div>
+            <span class="col-chevron">&#9660;</span>
+          </summary>
           <div class="col-search">
             <label class="search-label" for="tt-search">Filter by Product</label>
             <input
@@ -104,14 +106,23 @@
             </div>
 
           </div>
-        </section>
+        </details>
 
         <!-- ── Column 3: Process Design & Specs ──────────────────── -->
-        <section class="col" style="--col-color: #1c4587;">
-          <div class="col-header">
+        <details class="col" style="--col-color: #1c4587;" open>
+          <summary class="col-header">
             <h2>Process Design &amp; Specs</h2>
-          </div>
+            <span class="col-chevron">&#9660;</span>
+          </summary>
           <div class="col-body">
+
+            <div class="sub-section">
+              <p class="sub-heading">Process Overview</p>
+              <a href="cell-culture-overview.html" class="link-btn">Cell Culture Overview</a>
+              <a href="cell-culture-process-intensification.html" class="link-btn">Cell Culture Process Intensification</a>
+              <a href="purification-overview.html" class="link-btn">Purification Overview</a>
+              <a href="chromatography.html" class="link-btn">Chromatography</a>
+            </div>
 
             <div class="sub-section">
               <p class="sub-heading">Process Flow Diagrams (PFDs)</p>
@@ -138,13 +149,14 @@
             </div>
 
           </div>
-        </section>
+        </details>
 
         <!-- ── Column 4: Equipment & Automation ──────────────────── -->
-        <section class="col" style="--col-color: #1a6b3c;">
-          <div class="col-header">
+        <details class="col" style="--col-color: #1a6b3c;" open>
+          <summary class="col-header">
             <h2>Equipment &amp; Automation</h2>
-          </div>
+            <span class="col-chevron">&#9660;</span>
+          </summary>
           <div class="col-body">
 
             <div class="sub-section">
@@ -162,13 +174,14 @@
             </div>
 
           </div>
-        </section>
+        </details>
 
         <!-- ── Column 5: Facility Cheat Sheet & Tools ─────────────── -->
-        <section class="col" style="--col-color: #6a3c94;">
-          <div class="col-header">
+        <details class="col" style="--col-color: #6a3c94;" open>
+          <summary class="col-header">
             <h2>Facility Cheat Sheet &amp; Tools</h2>
-          </div>
+            <span class="col-chevron">&#9660;</span>
+          </summary>
           <div class="col-body">
 
             <div class="sub-section">
@@ -190,7 +203,7 @@
             </div>
 
           </div>
-        </section>
+        </details>
 
       </main>
     </div>

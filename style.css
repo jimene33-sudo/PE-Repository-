@@ -155,19 +155,26 @@ p {
   box-shadow: var(--shadow-card);
 }
 
+/* Remove native <details> triangle marker */
+.col > summary {
+  list-style: none;
+}
+.col > summary::-webkit-details-marker {
+  display: none;
+}
+
 .col-header {
   background-color: var(--col-color, var(--blue-primary));
   padding: 13px 15px;
   display: flex;
   align-items: center;
   gap: 10px;
+  cursor: pointer;
+  user-select: none;
 }
 
-.col-icon {
-  font-size: 1.05rem;
-  flex-shrink: 0;
-  opacity: 0.92;
-  line-height: 1;
+.col-header:hover {
+  filter: brightness(1.08);
 }
 
 .col-header h2 {
@@ -177,6 +184,31 @@ p {
   line-height: 1.35;
   text-transform: uppercase;
   letter-spacing: 0.07em;
+  flex: 1;
+}
+
+/* Chevron rotates when column is open */
+.col-chevron {
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.75);
+  flex-shrink: 0;
+  transition: transform 0.22s ease;
+  transform: rotate(0deg);
+}
+
+details.col[open] .col-chevron {
+  transform: rotate(180deg);
+}
+
+/* Fade-in animation when a column opens */
+details.col[open] .col-body,
+details.col[open] .col-search {
+  animation: colFadeIn 0.18s ease;
+}
+
+@keyframes colFadeIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 /* ─── Search Area (Column 2) ──────────────────────────────────── */
