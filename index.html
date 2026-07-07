@@ -62,6 +62,9 @@
         <button class="sidebar-btn" data-panel="panel-5" style="--col-color: #6a3c94;">
           Facility Cheat Sheet &amp; Tools
         </button>
+        <button class="sidebar-btn" data-panel="panel-6" style="--col-color: #b5460f;">
+          Additional Resources
+        </button>
       </nav>
 
       <div class="content-area">
@@ -261,21 +264,51 @@
             <label class="search-label" for="eq-search">Filter by Product</label>
             <input id="eq-search" type="text" class="search-input" placeholder="Product Name / ID&hellip;" />
           </div>
-          <div class="panel-body">
+          <div class="building-stack">
 
-            <div class="sub-section">
-              <p class="sub-heading upstream">Upstream Equipment Assets</p>
-              <a href="#" class="link-btn">Bioreactors</a>
-              <a href="#" class="link-btn">Media Prep Tanks</a>
-              <a href="#" class="link-btn">Seed Vessels</a>
-            </div>
+            <!-- Building 311 -->
+            <details class="building-accordion" open>
+              <summary class="building-header bldg-311">
+                Building 311 &mdash; Stainless
+                <span class="building-chevron">&#9660;</span>
+              </summary>
+              <div class="building-body">
+                <div class="sub-section">
+                  <p class="sub-heading upstream">Upstream Equipment Assets</p>
+                  <a href="#" class="link-btn">Bioreactors</a>
+                  <a href="#" class="link-btn">Media Prep Tanks</a>
+                  <a href="#" class="link-btn">Seed Vessels</a>
+                </div>
+                <div class="sub-section">
+                  <p class="sub-heading downstream">Downstream Equipment Assets</p>
+                  <a href="#" class="link-btn">Centrifuges</a>
+                  <a href="#" class="link-btn">Chromatography Columns</a>
+                  <a href="#" class="link-btn">Ultrafiltration Skids</a>
+                </div>
+              </div>
+            </details>
 
-            <div class="sub-section">
-              <p class="sub-heading downstream">Downstream Equipment Assets</p>
-              <a href="#" class="link-btn">Centrifuges</a>
-              <a href="#" class="link-btn">Chromatography Columns</a>
-              <a href="#" class="link-btn">Ultrafiltration Skids</a>
-            </div>
+            <!-- Building 312 -->
+            <details class="building-accordion">
+              <summary class="building-header bldg-312">
+                Building 312 &mdash; Single Use
+                <span class="building-chevron">&#9660;</span>
+              </summary>
+              <div class="building-body">
+                <div class="sub-section">
+                  <p class="sub-heading upstream">Upstream Equipment Assets</p>
+                  <a href="#" class="link-btn">Bioreactors</a>
+                  <a href="#" class="link-btn">Media Prep Tanks</a>
+                  <a href="#" class="link-btn">Seed Vessels</a>
+                </div>
+                <div class="sub-section">
+                  <p class="sub-heading downstream">Downstream Equipment Assets</p>
+                  <a href="#" class="link-btn">Centrifuges</a>
+                  <a href="#" class="link-btn">Chromatography Columns</a>
+                  <a href="#" class="link-btn">Ultrafiltration Skids</a>
+                </div>
+              </div>
+            </details>
 
           </div>
         </div>
@@ -303,6 +336,37 @@
               <p class="sub-heading">Global Plant Utilities</p>
               <a href="#" class="link-btn">Utility Capacities &amp; Limits</a>
               <a href="#" class="link-btn">Clean Steam &amp; WFI References</a>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ── Panel 6: Additional Resources ──────────────────────── -->
+        <div class="content-panel" id="panel-6" style="--col-color: #b5460f;">
+          <div class="panel-header">
+            <h2 class="panel-title">Additional Resources</h2>
+          </div>
+          <div class="panel-body">
+
+            <div class="sub-section">
+              <p class="sub-heading">Reference Documents</p>
+              <a href="#" class="link-btn">Regulatory Guidelines</a>
+              <a href="#" class="link-btn">Industry Standards</a>
+              <a href="#" class="link-btn">ICH Guidelines</a>
+            </div>
+
+            <div class="sub-section">
+              <p class="sub-heading">Training &amp; Onboarding</p>
+              <a href="#" class="link-btn">New Engineer Onboarding Guide</a>
+              <a href="#" class="link-btn">Lab Safety Training</a>
+              <a href="#" class="link-btn">GMP Training Materials</a>
+            </div>
+
+            <div class="sub-section">
+              <p class="sub-heading">External Links</p>
+              <a href="#" class="link-btn">Genentech Intranet</a>
+              <a href="#" class="link-btn">Roche Engineering Portal</a>
+              <a href="#" class="link-btn">Vendor &amp; Supplier Contacts</a>
             </div>
 
           </div>
