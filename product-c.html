@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product C — Tech Transfers</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      .product-wrapper {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 24px 28px 48px;
+      }
+      .product-breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.85rem;
+        color: #5f6368;
+        margin-bottom: 18px;
+        font-family: "Roboto", sans-serif;
+      }
+      .product-breadcrumb a {
+        color: #136076;
+        text-decoration: none;
+        font-weight: 600;
+      }
+      .product-breadcrumb a:hover { text-decoration: underline; }
+      .product-breadcrumb span { color: #bbb; }
+      .product-title {
+        font-family: "Roboto", sans-serif;
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: #202124;
+        margin: 0 0 24px;
+      }
+      .product-sections {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+      .product-section {
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 1px 3px rgba(60,64,67,0.15), 0 1px 2px rgba(60,64,67,0.1);
+        transition: box-shadow 0.2s ease, transform 0.2s ease;
+      }
+      .product-section:hover {
+        box-shadow: 0 4px 16px rgba(60,64,67,0.18);
+        transform: translateY(-2px);
+      }
+      .product-section-header {
+        background: #136076;
+        color: white;
+        padding: 12px 20px;
+        font-family: "Roboto", sans-serif;
+        font-size: 0.78rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+      .product-section-body {
+        padding: 10px 12px 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+      }
+      .product-section-body .link-btn {
+        border-left-color: #136076;
+      }
+    </style>
+  </head>
+  <body>
+
+    <header>
+      <nav class="topnav">
+        <div class="topnav-inner">
+          <div class="genentech-wordmark">
+            <span class="gene-text">Genentech</span>
+            <span class="roche-text">A Member of the Roche Group</span>
+          </div>
+          <a href="https://sites.google.com/gene.com/oceanside-msat/ocn-msat" class="ocn-msat-link" target="_blank" rel="noopener">OCN MSAT</a>
+        </div>
+      </nav>
+    </header>
+
+    <div class="product-wrapper">
+      <div class="product-breadcrumb">
+        <a href="index.html">&larr; PE Repository</a>
+        <span>/</span>
+        <span>Tech Transfers</span>
+        <span>/</span>
+        <span>Product C</span>
+      </div>
+
+      <h1 class="product-title">Product C</h1>
+
+      <div class="product-sections">
+
+        <div class="product-section">
+          <div class="product-section-header">Gap Analyses</div>
+          <div class="product-section-body">
+            <a href="#" class="link-btn">Upstream Gap Analyses</a>
+            <a href="#" class="link-btn">Downstream Gap Analyses</a>
+          </div>
+        </div>
+
+        <div class="product-section">
+          <div class="product-section-header">Bills of Materials (BOMs)</div>
+          <div class="product-section-body">
+            <a href="#" class="link-btn">Upstream BOMs</a>
+            <a href="#" class="link-btn">Downstream BOMs</a>
+          </div>
+        </div>
+
+        <div class="product-section">
+          <div class="product-section-header">Reports</div>
+          <div class="product-section-body">
+            <a href="#" class="link-btn">Upstream &mdash; Bioreactor &amp; Seed Train</a>
+            <a href="#" class="link-btn">Downstream &mdash; Purification &amp; Chromatography</a>
+          </div>
+        </div>
+
+        <div class="product-section">
+          <div class="product-section-header">UF/DF Documentation</div>
+          <div class="product-section-body">
+            <a href="#" class="link-btn">Downstream UF/DF Documentation</a>
+          </div>
+        </div>
+
+        <div class="product-section">
+          <div class="product-section-header">Base Camp</div>
+          <div class="product-section-body">
+            <div class="blank-card"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+      <p>Genentech &middot; Oceanside Process Engineering &middot; Internal Use Only</p>
+    </footer>
+
+  </body>
+</html>

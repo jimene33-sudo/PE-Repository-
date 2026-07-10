@@ -447,6 +447,124 @@ p {
   width: calc(100% - 16px);
 }
 
+.blank-card {
+  margin: 0 8px 8px;
+  height: 48px;
+  border: 1px dashed var(--border);
+  border-radius: 5px;
+  background: #fafafa;
+}
+
+/* ─── Product Accordions (Tech Transfers) ─────────────────────── */
+.products-section {
+  padding: 0;
+  gap: 0;
+  grid-column: 1 / -1;
+}
+
+.products-section .sub-heading {
+  margin: 0 0 8px;
+}
+
+.product-accordion {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.product-accordion > summary {
+  list-style: none;
+}
+.product-accordion > summary::-webkit-details-marker {
+  display: none;
+}
+
+.product-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 16px;
+  background: var(--white);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: "Roboto", sans-serif;
+  color: var(--text-dark);
+  border-left: 4px solid #136076;
+  min-height: 48px;
+  user-select: none;
+  transition: background 0.12s, color 0.12s;
+}
+
+.product-row:hover {
+  background: #e8f4f8;
+  color: #136076;
+}
+
+.product-chevron {
+  font-size: 0.6rem;
+  color: #aaa;
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.product-accordion[open] .product-chevron {
+  transform: rotate(180deg);
+}
+
+.product-subtabs {
+  border-top: 1px solid var(--border);
+  background: #f4f6f9;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  animation: colFadeIn 0.18s ease;
+}
+
+.product-subtab-group {
+  background: var(--white);
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+
+.product-subtab-label {
+  margin: 0;
+  padding: 7px 12px;
+  font-size: 0.67rem;
+  font-weight: 700;
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: #555;
+  background: #f0f2f5;
+  border-left: 3px solid #136076;
+}
+
+.product-subtabs .link-btn {
+  margin: 0;
+  width: 100%;
+  border-radius: 0;
+  border-left: 4px solid #136076;
+  border-right: none;
+  border-bottom: none;
+  border-top: 1px solid var(--border);
+  min-height: 40px;
+}
+
+.product-subtabs .link-btn:hover {
+  transform: none;
+  border-left-width: 5px;
+}
+
+.product-subtabs .blank-card {
+  margin: 8px;
+  width: auto;
+}
+
 /* Product search bar in Tech Transfers panel */
 .panel-search {
   padding: 14px 28px;
@@ -532,9 +650,18 @@ p {
   border-top: 1px solid var(--border);
 }
 
+/* Remove native <details> marker from collapsible sub-sections */
+.sub-section > summary {
+  list-style: none;
+  cursor: pointer;
+}
+.sub-section > summary::-webkit-details-marker {
+  display: none;
+}
+
 .sub-heading {
   margin: 0 0 2px;
-  padding: 4px 8px;
+  padding: 5px 8px;
   font-size: 0.67rem;
   font-weight: 700;
   font-family: "Roboto", sans-serif;
@@ -544,6 +671,27 @@ p {
   background: #f0f2f5;
   border-left: 3px solid var(--col-color, #1d4e89);
   border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+  transition: background 0.12s;
+}
+
+.sub-heading:hover {
+  background: #e4e7ec;
+}
+
+.sub-chevron {
+  font-size: 0.55rem;
+  color: #aaa;
+  margin-left: 8px;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.sub-section[open] > summary .sub-chevron {
+  transform: rotate(180deg);
 }
 
 .sub-heading.upstream {
