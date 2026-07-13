@@ -52,6 +52,24 @@ p {
   letter-spacing: -0.01em;
 }
 
+.genentech-logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.genentech-logo-img {
+  height: 36px;
+  width: auto;
+  display: block;
+  transition: opacity 0.15s;
+}
+
+.genentech-logo-link:hover .genentech-logo-img {
+  opacity: 0.75;
+}
+
 .genentech-wordmark {
   display: flex;
   flex-direction: column;
