@@ -4,9 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>roche.ocn.perepository</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -29,6 +26,7 @@
               autocomplete="off"
             />
             <button class="search-clear" id="search-clear" aria-label="Clear search">&#10005;</button>
+            <div id="search-results" class="search-results-panel" hidden></div>
           </div>
           <a href="https://sites.google.com/gene.com/oceanside-msat/ocn-msat" class="ocn-msat-link" target="_blank" rel="noopener">OCN MSAT</a>
         </div>
@@ -524,62 +522,115 @@
       /* ── Global search ──────────────────────────────────────── */
       const searchInput = document.getElementById('global-search');
       const searchClear = document.getElementById('search-clear');
-      const sidebarLayout = document.getElementById('sidebar-layout');
+      const searchResultsPanel = document.getElementById('search-results');
 
-      searchInput.addEventListener('input', function () {
-        const query = this.value.trim().toLowerCase();
-        const hasQuery = query.length > 0;
+      function getTextNodes(el) {
+        return Array.from(el.childNodes)
+          .filter(function (n) { return n.nodeType === 3; })
+          .map(function (n) { return n.textContent.trim(); })
+          .join('').trim();
+      }
 
-        searchClear.style.display = hasQuery ? 'flex' : 'none';
-        sidebarLayout.classList.toggle('searching', hasQuery);
-
-        if (!hasQuery) {
-          contentPanels.forEach(function (p) {
-            p.querySelectorAll('.link-btn, .sub-section').forEach(function (el) {
-              el.style.display = '';
+      function buildSearchIndex() {
+        var index = [];
+        contentPanels.forEach(function (panel) {
+          var tabBtn = document.querySelector('[data-panel="' + panel.id + '"]');
+          var tabName = tabBtn ? tabBtn.textContent.trim() : '';
+          panel.querySelectorAll('.link-btn').forEach(function (btn) {
+            var bldg = btn.closest('.building-accordion');
+            var bldgHeader = bldg && bldg.querySelector('.building-header');
+            var bldgName = bldgHeader ? getTextNodes(bldgHeader) : '';
+            var sec = btn.closest('.sub-section');
+            var secHeading = sec && sec.querySelector('.sub-heading');
+            var secName = secHeading ? getTextNodes(secHeading) : '';
+            index.push({
+              btn: btn,
+              text: btn.textContent.trim(),
+              tab: tabName,
+              building: bldgName,
+              section: secName,
+              panel: panel,
+              bldgAccordion: bldg,
+              secDetails: sec
             });
           });
-          sidebarBtns.forEach(function (b) { b.classList.remove('has-match'); });
+        });
+        return index;
+      }
+
+      function escapeHtml(str) {
+        return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      }
+
+      var searchIndex = null;
+
+      function showSearchResults(query) {
+        if (!searchIndex) searchIndex = buildSearchIndex();
+        if (!query) {
+          searchResultsPanel.hidden = true;
+          searchResultsPanel.innerHTML = '';
           return;
         }
-
-        contentPanels.forEach(function (panel) {
-          var panelHasMatch = false;
-
-          panel.querySelectorAll('.link-btn').forEach(function (btn) {
-            var matches = btn.textContent.trim().toLowerCase().includes(query);
-            btn.style.display = matches ? '' : 'none';
-            if (matches) panelHasMatch = true;
-          });
-
-          panel.querySelectorAll('.sub-heading').forEach(function (heading) {
-            if (heading.textContent.trim().toLowerCase().includes(query)) {
-              var sec = heading.closest('.sub-section');
-              if (sec) {
-                sec.querySelectorAll('.link-btn').forEach(function (btn) {
-                  btn.style.display = '';
-                  panelHasMatch = true;
-                });
-              }
-            }
-          });
-
-          panel.querySelectorAll('.sub-section').forEach(function (sec) {
-            var anyVisible = Array.from(sec.querySelectorAll('.link-btn'))
-              .some(function (btn) { return btn.style.display !== 'none'; });
-            sec.style.display = anyVisible ? '' : 'none';
-          });
-
-          var correspondingBtn = document.querySelector('[data-panel="' + panel.id + '"]');
-          if (correspondingBtn) {
-            correspondingBtn.classList.toggle('has-match', panelHasMatch);
-          }
+        var matches = searchIndex.filter(function (item) {
+          return item.text.toLowerCase().includes(query) ||
+                 item.tab.toLowerCase().includes(query) ||
+                 item.building.toLowerCase().includes(query) ||
+                 item.section.toLowerCase().includes(query);
         });
+        if (matches.length === 0) {
+          searchResultsPanel.innerHTML = '<div class="search-no-results">No results found</div>';
+        } else {
+          searchResultsPanel.innerHTML = matches.map(function (item, i) {
+            var crumbs = [item.tab, item.building, item.section].filter(Boolean).join(' › ');
+            return '<div class="search-result-item" data-index="' + i + '">' +
+                   '<span class="search-result-name">' + escapeHtml(item.text) + '</span>' +
+                   '<span class="search-result-breadcrumb">' + escapeHtml(crumbs) + '</span>' +
+                   '</div>';
+          }).join('');
+          searchResultsPanel.querySelectorAll('.search-result-item').forEach(function (el) {
+            el.addEventListener('click', function () {
+              var item = matches[parseInt(el.dataset.index)];
+              sidebarBtns.forEach(function (b) { b.classList.remove('active'); });
+              contentPanels.forEach(function (p) { p.classList.remove('active'); });
+              var targetBtn = document.querySelector('[data-panel="' + item.panel.id + '"]');
+              if (targetBtn) targetBtn.classList.add('active');
+              item.panel.classList.add('active');
+              if (item.bldgAccordion) item.bldgAccordion.setAttribute('open', '');
+              if (item.secDetails) item.secDetails.setAttribute('open', '');
+              searchInput.value = '';
+              searchResultsPanel.hidden = true;
+              searchClear.style.display = 'none';
+              item.btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              item.btn.classList.add('search-highlight');
+              setTimeout(function () { item.btn.classList.remove('search-highlight'); }, 1800);
+            });
+          });
+        }
+        searchResultsPanel.hidden = false;
+      }
+
+      searchInput.addEventListener('input', function () {
+        var query = this.value.trim().toLowerCase();
+        searchClear.style.display = query ? 'flex' : 'none';
+        showSearchResults(query);
+      });
+
+      searchInput.addEventListener('focus', function () {
+        var query = this.value.trim().toLowerCase();
+        if (query) showSearchResults(query);
+      });
+
+      document.addEventListener('click', function (e) {
+        if (!searchInput.contains(e.target) && !searchResultsPanel.contains(e.target)) {
+          searchResultsPanel.hidden = true;
+        }
       });
 
       searchClear.addEventListener('click', function () {
         searchInput.value = '';
-        searchInput.dispatchEvent(new Event('input'));
+        searchResultsPanel.hidden = true;
+        searchResultsPanel.innerHTML = '';
+        searchClear.style.display = 'none';
         searchInput.focus();
       });
     </script>
