@@ -1,93 +1,161 @@
-# PE Upstream+Downstream Repository
+# PE Upstream + Downstream Repository
 
+Internal dashboard for Genentech Oceanside MSAT Process Engineering. A single-page web app that organizes documents, spreadsheets, equipment assets, and resources for Buildings 311 and 312.
 
+---
 
-## Getting started
+## How to open the site locally
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+No installation needed. Just open `index.html` in any web browser:
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+- **Mac:** Right-click `index.html` → Open With → your browser
+- **VS Code:** Install the "Live Preview" extension, then right-click `index.html` → Show Preview
 
-## Add your files
+---
 
-* [Create](https://docs.gitlab.com/user/project/repository/web_editor/#create-a-file) or [upload](https://docs.gitlab.com/user/project/repository/web_editor/#upload-a-file) files
-* [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
+## File structure
 
 ```
-cd existing_repo
-git remote add origin https://gitlab.com/jimene33-group/pe-upstream-downstream-repository.git
-git branch -M main
-git push -uf origin main
+index.html                          Main dashboard (all tabs, sidebar, search)
+style.css                           All styles for the site
+GNE_Logo_Strapline_BLK_081525.svg   Genentech logo used in the top nav
+fonts/
+  lato-700.woff2                    Lato Bold — self-hosted, no Google needed
+  roboto-latin.woff2                Roboto (all weights) — self-hosted, no Google needed
+cell-culture-overview.html          Sub-page: Cell Culture Overview
+cell-culture-process-intensification.html
+chromatography.html
+media-prep-hold.html
+product-a.html                      Sub-pages: individual product pages (A–E)
+product-b.html
+product-c.html
+product-d.html
+product-e.html
+purification-overview.html
 ```
 
-## Integrate with your tools
+---
 
-* [Set up project integrations](https://gitlab.com/jimene33-group/pe-upstream-downstream-repository/-/settings/integrations)
+## How to update links
 
-## Collaborate with your team
+Most buttons in `index.html` currently use `href="#"` as a placeholder — meaning they don't go anywhere yet. When a real document or SharePoint link is ready, open `index.html` in any text editor, find the button by its label, and replace `href="#"` with the real URL.
 
-* [Invite team members and collaborators](https://docs.gitlab.com/user/project/members/)
-* [Create a new merge request](https://docs.gitlab.com/user/project/merge_requests/creating_merge_requests/)
-* [Automatically close issues from merge requests](https://docs.gitlab.com/user/project/issues/managing_issues/#closing-issues-automatically)
-* [Enable merge request approvals](https://docs.gitlab.com/user/project/merge_requests/approvals/)
-* [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
+**Example — changing a placeholder to a real link:**
+```html
+<!-- Before -->
+<a href="#" class="link-btn">Bioreactors</a>
 
-## Test and Deploy
+<!-- After -->
+<a href="https://your-sharepoint-link-here" class="link-btn" target="_blank" rel="noopener">Bioreactors</a>
+```
 
-Use the built-in continuous integration in GitLab.
+---
 
-* [Get started with GitLab CI/CD](https://docs.gitlab.com/ci/quick_start/)
-* [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/user/application_security/sast/)
-* [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/topics/autodevops/requirements/)
-* [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/user/clusters/agent/)
-* [Set up protected environments](https://docs.gitlab.com/ci/environments/protected_environments/)
+## Links that are already connected (Google-based — update if moving to Microsoft)
 
-***
+These buttons have real links pointing to Google Docs/Drive. If Genentech moves to Microsoft 365, replace each `href` value with the equivalent SharePoint/OneDrive URL.
 
-# Editing this README
+### Top navigation (2 places)
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+| Location | Line in index.html | Current URL |
+|---|---|---|
+| Genentech logo (clickable) | 14 | `https://sites.google.com/gene.com/oceanside-msat/ocn-msat` |
+| "OCN MSAT" nav button | 31 | `https://sites.google.com/gene.com/oceanside-msat/ocn-msat` |
 
-## Suggestions for a good README
+Both point to the same OCN MSAT Google Site. Update both lines together.
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+---
 
-## Name
-Choose a self-explaining name for your project.
+### Tech Transfers tab — Building 311 folder
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+| Line | Button label | Current URL |
+|---|---|---|
+| 161 | Open Building 311 Tech Transfer Folder | Google Drive folder |
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+---
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+### Equipment & Automation tab — Building 311
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+All of these point to tabs within the same Google Sheet (`1QNP9ZL3BJLuwrZ4NPC0ZlD-AIS_EIR_004NcI4lcXrk`). The `#gid=XXXXXXX` at the end selects which tab opens.
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+**Upstream Equipment Assets**
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+| Line | Button label | Sheet tab (gid) |
+|---|---|---|
+| 309 | Media Prep/Hold | 2018799983 |
+| 310 | Seed Vessels | 2060189543 |
+| 311 | Bioreactors | 2060189543 |
+| 312 | Harvest | 508020010 |
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+**Downstream Equipment P1**
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+| Line | Button label | Sheet tab (gid) |
+|---|---|---|
+| 316 | Buffer Prep/Hold | 948042938 |
+| 317 | Chrom Skids | 1678843139 |
+| 318 | Chrom Columns | 1787453987 |
+| 319 | Pool Vessels | 948042938 |
+| 320 | Viral Filtration | 1106166267 |
+| 321 | UFDF | 1613798372 |
+| 322 | Final Form | 1613798372 |
+| 323 | Fill & Freeze Thaw | 902795370 |
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+**Downstream Equipment P2**
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+| Line | Button label | Sheet tab (gid) |
+|---|---|---|
+| 327 | Buffer Prep/Hold | 948042938 |
+| 328 | Chrom Skids | 1678843139 |
+| 329 | Chrom Columns | 1787453987 |
+| 330 | Pool Vessels | 948042938 |
+| 331 | Viral Filtration | 1106166267 |
+| 332 | Final Form | 1613798372 |
+| 333 | Fill & Freeze Thaw | 902795370 |
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+**Ancillary Equipment**
 
-## License
-For open source projects, say how it is licensed.
+| Line | Button label | Sheet tab (gid) |
+|---|---|---|
+| 337 | Caustic System | 1191589342 |
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+---
+
+### Equipment & Automation tab — Building 312 (partial)
+
+| Line | Button label | Sheet tab (gid) |
+|---|---|---|
+| 357 | Chrom Skids | 1678843139 |
+| 359 | Pool Vessels | 948042938 |
+| 361 | UFDF | 1613798372 |
+| 363 | Fill & Freeze Thaw | 902795370 |
+
+---
+
+## Fonts
+
+Fonts are **self-hosted** inside the `fonts/` folder — no internet connection required to load them. The two files are:
+
+- `fonts/lato-700.woff2` — Lato Bold (used in headings)
+- `fonts/roboto-latin.woff2` — Roboto variable font (covers weights 300, 400, 500, 700)
+
+The `@font-face` rules are at the top of `style.css`. Do not delete the `fonts/` folder.
+
+---
+
+## Saving and pushing changes to GitHub
+
+After editing any file, save it and run these commands in the terminal from the project folder:
+
+```bash
+git add index.html style.css         # add whichever files you changed
+git commit -m "describe what you changed"
+git push github main
+```
+
+The GitHub remote is: `https://github.com/jimene33-sudo/PE-Repository-.git`
+
+---
+
+## Questions or handoff
+
+This site was built during a summer 2026 internship. For questions about the structure or design, the git history (`git log`) shows every change made and when. Each commit message describes what was changed.
