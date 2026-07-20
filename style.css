@@ -295,6 +295,79 @@ p {
   background: #e8f0fe !important;
 }
 
+/* ─── Full Search Results Page ────────────────────────────── */
+.search-results-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.search-results-back {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 5px 12px;
+  font-size: 0.82rem;
+  font-family: "Roboto", sans-serif;
+  color: var(--text-dark);
+  cursor: pointer;
+  transition: background 0.1s;
+  white-space: nowrap;
+}
+
+.search-results-back:hover {
+  background: #f0f2f5;
+}
+
+.search-results-page {
+  padding: 16px 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+  align-content: start;
+}
+
+.search-page-card {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: box-shadow 0.15s, border-color 0.15s;
+  text-decoration: none;
+}
+
+.search-page-card:hover {
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  border-color: #1d4e89;
+}
+
+.search-page-card-name {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: #1d4e89;
+  font-family: "Roboto", sans-serif;
+  margin-bottom: 6px;
+}
+
+.search-page-card-breadcrumb {
+  font-size: 0.73rem;
+  color: #8a95a8;
+  font-family: "Roboto", sans-serif;
+  line-height: 1.4;
+}
+
+.search-page-no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px;
+  font-size: 0.9rem;
+  color: #9aa0a6;
+  font-family: "Roboto", sans-serif;
+}
+
 /* ─── Sidebar Layout ──────────────────────────────────────────── */
 .sidebar-layout {
   display: flex;

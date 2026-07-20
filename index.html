@@ -209,14 +209,14 @@
 
                 <details class="sub-section" open>
                   <summary class="sub-heading">Process Flow Diagrams (PFDs)<span class="sub-chevron">&#9660;</span></summary>
-                  <a href="#" class="link-btn">Upstream PFDs</a>
-                  <a href="#" class="link-btn">Downstream PFDs</a>
+                  <a href="https://roche-quality-pharma.veevavault.com/ui/#doc_info/559802/6/0=&s=1661678133053:967102241&idx=9&pt=bdr&sm=&tvsl=JmJpPTU1OTgwMiZibWE9NiZibWk9MA," class="link-btn" target="_blank" rel="noopener">Upstream PFDs</a>
+                  <a href="https://roche-quality-pharma.veevavault.com/ui/#doc_info/559802/6/0=&s=1661678133053:967102241&idx=9&pt=bdr&sm=&tvsl=JmJpPTU1OTgwMiZibWE9NiZibWk9MA," class="link-btn" target="_blank" rel="noopener">Downstream PFDs</a>
                 </details>
 
                 <details class="sub-section" open>
                   <summary class="sub-heading">Piping &amp; Instrumentation (P&amp;IDs)<span class="sub-chevron">&#9660;</span></summary>
-                  <a href="#" class="link-btn">Upstream P&amp;IDs</a>
-                  <a href="#" class="link-btn">Downstream P&amp;IDs</a>
+                  <a href="https://roche-quality-pharma.veevavault.com/ui/#doc_info/559802/47/0=&v=listView&s=1661678132639:-1434836617&idx=8&pt=bdr&sm=&tvsl=JmJpPTU1OTgwMiZibWE9NDcmYm1pPTA" class="link-btn" target="_blank" rel="noopener">Upstream P&amp;IDs</a>
+                  <a href="https://roche-quality-pharma.veevavault.com/ui/#doc_info/559802/47/0=&v=listView&s=1661678132639:-1434836617&idx=8&pt=bdr&sm=&tvsl=JmJpPTU1OTgwMiZibWE9NDcmYm1pPTA" class="link-btn" target="_blank" rel="noopener">Downstream P&amp;IDs</a>
                 </details>
 
                 <details class="sub-section" open>
@@ -266,8 +266,8 @@
 
                 <details class="sub-section" open>
                   <summary class="sub-heading">Piping &amp; Instrumentation (P&amp;IDs)<span class="sub-chevron">&#9660;</span></summary>
-                  <a href="#" class="link-btn">Upstream P&amp;IDs</a>
-                  <a href="#" class="link-btn">Downstream P&amp;IDs</a>
+                  <a href="https://roche-quality-pharma.veevavault.com/ui/#doc_info/559802/47/0=&v=listView&s=1661678132639:-1434836617&idx=8&pt=bdr&sm=&tvsl=JmJpPTU1OTgwMiZibWE9NDcmYm1pPTA" class="link-btn" target="_blank" rel="noopener">Upstream P&amp;IDs</a>
+                  <a href="https://roche-quality-pharma.veevavault.com/ui/#doc_info/559802/47/0=&v=listView&s=1661678132639:-1434836617&idx=8&pt=bdr&sm=&tvsl=JmJpPTU1OTgwMiZibWE9NDcmYm1pPTA" class="link-btn" target="_blank" rel="noopener">Downstream P&amp;IDs</a>
                 </details>
 
                 <details class="sub-section" open>
@@ -513,6 +513,15 @@
           </div>
         </div>
 
+        <!-- ── Search Results Panel ──────────────────────────── -->
+        <div class="content-panel" id="panel-search-results">
+          <div class="panel-header search-results-header">
+            <h2 class="panel-title" id="search-results-title">Search Results</h2>
+            <button class="search-results-back" id="search-results-back">&#8592; Back</button>
+          </div>
+          <div class="search-results-page" id="search-results-page"></div>
+        </div>
+
       </div><!-- /content-area -->
     </div><!-- /sidebar-layout -->
 
@@ -585,6 +594,12 @@
 
       var searchIndex = null;
 
+      function matchesQuery(item, query) {
+        var words = query.split(/\s+/).filter(Boolean);
+        var combined = [item.text, item.tab, item.building, item.section].join(' ').toLowerCase();
+        return words.every(function (word) { return combined.includes(word); });
+      }
+
       function showSearchResults(query) {
         if (!searchIndex) searchIndex = buildSearchIndex();
         if (!query) {
@@ -592,12 +607,7 @@
           searchResultsPanel.innerHTML = '';
           return;
         }
-        var matches = searchIndex.filter(function (item) {
-          return item.text.toLowerCase().includes(query) ||
-                 item.tab.toLowerCase().includes(query) ||
-                 item.building.toLowerCase().includes(query) ||
-                 item.section.toLowerCase().includes(query);
-        });
+        var matches = searchIndex.filter(function (item) { return matchesQuery(item, query); });
         if (matches.length === 0) {
           searchResultsPanel.innerHTML = '<div class="search-no-results">No results found</div>';
         } else {
@@ -630,6 +640,79 @@
         searchResultsPanel.hidden = false;
       }
 
+      var lastActivePanelId = 'panel-1';
+
+      function showFullResults(query) {
+        if (!searchIndex) searchIndex = buildSearchIndex();
+        var matches = searchIndex.filter(function (item) { return matchesQuery(item, query); });
+
+        var page = document.getElementById('search-results-page');
+        var title = document.getElementById('search-results-title');
+        title.textContent = matches.length + ' result' + (matches.length !== 1 ? 's' : '') + ' for “' + query + '”';
+
+        if (matches.length === 0) {
+          page.innerHTML = '<div class="search-page-no-results">No results found for “' + escapeHtml(query) + '”</div>';
+        } else {
+          page.innerHTML = matches.map(function (item, i) {
+            var crumbs = [item.tab, item.building, item.section].filter(Boolean).join(' › ');
+            return '<div class="search-page-card" data-index="' + i + '">' +
+                   '<span class="search-page-card-name">' + escapeHtml(item.text) + '</span>' +
+                   '<span class="search-page-card-breadcrumb">' + escapeHtml(crumbs) + '</span>' +
+                   '</div>';
+          }).join('');
+
+          page.querySelectorAll('.search-page-card').forEach(function (card) {
+            card.addEventListener('click', function () {
+              var item = matches[parseInt(card.dataset.index)];
+              sidebarBtns.forEach(function (b) { b.classList.remove('active'); });
+              contentPanels.forEach(function (p) { p.classList.remove('active'); });
+              var targetBtn = document.querySelector('[data-panel="' + item.panel.id + '"]');
+              if (targetBtn) targetBtn.classList.add('active');
+              item.panel.classList.add('active');
+              if (item.bldgAccordion) item.bldgAccordion.setAttribute('open', '');
+              if (item.secDetails) item.secDetails.setAttribute('open', '');
+              searchInput.value = '';
+              searchResultsPanel.hidden = true;
+              searchClear.style.display = 'none';
+              item.btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              item.btn.classList.add('search-highlight');
+              setTimeout(function () { item.btn.classList.remove('search-highlight'); }, 1800);
+            });
+          });
+        }
+
+        sidebarBtns.forEach(function (b) { b.classList.remove('active'); });
+        contentPanels.forEach(function (p) { p.classList.remove('active'); });
+        document.getElementById('panel-search-results').classList.add('active');
+        searchResultsPanel.hidden = true;
+        searchClear.style.display = 'flex';
+      }
+
+      searchInput.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+          var query = this.value.trim().toLowerCase();
+          if (!query) return;
+          var activePanel = document.querySelector('.content-panel.active');
+          if (activePanel && activePanel.id !== 'panel-search-results') {
+            lastActivePanelId = activePanel.id;
+          }
+          searchResultsPanel.hidden = true;
+          showFullResults(query);
+          this.blur();
+        }
+      });
+
+      document.getElementById('search-results-back').addEventListener('click', function () {
+        sidebarBtns.forEach(function (b) { b.classList.remove('active'); });
+        contentPanels.forEach(function (p) { p.classList.remove('active'); });
+        var prevPanel = document.getElementById(lastActivePanelId);
+        if (prevPanel) prevPanel.classList.add('active');
+        var prevBtn = document.querySelector('[data-panel="' + lastActivePanelId + '"]');
+        if (prevBtn) prevBtn.classList.add('active');
+        searchInput.value = '';
+        searchClear.style.display = 'none';
+      });
+
       searchInput.addEventListener('input', function () {
         var query = this.value.trim().toLowerCase();
         searchClear.style.display = query ? 'flex' : 'none';
@@ -652,6 +735,14 @@
         searchResultsPanel.hidden = true;
         searchResultsPanel.innerHTML = '';
         searchClear.style.display = 'none';
+        if (document.getElementById('panel-search-results').classList.contains('active')) {
+          sidebarBtns.forEach(function (b) { b.classList.remove('active'); });
+          contentPanels.forEach(function (p) { p.classList.remove('active'); });
+          var prevPanel = document.getElementById(lastActivePanelId);
+          if (prevPanel) prevPanel.classList.add('active');
+          var prevBtn = document.querySelector('[data-panel="' + lastActivePanelId + '"]');
+          if (prevBtn) prevBtn.classList.add('active');
+        }
         searchInput.focus();
       });
     </script>
