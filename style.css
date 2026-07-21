@@ -31,9 +31,17 @@
   box-sizing: border-box;
 }
 
+html {
+  scrollbar-gutter: stable;
+  overflow-x: hidden;
+}
+
 body {
   margin: 0;
+  overflow-x: hidden;
   font-family: "Roboto", "Segoe UI", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   background: var(--bg-page);
   color: var(--text-dark);
   min-height: 100vh;
@@ -47,6 +55,7 @@ p {
 
 /* ─── Top Nav Bar (white, matches MSAT Google Site) ───────────── */
 .topnav {
+  width: 100%;
   background: var(--white);
   border-bottom: 1px solid var(--border);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
@@ -384,7 +393,7 @@ p {
   border-right: 1px solid var(--border);
   position: sticky;
   top: 0;
-  height: 100vh;
+  height: 100svh;
   overflow-y: auto;
   box-shadow: 2px 0 6px rgba(60, 64, 67, 0.06);
   z-index: 10;
