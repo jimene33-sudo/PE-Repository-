@@ -1150,3 +1150,53 @@ p {
     padding: 10px 14px;
   }
 }
+
+/* ── Edit Guide ─────────────────────────────────────────── */
+.edit-guide {
+  padding: 10px 4px 4px;
+  color: #3c4043;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.edit-guide-intro {
+  margin: 0 0 14px;
+  color: #5f6368;
+}
+
+.edit-guide-step {
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0;
+  margin: 14px 0 4px;
+  color: #3c4043;
+}
+
+.edit-guide p {
+  margin: 0 0 8px;
+  color: #5f6368;
+}
+
+.edit-guide-code {
+  background: #f1f3f4;
+  border-left: 3px solid var(--col-color, #2d7a50);
+  border-radius: 0 4px 4px 0;
+  padding: 8px 12px;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 0.75rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-all;
+  margin: 0 0 10px;
+  color: #202124;
+}
+
+.edit-guide code {
+  background: #f1f3f4;
+  border-radius: 3px;
+  padding: 1px 5px;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 0.8rem;
+  color: #202124;
+}
