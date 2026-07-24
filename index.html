@@ -41,10 +41,13 @@
     </header>
 
     <!-- Sidebar + Content layout -->
-    <div class="sidebar-layout" id="sidebar-layout">
+    <div class="sidebar-layout on-home" id="sidebar-layout">
 
       <nav class="sidebar">
-        <button class="sidebar-btn active" data-panel="panel-1" style="--col-color: #1d4e89;">
+        <button class="sidebar-btn sidebar-home-btn active" data-panel="panel-home">
+          Home
+        </button>
+        <button class="sidebar-btn" data-panel="panel-1" style="--col-color: #1d4e89;">
           Governance &amp; Templates / Spreadsheets
         </button>
         <button class="sidebar-btn" data-panel="panel-2" style="--col-color: #136076;">
@@ -56,21 +59,68 @@
         <button class="sidebar-btn" data-panel="panel-4" style="--col-color: #1a6b3c;">
           Equipment &amp; Automation
         </button>
-        <button class="sidebar-btn" data-panel="panel-5" style="--col-color: #6a3c94;">
+        <button class="sidebar-btn" data-panel="panel-5" style="--col-color: #1b7a72;">
           Facility Cheat Sheet &amp; Tools
         </button>
-        <button class="sidebar-btn" data-panel="panel-7" style="--col-color: #2e6b9e;">
+        <button class="sidebar-btn" data-panel="panel-7" style="--col-color: #1a5080;">
           Basecamp
         </button>
-        <button class="sidebar-btn" data-panel="panel-6" style="--col-color: #b5460f;">
+        <button class="sidebar-btn" data-panel="panel-6" style="--col-color: #2d7a50;">
           Additional Resources
         </button>
       </nav>
 
       <div class="content-area">
 
+        <!-- ── Panel Home ─────────────────────────────────────────── -->
+        <div class="content-panel active" id="panel-home">
+          <div class="panel-header home-panel-header" style="background-color: #1a3a5c;">
+            <h2 class="panel-title home-panel-title">Home</h2>
+          </div>
+          <div class="home-body">
+            <p class="home-intro">This is the central reference for Oceanside MSAT Process Engineering — Buildings 311 and 312. Use the sections below or the sidebar to find documents, specs, equipment assets, and resources.</p>
+            <div class="home-grid">
+              <button class="home-card" data-panel="panel-1" style="--card-color: #1d4e89;">
+                <div class="home-card-bar"></div>
+                <div class="home-card-name">Governance &amp; Templates</div>
+                <div class="home-card-desc">Engineering templates, calculation tools, and user guides</div>
+              </button>
+              <button class="home-card" data-panel="panel-2" style="--card-color: #136076;">
+                <div class="home-card-bar"></div>
+                <div class="home-card-name">Tech Transfers</div>
+                <div class="home-card-desc">Product-specific transfer documents for all active programs</div>
+              </button>
+              <button class="home-card" data-panel="panel-3" style="--card-color: #1c4587;">
+                <div class="home-card-bar"></div>
+                <div class="home-card-name">Process Design &amp; Specs</div>
+                <div class="home-card-desc">PFDs, P&amp;IDs, mass balances, and equipment design specs</div>
+              </button>
+              <button class="home-card" data-panel="panel-4" style="--card-color: #1a6b3c;">
+                <div class="home-card-bar"></div>
+                <div class="home-card-name">Equipment &amp; Automation</div>
+                <div class="home-card-desc">Equipment asset lists and automation resources for 311 and 312</div>
+              </button>
+              <button class="home-card" data-panel="panel-5" style="--card-color: #1b7a72;">
+                <div class="home-card-bar"></div>
+                <div class="home-card-name">Facility Cheat Sheet &amp; Tools</div>
+                <div class="home-card-desc">Quick-reference guides, facility maps, and engineering tools</div>
+              </button>
+              <button class="home-card" data-panel="panel-7" style="--card-color: #1a5080;">
+                <div class="home-card-bar"></div>
+                <div class="home-card-name">Basecamp</div>
+                <div class="home-card-desc">Project tracking and team collaboration resources</div>
+              </button>
+              <button class="home-card" data-panel="panel-6" style="--card-color: #2d7a50;">
+                <div class="home-card-bar"></div>
+                <div class="home-card-name">Additional Resources</div>
+                <div class="home-card-desc">External links, training materials, and supplemental references</div>
+              </button>
+            </div>
+          </div>
+        </div>
+
         <!-- ── Panel 1: Governance & Templates ───────────────────── -->
-        <div class="content-panel active" id="panel-1" style="--col-color: #1d4e89;">
+        <div class="content-panel" id="panel-1" style="--col-color: #1d4e89;">
           <div class="panel-header">
             <h2 class="panel-title">Governance &amp; Templates / Spreadsheets</h2>
           </div>
@@ -364,13 +414,13 @@
                 </details>
                 <details class="sub-section" open>
                   <summary class="sub-heading downstream">Downstream Equipment Assets<span class="sub-chevron">&#9660;</span></summary>
-                  <a href="https://docs.google.com/spreadsheets/d/1QNP9ZL3BJLuwrZ4NPC0ZlD-AIS_EIR_004NcI4lcXrk/edit#gid=1678843139" class="link-btn" target="_blank" rel="noopener">Chrom Skids</a>
+                  <a href="#" class="link-btn">Chrom Skids</a>
                   <a href="#" class="link-btn">Chrom Column</a>
-                  <a href="https://docs.google.com/spreadsheets/d/1QNP9ZL3BJLuwrZ4NPC0ZlD-AIS_EIR_004NcI4lcXrk/edit#gid=948042938" class="link-btn" target="_blank" rel="noopener">Pool Vessels</a>
+                  <a href="#" class="link-btn">Pool Vessels</a>
                   <a href="#" class="link-btn">UF</a>
-                  <a href="https://docs.google.com/spreadsheets/d/1QNP9ZL3BJLuwrZ4NPC0ZlD-AIS_EIR_004NcI4lcXrk/edit#gid=1613798372" class="link-btn" target="_blank" rel="noopener">UFDF</a>
+                  <a href="#" class="link-btn">UFDF</a>
                   <a href="#" class="link-btn">Final Formulation</a>
-                  <a href="https://docs.google.com/spreadsheets/d/1QNP9ZL3BJLuwrZ4NPC0ZlD-AIS_EIR_004NcI4lcXrk/edit#gid=902795370" class="link-btn" target="_blank" rel="noopener">Fill &amp; Freeze Thaw</a>
+                  <a href="#" class="link-btn">Fill &amp; Freeze Thaw</a>
                 </details>
                 <details class="sub-section" open>
                   <summary class="sub-heading">Solution Prep and Hold<span class="sub-chevron">&#9660;</span></summary>
@@ -389,7 +439,7 @@
         </div>
 
         <!-- ── Panel 5: Facility Cheat Sheet & Tools ─────────────── -->
-        <div class="content-panel" id="panel-5" style="--col-color: #6a3c94;">
+        <div class="content-panel" id="panel-5" style="--col-color: #1b7a72;">
           <div class="panel-header">
             <h2 class="panel-title">Facility Cheat Sheet &amp; Tools</h2>
           </div>
@@ -457,7 +507,7 @@
         </div>
 
         <!-- ── Panel 7: Basecamp ─────────────────────────────────────── -->
-        <div class="content-panel" id="panel-7" style="--col-color: #2e6b9e;">
+        <div class="content-panel" id="panel-7" style="--col-color: #1a5080;">
           <div class="panel-header">
             <h2 class="panel-title">Basecamp</h2>
           </div>
@@ -487,7 +537,7 @@
         </div>
 
         <!-- ── Panel 6: Additional Resources ──────────────────────── -->
-        <div class="content-panel" id="panel-6" style="--col-color: #b5460f;">
+        <div class="content-panel" id="panel-6" style="--col-color: #2d7a50;">
           <div class="panel-header">
             <h2 class="panel-title">Additional Resources</h2>
           </div>
@@ -498,13 +548,6 @@
               <a href="#" class="link-btn">Regulatory Guidelines</a>
               <a href="#" class="link-btn">Industry Standards</a>
               <a href="#" class="link-btn">ICH Guidelines</a>
-            </details>
-
-            <details class="sub-section" open>
-                  <summary class="sub-heading">Training &amp; Onboarding<span class="sub-chevron">&#9660;</span></summary>
-              <a href="#" class="link-btn">New Engineer Onboarding Guide</a>
-              <a href="#" class="link-btn">Lab Safety Training</a>
-              <a href="#" class="link-btn">GMP Training Materials</a>
             </details>
 
             <details class="sub-section" open>
@@ -538,18 +581,37 @@
       const sidebarBtns = document.querySelectorAll('.sidebar-btn');
       const contentPanels = document.querySelectorAll('.content-panel');
 
+      var sidebarLayout = document.getElementById('sidebar-layout');
+
       sidebarBtns.forEach(function (btn) {
         btn.addEventListener('click', function () {
           sidebarBtns.forEach(function (b) { b.classList.remove('active'); });
           contentPanels.forEach(function (p) { p.classList.remove('active'); });
           btn.classList.add('active');
           document.getElementById(btn.dataset.panel).classList.add('active');
-          // Clear search when switching panels
+          if (btn.dataset.panel === 'panel-home') {
+            sidebarLayout.classList.add('on-home');
+          } else {
+            sidebarLayout.classList.remove('on-home');
+          }
           const searchInput = document.getElementById('global-search');
           if (searchInput.value) {
             searchInput.value = '';
             searchInput.dispatchEvent(new Event('input'));
           }
+        });
+      });
+
+      /* ── Home card navigation ───────────────────────────────── */
+      document.querySelectorAll('.home-card').forEach(function (card) {
+        card.addEventListener('click', function () {
+          var targetId = card.dataset.panel;
+          sidebarBtns.forEach(function (b) { b.classList.remove('active'); });
+          contentPanels.forEach(function (p) { p.classList.remove('active'); });
+          var targetBtn = document.querySelector('[data-panel="' + targetId + '"]');
+          if (targetBtn) targetBtn.classList.add('active');
+          document.getElementById(targetId).classList.add('active');
+          sidebarLayout.classList.remove('on-home');
         });
       });
 
@@ -644,7 +706,7 @@
         searchResultsPanel.hidden = false;
       }
 
-      var lastActivePanelId = 'panel-1';
+      var lastActivePanelId = 'panel-home';
 
       function showFullResults(query) {
         if (!searchIndex) searchIndex = buildSearchIndex();
