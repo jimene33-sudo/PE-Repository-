@@ -559,30 +559,7 @@
 
             <details class="sub-section" open>
               <summary class="sub-heading">How to Edit This Repo<span class="sub-chevron">&#9660;</span></summary>
-              <button class="link-btn edit-guide-toggle" onclick="var g=document.getElementById('edit-guide-content');g.hidden=!g.hidden;">Guide</button>
-              <div class="edit-guide" id="edit-guide-content" hidden>
-                <p class="edit-guide-intro">This site is built with plain HTML and CSS — no special tools required. All files live in the <code>PE-Repository-</code> folder. To make changes, edit <code>index.html</code> in any text editor or VS Code, then push to GitHub.</p>
-
-                <h4 class="edit-guide-step">Adding a new button</h4>
-                <p>Find the correct panel and sub-section in <code>index.html</code>. Copy an existing button line and update the text and link:</p>
-                <pre class="edit-guide-code">&lt;a href="YOUR_LINK" class="link-btn" target="_blank" rel="noopener"&gt;Button Label&lt;/a&gt;</pre>
-                <p>Use <code>href="#"</code> as a placeholder if the link isn't ready yet.</p>
-
-                <h4 class="edit-guide-step">Adding a new sub-section</h4>
-                <p>Inside a building accordion <code>&lt;div class="building-body"&gt;</code>, add a new collapsible group:</p>
-                <pre class="edit-guide-code">&lt;details class="sub-section" open&gt;
-  &lt;summary class="sub-heading"&gt;Section Title&lt;span class="sub-chevron"&gt;&amp;#9660;&lt;/span&gt;&lt;/summary&gt;
-  &lt;a href="#" class="link-btn"&gt;Button Label&lt;/a&gt;
-&lt;/details&gt;</pre>
-
-                <h4 class="edit-guide-step">Pushing changes to GitHub</h4>
-                <p>After saving your edits, open Terminal and run:</p>
-                <pre class="edit-guide-code">cd ~/PE-Repository-
-git add index.html
-git commit -m "brief description of your change"
-git push origin main</pre>
-                <p>Changes will appear on the live site within a few seconds.</p>
-              </div>
+              <a href="edit-guide.html" class="link-btn" target="_blank" rel="noopener">Guide</a>
             </details>
 
           </div>
