@@ -149,7 +149,7 @@ After editing any file, save it and run these commands in the terminal from the 
 ```bash
 git add index.html style.css         # add whichever files you changed
 git commit -m "describe what you changed"
-git push github main
+git push origin main
 ```
 
 The GitHub remote is: `https://github.com/jimene33-sudo/PE-Repository-.git`
