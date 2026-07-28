@@ -156,6 +156,20 @@ The GitHub remote is: `https://github.com/jimene33-sudo/PE-Repository-.git`
 
 ---
 
+## Installing Claude Code in VS Code
+
+Claude Code is an AI coding assistant that can help you edit this repo. To install it in VS Code:
+
+1. Open the Extensions view: `Cmd+Shift+X` (Mac) or `Ctrl+Shift+X` (Windows)
+2. Search for **Claude Code**
+3. Click **Install** (extension ID: `anthropic.claude-code`)
+
+After installing, click the spark icon (✱) in the top-right corner of VS Code to open Claude Code and sign in with your Anthropic account.
+
+> Requires VS Code 1.94.0+ and a paid Claude subscription (Pro, Max, Team, or Enterprise).
+
+---
+
 ## Questions or handoff
 
 This site was built during a summer 2026 internship. For questions about the structure or design, the git history (`git log`) shows every change made and when. Each commit message describes what was changed.

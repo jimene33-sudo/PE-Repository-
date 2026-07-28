@@ -7,9 +7,9 @@
     <link rel="stylesheet" href="style.css" />
     <style>
       .guide-page {
-        max-width: 760px;
+        max-width: 960px;
         margin: 48px auto;
-        padding: 0 24px 64px;
+        padding: 0 12px 64px;
       }
       .guide-back {
         display: inline-block;
@@ -95,47 +95,53 @@
       <a href="index.html" class="guide-back">&#8592; Back to PE Repository</a>
 
       <h1>How to Edit This Repo</h1>
-      <p class="guide-subtitle">This site is built with plain HTML and CSS — no special tools required. All files live in the <code>PE-Repository-</code> folder.</p>
+      <p class="guide-subtitle">This guide walks you through the most common edit: updating a link. No coding experience needed — just follow each step in order.</p>
+      <p style="font-size:0.875rem;color:#5f6368;background:#f1f3f4;border-left:3px solid #2d7a50;border-radius:0 4px 4px 0;padding:10px 14px;margin:0 0 24px;">For a more in-depth reference — including file structure, link tables with line numbers, and font setup — see the <a href="https://github.com/jimene33-sudo/PE-Repository-/blob/main/README.md" target="_blank" rel="noopener" style="color:#2d7a50;">README on GitHub</a>.</p>
 
       <div class="guide-section">
-        <h2>Step 1 — Open the file in VS Code</h2>
-        <p>Open VS Code, then open the folder <code>PE-Repository-</code>. The main file you'll edit is <code>index.html</code>.</p>
-        <div class="guide-photo-slot">Screenshot: VS Code with index.html open</div>
+        <h2>Step 1 — Open the folder in VS Code</h2>
+        <p>Open VS Code. At the top menu, click <strong>File → Open Folder</strong>, then find and select the <code>PE-Repository-</code> folder. You'll see all the files listed in the left sidebar.</p>
+        <p>Click on <code>index.html</code> in the sidebar to open it. This is the file that controls everything you see on the site.</p>
+        <img src="screenshotstep1.png" alt="VS Code with index.html open" style="width:100%;border-radius:6px;border:1px solid #dadce0;margin:12px 0;display:block;" />
       </div>
 
       <div class="guide-section">
-        <h2>Step 2 — Adding a new button</h2>
-        <p>Find the correct panel and sub-section in <code>index.html</code>. Copy an existing button line and update the text and link:</p>
-        <pre>&lt;a href="YOUR_LINK" class="link-btn" target="_blank" rel="noopener"&gt;Button Label&lt;/a&gt;</pre>
-        <p>Use <code>href="#"</code> as a placeholder if the link isn't ready yet.</p>
-        <div class="guide-photo-slot">Screenshot: button line in code vs. what it looks like on the site</div>
+        <h2>Step 2 — Find the button you want to update</h2>
+        <p>Press <strong>Cmd+F</strong> (Mac) or <strong>Ctrl+F</strong> (Windows) to open the search bar. Type the exact name of the button you want to update — for example, <em>Bioreactors</em>. VS Code will jump to that line in the code.</p>
+        <p>You'll see something like this next to it: <code>href="#"</code>. The <code>#</code> is a placeholder — it means the button doesn't go anywhere yet.</p>
+        <img src="screenshotstep2.png" alt="Finding a button in the code" style="width:100%;border-radius:6px;border:1px solid #dadce0;margin:12px 0;display:block;" />
       </div>
 
       <div class="guide-section">
-        <h2>Step 3 — Adding a new sub-section</h2>
-        <p>Inside a building accordion <code>&lt;div class="building-body"&gt;</code>, add a new collapsible group:</p>
-        <pre>&lt;details class="sub-section" open&gt;
-  &lt;summary class="sub-heading"&gt;Section Title&lt;span class="sub-chevron"&gt;&amp;#9660;&lt;/span&gt;&lt;/summary&gt;
-  &lt;a href="#" class="link-btn"&gt;Button Label&lt;/a&gt;
-&lt;/details&gt;</pre>
-        <div class="guide-photo-slot">Screenshot: sub-section in code vs. what it looks like on the site</div>
+        <h2>Step 3 — Replace the link</h2>
+        <p>Click directly on the <code>#</code> and replace it with the real URL. Keep the quotation marks around it. For example:</p>
+        <pre>Before:  href="#"
+After:   href="https://your-sharepoint-or-google-link-here"</pre>
+        <p>Make sure you only change the part inside the quotes — don't delete anything else on that line.</p>
+        <img src="screenshotstep3.jpeg" alt="Replacing a placeholder link with a real URL" style="width:100%;border-radius:6px;border:1px solid #dadce0;margin:12px 0;display:block;" />
       </div>
 
       <div class="guide-section">
-        <h2>Step 4 — Pushing changes to GitHub</h2>
-        <p>After saving your edits, open Terminal and run:</p>
-        <pre>cd ~/PE-Repository-
-git add index.html
+        <h2>Step 4 — Save the file</h2>
+        <p>Press <strong>Cmd+S</strong> (Mac) or <strong>Ctrl+S</strong> (Windows) to save. You'll know it worked because the small dot on the <code>index.html</code> tab at the top disappears.</p>
+        <p>Don't skip this step — if you push without saving, your change won't be included.</p>
+      </div>
+
+      <div class="guide-section">
+        <h2>Step 5 — Open the terminal in VS Code</h2>
+        <p>At the top menu, click <strong>Terminal → New Terminal</strong>. A panel will open at the bottom of VS Code. This is where you type commands to send your changes to the live site.</p>
+        <p>You don't need to understand what these commands do — just type them exactly as shown below, pressing <strong>Enter</strong> after each one:</p>
+        <pre>git add index.html
 git commit -m "brief description of your change"
-git push origin main</pre>
-        <p>Changes will appear on the live site within a few seconds.</p>
-        <div class="guide-photo-slot">Screenshot: Terminal showing a successful git push</div>
+git push github main</pre>
+        <p>For the commit message, replace <em>"brief description of your change"</em> with something short that describes what you updated, like <em>"add bioreactor link"</em>. Keep the quotation marks.</p>
+        <img src="screenshotstep4.png" alt="Terminal showing git commands being run" style="width:100%;border-radius:6px;border:1px solid #dadce0;margin:12px 0;display:block;" />
       </div>
 
       <div class="guide-section">
-        <h2>Step 5 — Confirm it's live</h2>
-        <p>Go to the GitHub repo page and confirm your commit appears at the top of the commit history.</p>
-        <div class="guide-photo-slot">Screenshot: GitHub repo showing the latest commit</div>
+        <h2>Step 6 — Confirm it's live</h2>
+        <p>Go to the GitHub repo page. Your change should appear at the very top of the file list with the message you wrote. The live site will update within a few seconds.</p>
+        <img src="screenshotstep5.png" alt="GitHub repo showing the latest commit" style="width:100%;border-radius:6px;border:1px solid #dadce0;margin:12px 0;display:block;" />
       </div>
 
     </main>
