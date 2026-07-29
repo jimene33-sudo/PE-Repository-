@@ -60,7 +60,7 @@
           Equipment &amp; Automation
         </button>
         <button class="sidebar-btn" data-panel="panel-5" style="--col-color: #1b7a72;">
-          Facility Cheat Sheet &amp; Tools
+          Process/Cost Models &amp; Facility Cheat Sheets
         </button>
         <button class="sidebar-btn" data-panel="panel-7" style="--col-color: #1a5080;">
           Basecamp
@@ -74,9 +74,6 @@
 
         <!-- ── Panel Home ─────────────────────────────────────────── -->
         <div class="content-panel active" id="panel-home">
-          <div class="panel-header home-panel-header" style="background-color: #1a3a5c;">
-            <h2 class="panel-title home-panel-title">Home</h2>
-          </div>
           <div class="home-body">
             <p class="home-intro">This is the central reference for Oceanside MSAT Process Engineering — Buildings 311 and 312. Use the sections below or the sidebar to find documents, specs, equipment assets, and resources.</p>
             <div class="home-grid">
@@ -85,27 +82,27 @@
                 <div class="home-card-name">Governance &amp; Templates</div>
                 <div class="home-card-desc">Engineering templates, calculation tools, and user guides</div>
               </button>
-              <button class="home-card" data-panel="panel-2" style="--card-color: #136076;">
+              <button class="home-card" data-panel="panel-2" style="--card-color: #1a5a82;">
                 <div class="home-card-bar"></div>
                 <div class="home-card-name">Tech Transfers</div>
                 <div class="home-card-desc">Product-specific transfer documents for all active programs</div>
               </button>
-              <button class="home-card" data-panel="panel-3" style="--card-color: #1c4587;">
+              <button class="home-card" data-panel="panel-3" style="--card-color: #156878;">
                 <div class="home-card-bar"></div>
                 <div class="home-card-name">Process Design &amp; Specs</div>
                 <div class="home-card-desc">PFDs, P&amp;IDs, mass balances, and equipment design specs</div>
               </button>
-              <button class="home-card" data-panel="panel-4" style="--card-color: #1a6b3c;">
+              <button class="home-card" data-panel="panel-4" style="--card-color: #157868;">
                 <div class="home-card-bar"></div>
                 <div class="home-card-name">Equipment &amp; Automation</div>
                 <div class="home-card-desc">Equipment asset lists and automation resources for 311 and 312</div>
               </button>
-              <button class="home-card" data-panel="panel-5" style="--card-color: #1b7a72;">
+              <button class="home-card" data-panel="panel-5" style="--card-color: #1a7855;">
                 <div class="home-card-bar"></div>
-                <div class="home-card-name">Facility Cheat Sheet &amp; Tools</div>
+                <div class="home-card-name">Process/Cost Models &amp; Facility Cheat Sheets</div>
                 <div class="home-card-desc">Quick-reference guides, facility maps, and engineering tools</div>
               </button>
-              <button class="home-card" data-panel="panel-7" style="--card-color: #1a5080;">
+              <button class="home-card" data-panel="panel-7" style="--card-color: #1e7040;">
                 <div class="home-card-bar"></div>
                 <div class="home-card-name">Basecamp</div>
                 <div class="home-card-desc">Project tracking and team collaboration resources</div>
@@ -116,10 +113,22 @@
                 <div class="home-card-desc">External links and supplemental references</div>
               </button>
             </div>
+
+            <div class="home-buildings">
+              <div class="home-building-photo">
+                <img src="bldg-311.jpg" alt="Building 311 — Stainless" />
+                <span class="home-building-label">Building 311 &mdash; Stainless</span>
+              </div>
+              <div class="home-building-photo">
+                <img src="bldg-312.jpg" alt="Building 312 — Single Use" style="object-position: 35% 65%;" />
+                <span class="home-building-label">Building 312 &mdash; Single Use</span>
+              </div>
+            </div>
+
           </div>
         </div>
 
-       
+
         <!-- ── Panel 1: Governance & Templates ───────────────────── -->
         <div class="content-panel" id="panel-1" style="--col-color: #1d4e89;">
           <div class="panel-header">
@@ -274,8 +283,8 @@
 
                 <details class="sub-section" open>
                   <summary class="sub-heading">Mass &amp; Energy Balances<span class="sub-chevron">&#9660;</span></summary>
-                  <a href="#" class="link-btn">Upstream Models</a>
-                  <a href="#" class="link-btn">Downstream Models</a>
+                  <a href="#" class="link-btn">Upstream</a>
+                  <a href="#" class="link-btn">Downstream</a>
                 </details>
 
                 <details class="sub-section" open>
@@ -327,8 +336,8 @@
 
                 <details class="sub-section" open>
                   <summary class="sub-heading">Mass &amp; Energy Balances<span class="sub-chevron">&#9660;</span></summary>
-                  <a href="#" class="link-btn">Upstream Models</a>
-                  <a href="#" class="link-btn">Downstream Models</a>
+                  <a href="#" class="link-btn">Upstream</a>
+                  <a href="#" class="link-btn">Downstream</a>
                 </details>
 
                 <details class="sub-section" open>
@@ -441,7 +450,7 @@
         <!-- ── Panel 5: Facility Cheat Sheet & Tools ─────────────── -->
         <div class="content-panel" id="panel-5" style="--col-color: #1b7a72;">
           <div class="panel-header">
-            <h2 class="panel-title">Facility Cheat Sheet &amp; Tools</h2>
+            <h2 class="panel-title">Process/Cost Models &amp; Facility Cheat Sheets</h2>
           </div>
           <div class="building-stack">
 
@@ -468,8 +477,23 @@
                 </details>
                 <details class="sub-section" open>
                   <summary class="sub-heading">Models<span class="sub-chevron">&#9660;</span></summary>
-                  <a href="#" class="link-btn">Capitol Project</a>
-                  <a href="#" class="link-btn">Process Models</a>
+                  <a href="#" class="link-btn">Cost Model</a>
+                  <details class="link-dropdown">
+                    <summary class="link-btn link-dropdown-summary">Process Fit Models <span class="link-dropdown-chevron">&#9660;</span></summary>
+                    <div class="link-dropdown-body">
+                      <a href="#" class="link-btn">Upstream</a>
+                      <a href="#" class="link-btn">Downstream</a>
+                    </div>
+                  </details>
+                  <details class="link-dropdown">
+                    <summary class="link-btn link-dropdown-summary">Biosolve <span class="link-dropdown-chevron">&#9660;</span></summary>
+                    <div class="link-dropdown-body">
+                      <a href="#" class="link-btn">Continuous Model</a>
+                      <a href="#" class="link-btn">Test Model</a>
+                      <a href="#" class="link-btn">Live Model</a>
+                      <a href="#" class="link-btn">Nimble Model</a>
+                    </div>
+                  </details>
                 </details>
               </div>
             </details>
@@ -497,8 +521,23 @@
                 </details>
                 <details class="sub-section" open>
                   <summary class="sub-heading">Models<span class="sub-chevron">&#9660;</span></summary>
-                  <a href="#" class="link-btn">Capitol Project</a>
-                  <a href="#" class="link-btn">Process Models</a>
+                  <a href="#" class="link-btn">Cost Model</a>
+                  <details class="link-dropdown">
+                    <summary class="link-btn link-dropdown-summary">Process Fit Models <span class="link-dropdown-chevron">&#9660;</span></summary>
+                    <div class="link-dropdown-body">
+                      <a href="#" class="link-btn">Upstream</a>
+                      <a href="#" class="link-btn">Downstream</a>
+                    </div>
+                  </details>
+                  <details class="link-dropdown">
+                    <summary class="link-btn link-dropdown-summary">Biosolve <span class="link-dropdown-chevron">&#9660;</span></summary>
+                    <div class="link-dropdown-body">
+                      <a href="#" class="link-btn">Continuous Model</a>
+                      <a href="#" class="link-btn">Test Model</a>
+                      <a href="#" class="link-btn">Live Model</a>
+                      <a href="#" class="link-btn">Nimble Model</a>
+                    </div>
+                  </details>
                 </details>
               </div>
             </details>
