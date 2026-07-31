@@ -519,21 +519,19 @@ p {
 .building-stack {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 34px;
   padding: 24px;
   background: var(--bg-page);
 }
 
+/* Buildings are a structural division, not a surface — no fill, no box.
+   The hairline under the label is the only rule; a short tick carries
+   the 311/312 identity. Stays quieter than the panel header above it. */
 .building-accordion {
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 18px rgba(60, 64, 67, 0.14);
-  border: 1px solid var(--border);
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
-}
-
-.building-accordion:hover {
-  box-shadow: 0 4px 14px rgba(60, 64, 67, 0.14);
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+  background: none;
 }
 
 /* Remove native disclosure triangle */
@@ -547,34 +545,56 @@ p {
 .building-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 26px 28px;
+  gap: 10px;
+  padding: 10px 4px 9px;
+  border-bottom: 1px solid var(--border);
   font-family: "Roboto", sans-serif;
-  font-size: 0.88rem;
+  font-size: 0.67rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--white);
+  letter-spacing: 0.1em;
+  color: var(--text-dark);
   cursor: pointer;
   user-select: none;
-  transition: filter 0.15s;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+/* The 4px tick — the only place the building color appears. */
+.building-header::before {
+  content: "";
+  flex: 0 0 auto;
+  width: 4px;
+  height: 0.8rem;
+  border-radius: 2px;
+  background: var(--bldg-color);
+}
+
+/* Chevron to the far right; the label keeps its place next to the tick. */
+.building-header .building-chevron {
+  margin-left: auto;
 }
 
 .building-header:hover {
-  filter: brightness(1.1);
+  color: var(--bldg-color);
+  border-bottom-color: var(--bldg-color);
+}
+
+.building-header:focus-visible {
+  outline: 2px solid var(--bldg-color);
+  outline-offset: 3px;
 }
 
 .bldg-311 {
-  background: #2c5f8a;
+  --bldg-color: #2c5f8a;
 }
 
 .bldg-312 {
-  background: #3a7a6b;
+  --bldg-color: #3a7a6b;
 }
 
 .building-chevron {
-  font-size: 0.65rem;
-  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.6rem;
+  color: var(--text-medium);
   transition: transform 0.22s ease;
 }
 
@@ -583,7 +603,7 @@ p {
 }
 
 .building-body {
-  padding: 16px 20px 20px;
+  padding: 16px 0 0;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 14px;
@@ -736,13 +756,6 @@ p {
 .product-subtabs .blank-card {
   margin: 8px;
   width: auto;
-}
-
-/* Product search bar in Tech Transfers panel */
-.panel-search {
-  padding: 14px 28px;
-  background: var(--white);
-  border-bottom: 1px solid var(--border);
 }
 
 /* ── Search mode: show all panels simultaneously ─────────────── */
@@ -992,7 +1005,7 @@ p {
   width: calc(100% + 120px);
   margin-left: -60px;
   margin-right: -60px;
-  margin-top: -120px;
+  margin-top: 0;
   position: relative;
   z-index: 0;
   overflow: hidden;
@@ -1029,25 +1042,53 @@ p {
 .home-intro {
   font-size: 1rem;
   color: var(--text-medium);
-  line-height: 1.7;
+  line-height: 1.45;
   margin: 0 0 32px;
   max-width: 680px;
   text-align: center;
 }
 
+/* Stat-band treatment: one borderless row of entries held between two hairlines.
+   Full-bleed rules, inset content — the rules are the only structure here.
+
+   Alignment contract: every rule is either this element's own border or an
+   entry's own border, and each hover segment is offset from the edge that
+   draws it. Offsets are derived from the spacing variables below rather than
+   written out, so changing the spacing moves the rules and their segments
+   together. Do not hardcode a pixel offset in --rule-top / --rule-bottom. */
 .home-grid {
+  /* One hover colour for every entry, rather than each section's own hue.
+     Matches the hero banner navy so hover echoes the masthead. */
+  --home-hover: #1a3a5c;
+
+  /* Band spacing. Edit these; the segments follow. */
+  --band-pad-top: 36px;
+  --band-pad-bottom: 11px;
+  --col-gutter: 30px;
+  /* Space either side of the inner rule, once the band wraps. */
+  --row-pad-top: 27px;
+  --row-pad-bottom: 24px;
+
+  /* Distance from an entry's edge out to the rule it should light up. Both
+     default to the band's own border; per-row overrides swap in the inner
+     rule, which an entry's border draws 1px off its own edge. */
+  --rule-top: calc(var(--band-pad-top) + 1px);
+  --rule-bottom: calc(var(--band-pad-bottom) + 1px);
+
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-  width: 100%;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  /* No column gap — entries sit flush so their borders form an unbroken
+     rule. Separation comes from each entry's padding-right instead. */
+  gap: 0;
+  align-self: stretch;
+  margin: 4px -60px 0;
+  padding: var(--band-pad-top) 60px var(--band-pad-bottom);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-page);
   position: relative;
   z-index: 1;
-}
-
-.home-card {
-  flex: 0 0 calc(25% - 15px);
-  min-width: 0;
 }
 
 .home-panel-title {
@@ -1057,52 +1098,152 @@ p {
 }
 
 .home-card {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-top: none;
-  border-radius: 8px;
-  padding: 0;
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  background: none;
+  border: 0 solid var(--border);
+  border-radius: 0;
+  /* Right padding stands in for the column gap, so entries stay flush. */
+  padding: 0 var(--col-gutter) 0 0;
   text-align: left;
   cursor: pointer;
-  box-shadow: var(--shadow-card);
-  transition: box-shadow 0.15s, border-color 0.15s;
-  overflow: hidden;
+  box-shadow: none;
   font-family: inherit;
-  transform: translateZ(0);
   display: flex;
   flex-direction: column;
-  min-height: 140px;
+  gap: 6px;
 }
 
-.home-card:hover {
-  box-shadow: 0 3px 12px rgba(60, 64, 67, 0.16);
-  border-color: var(--card-color);
+/* Segments sitting exactly over the rule above and below this entry.
+   Transparent at rest; on hover they carry the entry's color. Inset by the
+   gutter so each segment spans its entry's text column and reads centred on
+   it, rather than running on into the neighbouring entry's space. */
+.home-card::before,
+.home-card::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: var(--col-gutter);
+  height: 1px;
+  /* Solid through the middle, falling off to nothing at both ends so the
+     segment melts into the faded rule rather than stopping square. Faded via
+     opacity, not background — gradients cannot be transitioned. */
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--home-hover) 22%,
+    var(--home-hover) 78%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity 0.18s;
+  pointer-events: none;
 }
 
-.home-card-bar {
-  display: block;
-  height: 5px;
-  background: var(--card-color);
-  border-radius: 8px 8px 0 0;
+.home-card::before {
+  top: calc(-1 * var(--rule-top));
 }
-.home-card:nth-child(7) .home-card-bar { animation-delay: -1s; }
 
-@media (prefers-reduced-motion: reduce) {
-  .home-card-bar { animation: none; }
+.home-card::after {
+  bottom: calc(-1 * var(--rule-bottom));
+}
+
+/* Hover: both rules and the title take the same dark blue, at the same 1px
+   weight as the resting rule — no bloom, so the lit span sits flush in the
+   line. The title also darkens, reading stronger than its neighbours. */
+.home-card:hover::before,
+.home-card:hover::after,
+.home-card:focus-visible::before,
+.home-card:focus-visible::after {
+  opacity: 1;
+}
+
+.home-card:hover .home-card-name,
+.home-card:focus-visible .home-card-name {
+  color: var(--home-hover);
+}
+
+.home-card:focus-visible {
+  outline: none;
+}
+
+.home-card:focus-visible .home-card-name {
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .home-card-name {
   font-size: 1.05rem;
-  font-weight: 700;
-  color: var(--text-dark);
-  padding: 22px 20px 8px;
+  font-weight: 500;
+  color: var(--text-medium);
+  line-height: 1.3;
+  transition: color 0.18s;
 }
 
 .home-card-desc {
-  font-size: 0.9rem;
+  font-size: 0.78rem;
   color: var(--text-medium);
-  padding: 0 20px 24px;
-  line-height: 1.6;
+  line-height: 1.5;
+}
+
+/* Below ~1350px seven-across gets too tight — wrap to two rows, then one column.
+   A 25% basis with no gap breaks 4-then-3 on its own; no spacer needed. */
+@media (max-width: 1350px) {
+  .home-grid {
+    flex-wrap: wrap;
+    justify-content: center;
+    /* Zero row gap: row 1's bottom border IS the inner rule, and row 2's top
+       edge sits directly against it. Breathing room comes from the row
+       padding below, which keeps the rule and its segments locked together. */
+    gap: 0;
+  }
+
+  .home-card {
+    flex: 0 0 25%;
+  }
+
+  /* Row 1 draws the inner rule with its own bottom border. Its ::after sits
+     on that border (1px past its own edge) — not on the band's. */
+  .home-card:nth-child(-n + 4) {
+    border-bottom-width: 1px;
+    padding-bottom: var(--row-pad-bottom);
+    --rule-bottom: 1px;
+  }
+
+  /* Row 2 has no top border of its own — row 1's bottom border is already
+     flush against its top edge, so its ::before sits 1px above that edge. */
+  .home-card:nth-child(n + 5) {
+    padding-top: var(--row-pad-top);
+    --rule-top: 1px;
+  }
+}
+
+/* One column below 760px: every entry is its own row, so a shared rule between
+   entries would be meaningless. Drop the segments and hover on text alone. */
+@media (max-width: 760px) {
+  .home-grid {
+    gap: 24px 0;
+  }
+
+  .home-card {
+    flex: 1 1 100%;
+    padding: 0;
+  }
+
+  .home-card:nth-child(-n + 4) {
+    border-bottom-width: 0;
+    padding-bottom: 0;
+  }
+
+  .home-card:nth-child(n + 5) {
+    padding-top: 0;
+  }
+
+  .home-card::before,
+  .home-card::after {
+    display: none;
+  }
 }
 
 /* ─── Footer ──────────────────────────────────────────────────── */
@@ -1204,10 +1345,6 @@ p {
 
   .gene-text {
     font-size: 1.15rem;
-  }
-
-  .panel-search {
-    padding: 10px 14px;
   }
 }
 
