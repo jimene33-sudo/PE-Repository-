@@ -55,6 +55,8 @@ Most buttons in `index.html` currently use `href="#"` as a placeholder — meani
 
 These buttons have real links pointing to Google Docs/Drive. If Genentech moves to Microsoft 365, replace each `href` value with the equivalent SharePoint/OneDrive URL.
 
+> **Line numbers shift whenever anything is added above them.** They're a rough guide only — find buttons by searching for their label text (`Cmd+F`), not by jumping to the line. Last verified 2026-08-03.
+
 ### Top navigation (2 places)
 
 | Location | Line in index.html | Current URL |
@@ -70,7 +72,7 @@ Both point to the same OCN MSAT Google Site. Update both lines together.
 
 | Line | Button label | Current URL |
 |---|---|---|
-| 161 | Open Building 311 Tech Transfer Folder | Google Drive folder |
+| 203 | Open Building 311 Tech Transfer Folder | Google Drive folder |
 
 ---
 
@@ -82,52 +84,139 @@ All of these point to tabs within the same Google Sheet (`1QNP9ZL3BJLuwrZ4NPC0Zl
 
 | Line | Button label | Sheet tab (gid) |
 |---|---|---|
-| 309 | Media Prep/Hold | 2018799983 |
-| 310 | Seed Vessels | 2060189543 |
-| 311 | Bioreactors | 2060189543 |
-| 312 | Harvest | 508020010 |
+| 381 | Media Prep/Hold | 2018799983 |
+| 382 | Seed Vessels | 2060189543 |
+| 383 | Bioreactors | 2060189543 |
+| 384 | Harvest | 508020010 |
 
 **Downstream Equipment P1**
 
 | Line | Button label | Sheet tab (gid) |
 |---|---|---|
-| 316 | Buffer Prep/Hold | 948042938 |
-| 317 | Chrom Skids | 1678843139 |
-| 318 | Chrom Columns | 1787453987 |
-| 319 | Pool Vessels | 948042938 |
-| 320 | Viral Filtration | 1106166267 |
-| 321 | UFDF | 1613798372 |
-| 322 | Final Form | 1613798372 |
-| 323 | Fill & Freeze Thaw | 902795370 |
+| 388 | Buffer Prep/Hold | 948042938 |
+| 389 | Chrom Skids | 1678843139 |
+| 390 | Chrom Columns | 1787453987 |
+| 391 | Pool Vessels | 948042938 |
+| 392 | Viral Filtration | 1106166267 |
+| 393 | UFDF | 1613798372 |
+| 394 | Final Form | 1613798372 |
+| 395 | Fill & Freeze Thaw | 902795370 |
 
 **Downstream Equipment P2**
 
 | Line | Button label | Sheet tab (gid) |
 |---|---|---|
-| 327 | Buffer Prep/Hold | 948042938 |
-| 328 | Chrom Skids | 1678843139 |
-| 329 | Chrom Columns | 1787453987 |
-| 330 | Pool Vessels | 948042938 |
-| 331 | Viral Filtration | 1106166267 |
-| 332 | Final Form | 1613798372 |
-| 333 | Fill & Freeze Thaw | 902795370 |
+| 399 | Buffer Prep/Hold | 948042938 |
+| 400 | Chrom Skids | 1678843139 |
+| 401 | Chrom Columns | 1787453987 |
+| 402 | Pool Vessels | 948042938 |
+| 403 | Viral Filtration | 1106166267 |
+| 404 | Final Form | 1613798372 |
+| 405 | Fill & Freeze Thaw | 902795370 |
 
 **Ancillary Equipment**
 
 | Line | Button label | Sheet tab (gid) |
 |---|---|---|
-| 337 | Caustic System | 1191589342 |
+| 409 | Caustic System | 1191589342 |
 
 ---
 
-### Equipment & Automation tab — Building 312 (partial)
+### Equipment & Automation tab — Building 312
 
-| Line | Button label | Sheet tab (gid) |
-|---|---|---|
-| 357 | Chrom Skids | 1678843139 |
-| 359 | Pool Vessels | 948042938 |
-| 361 | UFDF | 1613798372 |
-| 363 | Fill & Freeze Thaw | 902795370 |
+Building 312's equipment buttons are all `href="#"` placeholders — none are connected yet. (An earlier version of this README listed Google Sheet links here; those buttons have since been rewritten with different labels, so the links are gone.)
+
+---
+
+## Document submissions
+
+The home page has a quiet line under the building photos:
+
+> Know of a document that belongs here? **Suggest a document**
+
+That link is meant to point at a single shared folder. Anyone on the team drops a file in; an admin reviews what's in there and adds the ones that belong to `index.html`. A static site can't accept uploads by itself, so the folder does the receiving — the site only links to it. There is no way around that without a server; any drop zone built into the page would still have to hand the file off to Drive or SharePoint.
+
+The whole feature is **one `href` in `index.html`**. Nothing else about the site depends on it, which is what makes the Microsoft migration below a one-line change.
+
+> **Status: not connected yet.** The `href` is still `#`. The intent is a folder in a Shared Drive, but creating one at Genentech requires requesting a *collection* through IT — that request is the blocker. Until it clears, the link stays blank rather than pointing at a personal My Drive folder that would disappear with the account.
+
+### Setup (Google Drive — do this once)
+
+1. Get a **Shared Drive** (or a collection) from IT, and create a folder inside it called something like `PE Repository — Submissions`.
+   - It must be a Shared Drive, not personal My Drive. A My Drive folder is owned by one person and can disappear when that account is deprovisioned — fatal for a site meant to outlast whoever set it up.
+   - Before filing a request, check **Shared drives** in the Drive sidebar. If MSAT already has one you're a Content manager or Manager on, you can create the folder there immediately and skip the request.
+2. Share the folder with your team as **Contributor** — the only level that can upload but cannot move or delete, so people can add files without removing each other's. Keep yourself as Manager or Content manager, since moving files *out* is what clears the queue.
+3. Copy the folder's URL. Link the **folder** (`drive.google.com/drive/folders/<id>`), not the Shared Drive root. Drop any `/u/0/` segment — it refers to the account slot in *your* browser and can send a colleague to the wrong account.
+4. Open `index.html`, find `class="home-suggest-link"`, and replace `href="#"` with that URL:
+
+```html
+<!-- Before -->
+<a href="#" class="home-suggest-link" target="_blank" rel="noopener">Suggest a document</a>
+
+<!-- After -->
+<a href="https://drive.google.com/drive/folders/YOUR-FOLDER-ID" class="home-suggest-link" target="_blank" rel="noopener">Suggest a document</a>
+```
+
+5. Optional: add an empty Google Doc named `_SUGGESTIONS` inside the folder. A Drive folder only holds files, so that Doc is where people paste **links** to documents that already live somewhere else (Veeva, another Drive folder).
+
+### Admin workflow
+
+The folder *is* the queue — no tracker to maintain:
+
+1. Open the submissions folder. Anything sitting in it is unprocessed.
+2. For each file, decide where it belongs, then **move it** out of the submissions folder into its real home.
+3. Add a `link-btn` line to the right section of `index.html` (see "How to update links" above), then commit and push.
+4. An empty folder means the queue is clear.
+
+Because step 2 moves the file out, you never need to mark anything as "done" — presence in the folder is the only state.
+
+---
+
+## Switching the submissions folder to SharePoint
+
+When Genentech completes the move to Microsoft 365, the Drive folder becomes a **SharePoint document library**. The site change is one line; the rest is setup on the SharePoint side.
+
+### Why a library and not a Microsoft Form
+
+Microsoft Forms has a file-upload question type, but uploaded files land in **the form owner's OneDrive** — personal storage, same deprovisioning problem as a My Drive folder. A document library on a team-owned SharePoint site avoids that, and a library already does everything the intake needs with no custom code:
+
+| Need | Handled by |
+|---|---|
+| Drag files in | Native browser drag-and-drop into the library |
+| Suggest a link instead of a file | A "Source Link" text column |
+| Which building / section | **Choice** columns |
+| Triage state | A **Status** Choice column: `New` / `Reviewing` / `Added` / `Rejected` |
+| Who submitted it | The built-in **Created By** column, automatically |
+| Notification on new upload | Power Automate flow (see below) |
+
+A library is a real step up from the Drive folder: you get per-file metadata and status, so the queue can hold context instead of just filenames.
+
+### Steps
+
+1. Ask whoever administers your SharePoint tenant for a **team site** for PE (or use an existing one), and create a document library named `Repository Submissions`.
+2. Add columns via **+ Add column**:
+   - `Status` — Choice: `New`, `Reviewing`, `Added`, `Rejected`. Default `New`.
+   - `Building` — Choice: `311`, `312`, `Both`.
+   - `Section` — Choice, matching the sidebar sections.
+   - `Source Link` — single line of text, for link-only suggestions.
+   - `Notes` — multiple lines of text.
+3. Set the library view to filter on `Status = New` so the default view is the inbox.
+4. Optional notification — a Power Automate flow using the **"When a file is created (properties only)"** SharePoint trigger, sending an email or Teams message. This runs on **standard connectors**, so the Microsoft 365 license your account already has covers it; no premium Power Automate license is needed.
+5. Update the one line in `index.html` — same edit as step 4 above, with the library URL:
+
+```html
+<a href="https://YOURTENANT.sharepoint.com/sites/YOURSITE/Repository%20Submissions"
+   class="home-suggest-link" target="_blank" rel="noopener">Suggest a document</a>
+```
+
+6. Point the old Drive folder at the new library (a text file with the URL) and stop watching it, so submissions don't split across two places.
+
+### Notes and gotchas
+
+- **Skip SharePoint's "Request files" feature.** It allows uploads without sign-in, but requires org-wide "Anyone" sharing links to be enabled — commonly blocked in pharma tenants. You don't need it: every submitter is a signed-in Genentech employee.
+- **Don't route submitted documents through this GitHub repo.** Committed files are permanent and GitHub is outside Genentech's boundary. The repo should only ever hold the *link* to a document, never the document itself.
+- **Per-file ceiling** in a SharePoint library is 250 GB — irrelevant in practice, but far above the 1 GB cap a Microsoft Form would impose.
+- The site-side CSS (`.home-suggest`, `.home-suggest-link` in `style.css`) is platform-agnostic. Nothing there needs to change.
 
 ---
 

@@ -990,6 +990,17 @@ p {
 }
 
 .home-body {
+  /* One hover colour for every interactive element on the home page, rather
+     than each section's own hue. Matches the hero banner navy so hover echoes
+     the masthead. */
+  --home-hover: #1a3a5c;
+
+  /* Shared hover fade. Long enough that moving between entries reads as one
+     crossfade rather than two separate flicks, and eased so it settles
+     instead of stopping dead. Every home-page hover shares it so they never
+     drift out of step. */
+  --home-fade: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+
   padding: 40px 60px 0;
   width: 100%;
   box-sizing: border-box;
@@ -1039,6 +1050,33 @@ p {
   text-shadow: 0 1px 4px rgba(0,0,0,0.55);
 }
 
+/* Document intake prompt, sitting under the building photos. Deliberately a
+   quiet line of body text rather than a button — submitting is a rare,
+   secondary action and shouldn't compete with the section band above it. */
+.home-suggest {
+  margin: 26px 0 38px;
+  font-size: 0.875rem;
+  color: var(--text-medium);
+  text-align: center;
+}
+
+.home-suggest-link {
+  margin-left: 4px;
+  color: var(--home-hover);
+  font-weight: 500;
+  text-decoration: underline;
+  /* Faint at rest, solid on hover — the same one-step change the band entries
+     make, carried on the underline instead of a rule segment. */
+  text-decoration-color: rgba(26, 58, 92, 0.4);
+  text-underline-offset: 3px;
+  transition: text-decoration-color var(--home-fade);
+}
+
+.home-suggest-link:hover,
+.home-suggest-link:focus-visible {
+  text-decoration-color: var(--home-hover);
+}
+
 .home-intro {
   font-size: 1rem;
   color: var(--text-medium);
@@ -1057,15 +1095,8 @@ p {
    written out, so changing the spacing moves the rules and their segments
    together. Do not hardcode a pixel offset in --rule-top / --rule-bottom. */
 .home-grid {
-  /* One hover colour for every entry, rather than each section's own hue.
-     Matches the hero banner navy so hover echoes the masthead. */
-  --home-hover: #1a3a5c;
-
-  /* Shared hover fade. Long enough that moving between entries reads as one
-     crossfade rather than two separate flicks, and eased so it settles
-     instead of stopping dead. Title and rule segments share it so they
-     never drift out of step. */
-  --home-fade: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  /* --home-hover and --home-fade are inherited from .home-body, so the band
+     shares one hover colour and timing with the rest of the home page. */
 
   /* Band spacing. Edit these; the segments follow. */
   --band-pad-top: 36px;
