@@ -1024,17 +1024,32 @@ p {
 
 .home-building-photo {
   position: relative;
-  height: 320px;
+  /* Scales with the viewport so the page fills a tall monitor instead of
+     stopping short, but stays within a fixed range so the photos never
+     dominate a laptop screen or shrink to a strip. Tall enough that the whole
+     building clears the fade above it — see the mask note below. */
+  height: clamp(480px, 60vh, 820px);
   overflow: hidden;
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.05) 13%, rgba(0,0,0,0.25) 28%, rgba(0,0,0,0.65) 43%, black 57%);
-  mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.05) 13%, rgba(0,0,0,0.25) 28%, rgba(0,0,0,0.65) 43%, black 57%);
+  /* The photos dissolve into the page rather than sitting in a hard box.
+     Eased rather than linear — the extra stops put a soft knee at each end so
+     the ramp leaves the page and arrives at full opacity gradually, with no
+     visible line where it starts or stops. It lands entirely in sky: the
+     source shots are portrait with the building in the middle band, and the
+     crop below puts the roofline past the last stop. Lengthening this ramp
+     much beyond 26% starts eating the roof. */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.03) 5%, rgba(0,0,0,0.10) 9%, rgba(0,0,0,0.22) 13%, rgba(0,0,0,0.40) 17%, rgba(0,0,0,0.62) 20%, rgba(0,0,0,0.82) 23%, rgba(0,0,0,0.95) 25%, black 27%);
+  mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.03) 5%, rgba(0,0,0,0.10) 9%, rgba(0,0,0,0.22) 13%, rgba(0,0,0,0.40) 17%, rgba(0,0,0,0.62) 20%, rgba(0,0,0,0.82) 23%, rgba(0,0,0,0.95) 25%, black 27%);
 }
 
 .home-building-photo img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 70%;
+  /* Both source shots are portrait with the building in the middle band. This
+     lands the roofline just below the mask's last fade stop and the base just
+     above the frame's bottom edge, so the building reads whole. Raising this
+     pushes the roof into the fade; lowering it cuts the base. */
+  object-position: center 62%;
   display: block;
 }
 
@@ -1086,7 +1101,8 @@ p {
   text-align: center;
 }
 
-/* Stat-band treatment: one borderless row of entries held between two hairlines.
+/* Stat-band treatment: two banded rows of entries, each held between a pair of
+   hairlines, with page background showing through the gap between them.
    Full-bleed rules, inset content — the rules are the only structure here.
 
    Alignment contract: every rule is either this element's own border or an
@@ -1098,29 +1114,46 @@ p {
   /* --home-hover and --home-fade are inherited from .home-body, so the band
      shares one hover colour and timing with the rest of the home page. */
 
-  /* Band spacing. Edit these; the segments follow. */
-  --band-pad-top: 36px;
-  --band-pad-bottom: 11px;
+  /* Band spacing. Edit these; the rules and hover segments follow.
+     Each row carries the same padding above and below its text, so the two
+     bands read as a matched pair rather than one tall block split unevenly. */
+  --band-pad-top: 34px;
+  --band-pad-bottom: 34px;
   --col-gutter: 30px;
-  /* Space either side of the inner rule, once the band wraps. */
-  --row-pad-top: 27px;
-  --row-pad-bottom: 24px;
+  --row-pad-top: 34px;
+  --row-pad-bottom: 34px;
+  /* How far the entries are held off the page edge. Narrower than the 60px
+     the rest of the home page uses, so each entry's column — and the hover
+     segment that spans it — runs longer. */
+  --band-inset: 36px;
+  /* Page background between the two bands. This is the only place the rows
+     are separated by empty space rather than a rule. */
+  --row-gap: 26px;
 
   /* Distance from an entry's edge out to the rule it should light up. Both
-     default to the band's own border; per-row overrides swap in the inner
-     rule, which an entry's border draws 1px off its own edge. */
+     default to the band's own border; per-row overrides swap in that row's
+     own border, which sits 1px off its own edge. */
   --rule-top: calc(var(--band-pad-top) + 1px);
   --rule-bottom: calc(var(--band-pad-bottom) + 1px);
 
   display: flex;
-  flex-wrap: nowrap;
+  /* Always two rows (3 then 3), at every width down to the single-column
+     breakpoint. A one-third basis with no column gap breaks the row on its
+     own, and an even split keeps both rows the same full-bleed width. */
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: stretch;
   /* No column gap — entries sit flush so their borders form an unbroken
-     rule. Separation comes from each entry's padding-right instead. */
-  gap: 0;
+     rule. Separation comes from each entry's own side padding instead. The row
+     gap opens the space between the two bands; each row closes itself with
+     its own border, so both edges of the gap are drawn. */
+  gap: var(--row-gap) 0;
   align-self: stretch;
+  /* The negative margin cancels .home-body's 60px padding to reach full bleed;
+     --band-inset then holds the content off the edge. Those two are
+     independent — the margin tracks .home-body, the inset is the band's own. */
   margin: 4px -60px 0;
-  padding: var(--band-pad-top) 60px var(--band-pad-bottom);
+  padding: var(--band-pad-top) var(--band-inset) var(--band-pad-bottom);
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
   background: var(--bg-page);
@@ -1136,14 +1169,17 @@ p {
 
 .home-card {
   position: relative;
-  flex: 1 1 0;
+  flex: 0 0 33.3333%;
   min-width: 0;
   background: none;
   border: 0 solid var(--border);
   border-radius: 0;
-  /* Right padding stands in for the column gap, so entries stay flush. */
-  padding: 0 var(--col-gutter) 0 0;
-  text-align: left;
+  /* Half the gutter each side stands in for the column gap, so entries stay
+     flush while their text columns sit centred in their own share of the
+     band. Split evenly rather than all on the right — with centred text, a
+     one-sided gutter would push every label off-centre by half the gutter. */
+  padding: 0 calc(var(--col-gutter) / 2);
+  text-align: center;
   cursor: pointer;
   box-shadow: none;
   font-family: inherit;
@@ -1160,8 +1196,10 @@ p {
 .home-card::after {
   content: "";
   position: absolute;
-  left: 0;
-  right: var(--col-gutter);
+  /* Inset by the same half-gutter the padding uses, so the segment spans
+     exactly the entry's text column and stays centred under it. */
+  left: calc(var(--col-gutter) / 2);
+  right: calc(var(--col-gutter) / 2);
   height: 1px;
   /* Solid through the middle, falling off to nothing at both ends so the
      segment melts into the faded rule rather than stopping square. Faded via
@@ -1211,49 +1249,35 @@ p {
 }
 
 .home-card-name {
-  font-size: 1.05rem;
+  font-size: 1.2rem;
   font-weight: 500;
   color: var(--text-medium);
   line-height: 1.3;
   transition: color var(--home-fade);
 }
 
+/* 0.875rem is the reading size from the Two-Scale Rule — the old 0.78rem was
+   an in-between size this band had no reason to keep. */
 .home-card-desc {
-  font-size: 0.78rem;
+  font-size: 0.875rem;
   color: var(--text-medium);
   line-height: 1.5;
 }
 
-/* Below ~1350px seven-across gets too tight — wrap to two rows, then one column.
-   A 25% basis with no gap breaks 4-then-3 on its own; no spacer needed. */
-@media (max-width: 1350px) {
-  .home-grid {
-    flex-wrap: wrap;
-    justify-content: center;
-    /* Zero row gap: row 1's bottom border IS the inner rule, and row 2's top
-       edge sits directly against it. Breathing room comes from the row
-       padding below, which keeps the rule and its segments locked together. */
-    gap: 0;
-  }
+/* Row 1 closes its band with its own bottom border. Its ::after sits on that
+   border (1px past its own edge) — not on the band's. */
+.home-card:nth-child(-n + 3) {
+  border-bottom-width: 1px;
+  padding-bottom: var(--row-pad-bottom);
+  --rule-bottom: 1px;
+}
 
-  .home-card {
-    flex: 0 0 25%;
-  }
-
-  /* Row 1 draws the inner rule with its own bottom border. Its ::after sits
-     on that border (1px past its own edge) — not on the band's. */
-  .home-card:nth-child(-n + 4) {
-    border-bottom-width: 1px;
-    padding-bottom: var(--row-pad-bottom);
-    --rule-bottom: 1px;
-  }
-
-  /* Row 2 has no top border of its own — row 1's bottom border is already
-     flush against its top edge, so its ::before sits 1px above that edge. */
-  .home-card:nth-child(n + 5) {
-    padding-top: var(--row-pad-top);
-    --rule-top: 1px;
-  }
+/* Row 2 opens its band with its own top border, on the far side of the gap.
+   Both rows draw one edge of the gap, so neither rule is shared. */
+.home-card:nth-child(n + 4) {
+  border-top-width: 1px;
+  padding-top: var(--row-pad-top);
+  --rule-top: 1px;
 }
 
 /* One column below 760px: every entry is its own row, so a shared rule between
@@ -1268,12 +1292,13 @@ p {
     padding: 0;
   }
 
-  .home-card:nth-child(-n + 4) {
+  .home-card:nth-child(-n + 3) {
     border-bottom-width: 0;
     padding-bottom: 0;
   }
 
-  .home-card:nth-child(n + 5) {
+  .home-card:nth-child(n + 4) {
+    border-top-width: 0;
     padding-top: 0;
   }
 

@@ -97,7 +97,7 @@ This system explicitly rejects the legacy intranet feel: dense link tables, no v
 A functional spectrum, not a decorative one. Each color maps to a navigational role; its presence on any element tells the user which section they're in.
 
 ### Primary
-- **Authority Navy** (`#1d4e89`): The default panel anchor for Governance & Templates. Used for sidebar active states, search input focus rings, and link button left-border indicators system-wide when no panel-specific color overrides.
+- **Authority Navy** (`#1d4e89`): The system default, not a panel anchor. Used for sidebar active states, search input focus rings, and link button left-border indicators system-wide when no panel-specific color overrides.
 - **Process Blue** (`#1c4587`): Process Design & Specs panel anchor. Slightly deeper than Authority Navy; reads as a distinct zone.
 - **Station Blue** (`#2c5f8a`): Building 311 accordion header. Mid-navy between Authority Navy and the teals.
 - **Fleet Blue** (`#2e6b9e`): Basecamp panel anchor. Lighter and more open than the deep navies; communicates a slightly different register.
