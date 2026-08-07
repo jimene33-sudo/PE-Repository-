@@ -78,6 +78,107 @@
         color: #9aa0a6;
         margin: 12px 0;
       }
+
+      /* --- Screenshot annotations ----------------------------------------
+         The rings and labels are HTML laid over the images, not painted into
+         the PNGs — a screenshot can be re-shot without anyone redrawing
+         anything, and the marks stay sharp at any zoom. Every position is a
+         percentage of the image, so they track it as it scales.
+         --mark is an annotation-only colour scoped to this page. It has to
+         read on both the dark VS Code shots and the light browser pane, which
+         the guide's green cannot do. */
+      .guide-page { --mark: #d93a2b; }
+      .guide-shot {
+        position: relative;
+        display: block;
+        margin: 12px 0;
+        line-height: 0;
+      }
+      .guide-shot img {
+        width: 100%;
+        display: block;
+        border-radius: 6px;
+        border: 1px solid #dadce0;
+      }
+      .shot-mark {
+        position: absolute;
+        border: 3px solid var(--mark);
+        border-radius: 999px;
+        /* Halo on both sides of the stroke so the ring survives whatever it
+           lands on — dark editor chrome or a white page. */
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.45),
+                    inset 0 0 0 2px rgba(255, 255, 255, 0.45);
+      }
+      .shot-tag {
+        position: absolute;
+        white-space: nowrap;
+        background: var(--mark);
+        color: #fff;
+        font-size: 0.68rem;
+        font-weight: 600;
+        line-height: 1.35;
+        padding: 4px 9px 4px 5px;
+        border-radius: 4px;
+        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.35);
+      }
+      .shot-tag b {
+        display: inline-block;
+        width: 15px;
+        height: 15px;
+        margin-right: 6px;
+        border-radius: 50%;
+        background: #fff;
+        color: var(--mark);
+        font-size: 0.62rem;
+        line-height: 15px;
+        text-align: center;
+        vertical-align: -2px;
+      }
+      .shot-tag code {
+        background: rgba(255, 255, 255, 0.22);
+        color: #fff;
+        font-size: 0.95em;
+        padding: 0 3px;
+      }
+      .shot-tag--right { left: calc(100% + 10px); top: 50%; transform: translateY(-50%); }
+      .shot-tag--below { left: 50%; top: calc(100% + 8px); transform: translateX(-50%); }
+      .shot-tag--above { left: 50%; bottom: calc(100% + 8px); transform: translateX(-50%); }
+      /* The before/after pair renders at half width; a tag there would be
+         wider than the shot it sits on, so those carry rings only. */
+      .guide-shot--sm { margin: 0; }
+      .guide-shot--sm .shot-mark { border-width: 2px; }
+      /* A zoomed crop of one corner of the "after" shot, so Step 4 can point
+         at the unsaved dot itself. The image is blown up and shifted so only
+         the editor tab is inside the frame: showing 11.22% of the width means
+         scaling to 1/0.1122 and offsetting by 0.1361/0.1122. The shot carries
+         window chrome above the tab strip, so it is shifted up as well — the
+         top offset is a share of the container height, not the image height.
+         aspect-ratio is that region's own proportions. */
+      .guide-shot--crop {
+        width: 100%;
+        max-width: 360px;
+        aspect-ratio: 3.14;
+        overflow: hidden;
+        border-radius: 6px;
+        border: 1px solid #dadce0;
+      }
+      .guide-shot--crop img {
+        position: absolute;
+        width: 891.3%;
+        left: -121.3%;
+        top: -104.8%;
+        border: 0;
+        border-radius: 0;
+      }
+      @media (max-width: 700px) {
+        .shot-tag { font-size: 0.6rem; padding: 3px 7px 3px 4px; }
+        .shot-tag b { width: 13px; height: 13px; line-height: 13px; margin-right: 4px; }
+      }
+      /* Below this a tag is wider than the image it labels. The rings alone
+         still point at the right thing. */
+      @media (max-width: 520px) {
+        .shot-tag { display: none; }
+      }
     </style>
   </head>
   <body>
@@ -102,14 +203,30 @@
         <h2>Step 1 — Open the folder in VS Code</h2>
         <p>Open VS Code. At the top menu, click <strong>File → Open Folder</strong>, then find and select the <code>PE-Repository-</code> folder. You'll see all the files listed in the left sidebar.</p>
         <p>Click on <code>index.html</code> in the sidebar to open it. This is the file that controls everything you see on the site.</p>
-        <img src="screenshotstep1.png" alt="VS Code with index.html open" style="width:100%;border-radius:6px;border:1px solid #dadce0;margin:12px 0;display:block;" />
+        <div class="guide-shot">
+          <img src="screenshotstep1.png" alt="VS Code with index.html open" />
+          <span class="shot-mark" style="left:4.4%;top:33.2%;width:6.4%;height:3.6%;">
+            <span class="shot-tag shot-tag--right"><b>1</b> Click <code>index.html</code></span>
+          </span>
+          <span class="shot-mark" style="left:22.2%;top:7.2%;width:8.2%;height:3.4%;">
+            <span class="shot-tag shot-tag--right"><b>2</b> It opens in this tab</span>
+          </span>
+        </div>
       </div>
 
       <div class="guide-section">
         <h2>Step 2 — Find the button you want to update</h2>
         <p>Press <strong>Cmd+F</strong> (Mac) or <strong>Ctrl+F</strong> (Windows) to open the search bar. Type the exact name of the button you want to update — for example, <em>Bioreactors</em>. VS Code will jump to that line in the code.</p>
         <p>You'll see something like this next to it: <code>href="#"</code>. The <code>#</code> is a placeholder — it means the button doesn't go anywhere yet.</p>
-        <img src="screenshotstep2.png" alt="Finding a button in the code" style="width:100%;border-radius:6px;border:1px solid #dadce0;margin:12px 0;display:block;" />
+        <div class="guide-shot">
+          <img src="screenshotstep2.png" alt="Finding a button in the code" />
+          <span class="shot-mark" style="left:62.6%;top:10.4%;width:16.0%;height:4.0%;">
+            <span class="shot-tag shot-tag--below"><b>1</b> Cmd+F, then type the button name</span>
+          </span>
+          <span class="shot-mark" style="left:29.0%;top:49.0%;width:9.6%;height:3.0%;">
+            <span class="shot-tag shot-tag--below"><b>2</b> The link lives inside <code>href="…"</code></span>
+          </span>
+        </div>
       </div>
 
       <div class="guide-section">
@@ -121,11 +238,17 @@ After:   href="https://your-sharepoint-or-google-link-here"</pre>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:12px 0;">
           <div>
             <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#5f6368;margin-bottom:6px;">Before</div>
-            <img src="screenshotstep3-before.png" alt="Before — placeholder link with #" style="width:100%;border-radius:6px;border:1px solid #dadce0;display:block;" />
+            <div class="guide-shot guide-shot--sm">
+              <img src="screenshotstep3-before.png" alt="Before — placeholder link with #" />
+              <span class="shot-mark" style="left:29.5%;top:54.6%;width:4.0%;height:1.9%;"></span>
+            </div>
           </div>
           <div>
             <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#2d7a50;margin-bottom:6px;">After</div>
-            <img src="screenshotstep3-after.png" alt="After — real URL in place of #" style="width:100%;border-radius:6px;border:1px solid #dadce0;display:block;" />
+            <div class="guide-shot guide-shot--sm">
+              <img src="screenshotstep3-after.png" alt="After — real URL in place of #" />
+              <span class="shot-mark" style="left:29.5%;top:51.4%;width:32.0%;height:1.9%;"></span>
+            </div>
           </div>
         </div>
       </div>
@@ -133,7 +256,11 @@ After:   href="https://your-sharepoint-or-google-link-here"</pre>
       <div class="guide-section">
         <h2>Step 4 — Save the file</h2>
         <p>Press <strong>Cmd+S</strong> (Mac) or <strong>Ctrl+S</strong> (Windows) to save. You'll know it worked because the small dot on the <code>index.html</code> tab at the top disappears.</p>
-        <p>Don't skip this step — if you push without saving, your change won't be included.</p>
+        <div class="guide-shot guide-shot--crop">
+          <img src="screenshotstep3-after.png" alt="The index.html tab showing an unsaved-changes dot" />
+          <span class="shot-mark" style="left:73.6%;top:46.7%;width:7.3%;height:22.9%;"></span>
+        </div>
+        <p style="margin-top:10px;">Don't skip this step — if you push without saving, your change won't be included.</p>
       </div>
 
       <div class="guide-section">
@@ -144,13 +271,26 @@ After:   href="https://your-sharepoint-or-google-link-here"</pre>
 git commit -m "brief description of your change"
 git push origin main</pre>
         <p>For the commit message, replace <em>"brief description of your change"</em> with something short that describes what you updated, like <em>"add bioreactor link"</em>. Keep the quotation marks.</p>
-        <img src="screenshotstep4.png" alt="Terminal showing git commands being run" style="width:100%;border-radius:6px;border:1px solid #dadce0;margin:12px 0;display:block;" />
+        <div class="guide-shot">
+          <img src="screenshotstep4.png" alt="Terminal showing git commands being run" />
+          <span class="shot-mark" style="left:22.5%;top:61.5%;width:5.2%;height:3.2%;">
+            <span class="shot-tag shot-tag--above"><b>1</b> Terminal → New Terminal opens this</span>
+          </span>
+          <span class="shot-mark" style="left:3.8%;top:64.9%;width:31.5%;height:6.1%;">
+            <span class="shot-tag shot-tag--right"><b>2</b> Type these three, Enter after each</span>
+          </span>
+        </div>
       </div>
 
       <div class="guide-section">
         <h2>Step 6 — Confirm it's live</h2>
         <p>Go to the GitHub repo page. Your change should appear at the very top of the file list with the message you wrote. The live site will update within a few seconds.</p>
-        <img src="screenshotstep5.png" alt="GitHub repo showing the latest commit" style="width:100%;border-radius:6px;border:1px solid #dadce0;margin:12px 0;display:block;" />
+        <div class="guide-shot">
+          <img src="screenshotstep5.png" alt="GitHub repo showing the latest commit" />
+          <span class="shot-mark" style="left:21.5%;top:36.8%;width:30.8%;height:3.8%;">
+            <span class="shot-tag shot-tag--below"><b>1</b> Your message, with a green check next to it</span>
+          </span>
+        </div>
       </div>
 
     </main>

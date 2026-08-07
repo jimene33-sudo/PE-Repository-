@@ -1001,7 +1001,7 @@ p {
      drift out of step. */
   --home-fade: 300ms cubic-bezier(0.4, 0, 0.2, 1);
 
-  padding: 40px 60px 0;
+  padding: 28px 60px 0;
   width: 100%;
   box-sizing: border-box;
   display: flex;
@@ -1026,9 +1026,12 @@ p {
   position: relative;
   /* Scales with the viewport so the page fills a tall monitor instead of
      stopping short, but stays within a fixed range so the photos never
-     dominate a laptop screen or shrink to a strip. Tall enough that the whole
-     building clears the fade above it — see the mask note below. */
-  height: clamp(480px, 60vh, 820px);
+     dominate a laptop screen or shrink to a strip. Sized so the whole home
+     page — band, photos, intake line — clears the fold on a 1080p screen;
+     the photos are the biggest single block, so they set that budget. The
+     crop and the mask below are both percentage-based, so the framing holds
+     at any height in this range. */
+  height: clamp(320px, 36vh, 560px);
   overflow: hidden;
   /* The photos dissolve into the page rather than sitting in a hard box.
      Eased rather than linear — the extra stops put a soft knee at each end so
@@ -1069,7 +1072,7 @@ p {
    quiet line of body text rather than a button — submitting is a rare,
    secondary action and shouldn't compete with the section band above it. */
 .home-suggest {
-  margin: 26px 0 38px;
+  margin: 18px 0 26px;
   font-size: 0.875rem;
   color: var(--text-medium);
   text-align: center;
@@ -1117,18 +1120,18 @@ p {
   /* Band spacing. Edit these; the rules and hover segments follow.
      Each row carries the same padding above and below its text, so the two
      bands read as a matched pair rather than one tall block split unevenly. */
-  --band-pad-top: 34px;
-  --band-pad-bottom: 34px;
+  --band-pad-top: 24px;
+  --band-pad-bottom: 24px;
   --col-gutter: 30px;
-  --row-pad-top: 34px;
-  --row-pad-bottom: 34px;
+  --row-pad-top: 24px;
+  --row-pad-bottom: 24px;
   /* How far the entries are held off the page edge. Narrower than the 60px
      the rest of the home page uses, so each entry's column — and the hover
      segment that spans it — runs longer. */
   --band-inset: 36px;
   /* Page background between the two bands. This is the only place the rows
      are separated by empty space rather than a rule. */
-  --row-gap: 26px;
+  --row-gap: 20px;
 
   /* Distance from an entry's edge out to the rule it should light up. Both
      default to the band's own border; per-row overrides swap in that row's
