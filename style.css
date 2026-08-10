@@ -615,8 +615,13 @@ p {
      the manifolds are mid-tone stainless with dark shadows between them,
      so the ramp above reads as a gradient. Framed on the white pipes
      instead, the same ramp is invisible — white going transparent over a
-     near-white page shows nothing. */
-  object-position: center 88%;
+     near-white page shows nothing.
+
+     Pulled back from 88% to trim the bottom: at 88% the frame ran past
+     the equipment onto bare floor and grating, so the photo ended on its
+     least interesting content. 78% lands the bottom edge on the manifold
+     row itself. */
+  object-position: center 78%;
   display: block;
 }
 
