@@ -480,22 +480,28 @@ p {
   overflow: hidden;
   /* The same eased ramp the home photos use — the extra stops put a soft
      knee at each end so there is no visible line where the fade starts or
-     stops. Shorter here (to 34%) than the home page's 27% because this
-     band is shorter, so the ramp needs a larger share of it to read as a
-     dissolve rather than a sudden edge. */
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.03) 6%, rgba(0,0,0,0.10) 11%, rgba(0,0,0,0.22) 16%, rgba(0,0,0,0.40) 21%, rgba(0,0,0,0.62) 25%, rgba(0,0,0,0.82) 29%, rgba(0,0,0,0.95) 32%, black 34%);
-  mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.03) 6%, rgba(0,0,0,0.10) 11%, rgba(0,0,0,0.22) 16%, rgba(0,0,0,0.40) 21%, rgba(0,0,0,0.62) 25%, rgba(0,0,0,0.82) 29%, rgba(0,0,0,0.95) 32%, black 34%);
+     stops. Run out to 55%, roughly double the home page's 27%, for a
+     reason specific to this photo: the home shots fade through sky, which
+     is a flat tone, so a short ramp reads. This one fades through white
+     pipework against a light room, so a short ramp is white dissolving
+     into a near-white page and reads as no fade at all. Length is what
+     makes it visible — pair it with the framing below, which is the other
+     half of the fix. */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.03) 9%, rgba(0,0,0,0.10) 17%, rgba(0,0,0,0.22) 25%, rgba(0,0,0,0.40) 33%, rgba(0,0,0,0.62) 40%, rgba(0,0,0,0.82) 47%, rgba(0,0,0,0.95) 52%, black 55%);
+  mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.03) 9%, rgba(0,0,0,0.10) 17%, rgba(0,0,0,0.22) 25%, rgba(0,0,0,0.40) 33%, rgba(0,0,0,0.62) 40%, rgba(0,0,0,0.82) 47%, rgba(0,0,0,0.95) 52%, black 55%);
 }
 
 .panel-photo img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* The source is portrait: overhead pipe runs at the top, the valve
-     manifolds through the middle, floor grating at the base. This lands
-     the manifolds in the clear part of the band and leaves the overhead
-     runs to the fade. */
-  object-position: center 52%;
+  /* Framed low, on the valve manifolds rather than the pipe forest above
+     them. That is what gives the fade something to be visible against:
+     the manifolds are mid-tone stainless with dark shadows between them,
+     so the ramp above reads as a gradient. Framed on the white pipes
+     instead, the same ramp is invisible — white going transparent over a
+     near-white page shows nothing. */
+  object-position: center 88%;
   display: block;
 }
 
