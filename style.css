@@ -460,6 +460,45 @@ p {
   to   { opacity: 1; transform: translateX(0); }
 }
 
+/* ─── Panel floor photo ───────────────────────────────────────────
+   Process/Cost Models carries the fewest cards of any panel and so
+   leaves the most empty page beneath them. A photo closes it the same
+   way the building shots close the home page: full-bleed, dissolving
+   into the page at the top rather than sitting in a hard box.
+   Only this panel has one — the rule is scoped, not general. */
+#panel-5.active {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.panel-photo {
+  /* Takes whatever space the cards leave, so the photo lands on the
+     bottom of the panel instead of trailing the last card. */
+  margin-top: auto;
+  height: clamp(240px, 32vh, 430px);
+  overflow: hidden;
+  /* The same eased ramp the home photos use — the extra stops put a soft
+     knee at each end so there is no visible line where the fade starts or
+     stops. Shorter here (to 34%) than the home page's 27% because this
+     band is shorter, so the ramp needs a larger share of it to read as a
+     dissolve rather than a sudden edge. */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.03) 6%, rgba(0,0,0,0.10) 11%, rgba(0,0,0,0.22) 16%, rgba(0,0,0,0.40) 21%, rgba(0,0,0,0.62) 25%, rgba(0,0,0,0.82) 29%, rgba(0,0,0,0.95) 32%, black 34%);
+  mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.03) 6%, rgba(0,0,0,0.10) 11%, rgba(0,0,0,0.22) 16%, rgba(0,0,0,0.40) 21%, rgba(0,0,0,0.62) 25%, rgba(0,0,0,0.82) 29%, rgba(0,0,0,0.95) 32%, black 34%);
+}
+
+.panel-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* The source is portrait: overhead pipe runs at the top, the valve
+     manifolds through the middle, floor grating at the base. This lands
+     the manifolds in the clear part of the band and leaves the overhead
+     runs to the fade. */
+  object-position: center 52%;
+  display: block;
+}
+
 /* Panel header bar */
 .panel-header {
   background-color: var(--col-color, var(--blue-primary));
