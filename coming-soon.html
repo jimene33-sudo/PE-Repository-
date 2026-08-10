@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Not linked yet — Oceanside PE Repository</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      /* This page is the destination for every button that has no
+         document behind it yet. It exists so a placeholder reads as
+         "not built yet" rather than "broken" — a dead href="#" leaves
+         the reader wondering whether they mis-clicked. */
+      .soon-wrapper {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 24px 24px 48px;
+      }
+
+      .viewer-breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.875rem;
+        color: #5f6368;
+        margin-bottom: 18px;
+        font-family: "Roboto", sans-serif;
+      }
+      .viewer-breadcrumb a {
+        color: #1c4587;
+        text-decoration: none;
+        font-weight: 600;
+      }
+      .viewer-breadcrumb a:hover { text-decoration: underline; }
+      .viewer-breadcrumb span { color: #bbb; }
+
+      /* The card carries no shadow at rest — the Flat-at-Rest rule —
+         and this one never lifts, because nothing on it is hoverable
+         except the two links, which carry their own states. */
+      .soon-card {
+        background: #ffffff;
+        border: 1px solid #dadce0;
+        border-radius: 12px;
+        padding: 56px 40px 48px;
+        text-align: center;
+        max-width: 620px;
+        margin: 0 auto;
+      }
+
+      /* ── The builder ────────────────────────────────────────────
+         Line art at the same weight as the site's other icons
+         (2px round-capped strokes), so it reads as part of the set
+         rather than clip art. Construction yellow is deliberately
+         absent: #e6a817 is reserved for search-match state by the
+         Amber Exception, so the figure wears the site's blue. */
+      .builder {
+        width: 132px;
+        height: 132px;
+        margin: 0 auto 26px;
+        display: block;
+        animation: builder-bob 3.2s ease-in-out infinite;
+      }
+      .builder .hat { stroke: #1d4e89; }
+      .builder .body-line { stroke: #5f6368; }
+      .builder .tool { stroke: #1d4e89; }
+      .builder .dot { fill: #5f6368; }
+      .builder .ground { stroke: #dadce0; }
+
+      @keyframes builder-bob {
+        0%, 100% { transform: translateY(0); }
+        50%      { transform: translateY(-5px); }
+      }
+      /* The hammer taps while the figure bobs. Both stop together for
+         anyone who has asked the OS for less motion. */
+      .builder .arm-group {
+        transform-origin: 79px 90px;   /* the shoulder, so the swing pivots there */
+        animation: builder-tap 3.2s ease-in-out infinite;
+      }
+      @keyframes builder-tap {
+        0%, 100%      { transform: rotate(0deg); }
+        42%           { transform: rotate(-20deg); }
+        58%           { transform: rotate(4deg); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .builder, .builder .arm-group { animation: none; }
+      }
+
+      .soon-label {
+        font-size: 0.67rem;
+        font-weight: 700;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        color: #5f6368;
+        margin: 0 0 10px;
+      }
+      .soon-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: #202124;
+        margin: 0 0 14px;
+        font-family: "Roboto", sans-serif;
+      }
+      .soon-doc {
+        display: inline-block;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #1c4587;
+        background: #e8f0fb;
+        border-radius: 20px;
+        padding: 6px 16px;
+        margin: 0 0 20px;
+      }
+      .soon-body {
+        font-size: 0.875rem;
+        line-height: 1.6;
+        color: #5f6368;
+        margin: 0 auto 10px;
+        max-width: 46ch;
+      }
+      .soon-body:last-of-type { margin-bottom: 30px; }
+      .soon-body a {
+        color: #1c4587;
+        font-weight: 600;
+        text-decoration: none;
+      }
+      .soon-body a:hover { text-decoration: underline; }
+
+      .soon-actions {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      /* Same at-rest/hover contract as .link-btn on the main page:
+         flat at rest, one step of lift on hover, no cascade. */
+      .soon-btn {
+        display: inline-block;
+        font-size: 0.875rem;
+        font-weight: 600;
+        text-decoration: none;
+        padding: 10px 18px;
+        border-radius: 5px;
+        border: 1px solid #dadce0;
+        border-left: 4px solid #1d4e89;
+        background: #ffffff;
+        color: #202124;
+        transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+      }
+      .soon-btn:hover {
+        background: #e8f0fb;
+        color: #1d4e89;
+        box-shadow: 0 2px 8px rgba(60, 64, 67, 0.14);
+      }
+      .soon-btn--quiet { border-left-color: #dadce0; }
+      .soon-btn--quiet:hover { border-left-color: #5f6368; }
+
+      @media (max-width: 600px) {
+        .soon-card { padding: 40px 22px 36px; }
+        .soon-title { font-size: 1.2rem; }
+      }
+    </style>
+  </head>
+  <body>
+
+    <header>
+      <nav class="topnav">
+        <div class="topnav-inner">
+          <a href="https://sites.google.com/gene.com/oceanside-msat/ocn-msat" target="_blank" rel="noopener" class="genentech-logo-link">
+            <img src="GNE_Logo_Strapline_BLK_081525.svg" alt="Genentech | A Member of the Roche Group" class="genentech-logo-img" />
+          </a>
+          <a href="https://sites.google.com/gene.com/oceanside-msat/ocn-msat" class="ocn-msat-link" target="_blank" rel="noopener">OCN MSAT</a>
+        </div>
+      </nav>
+    </header>
+
+    <div class="soon-wrapper">
+      <div class="viewer-breadcrumb">
+        <a href="index.html">&larr; PE Repository</a>
+        <span>/</span>
+        <span>Not linked yet</span>
+      </div>
+
+      <div class="soon-card">
+
+        <svg class="builder" viewBox="0 0 128 128" role="img" aria-labelledby="builderTitle">
+          <title id="builderTitle">A builder in a hard hat, still working on this one</title>
+          <g fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <!-- hard hat -->
+            <path class="hat" d="M46 44c0-11 5-17 18-17s18 6 18 17" />
+            <path class="hat" d="M64 27v-5" />
+            <path class="hat" d="M38 45h52" />
+            <!-- head -->
+            <path class="body-line" d="M51 46v7a13 13 0 0 0 26 0v-7" />
+            <!-- face -->
+            <circle class="dot" cx="58" cy="53" r="1.9" stroke="none" />
+            <circle class="dot" cx="70" cy="53" r="1.9" stroke="none" />
+            <path class="body-line" d="M59 60a7 7 0 0 0 10 0" />
+            <!-- shoulders and torso -->
+            <path class="body-line" d="M42 106v-9a22 22 0 0 1 44 0v9" />
+            <!-- arm and hammer, tapping. The head is drawn at a heavier
+                 weight than the handle so the tool still reads as a hammer
+                 at the 132px the page renders it. -->
+            <g class="arm-group">
+              <path class="body-line" d="M79 90l9-8" />
+              <path class="tool" d="M87 83l9-11" />
+              <path class="tool" d="M91 67l10 7" stroke-width="5" />
+            </g>
+            <!-- ground line -->
+            <path class="ground" d="M28 112h72" />
+          </g>
+        </svg>
+
+        <p class="soon-label">In progress</p>
+        <h1 class="soon-title">This one isn't linked yet</h1>
+
+        <p class="soon-doc" id="docName" hidden></p>
+
+        <p class="soon-body">
+          The button works — the document behind it just hasn't been pointed at a
+          file yet. It's on the list, and the link will appear here once the
+          document has a permanent home.
+        </p>
+        <p class="soon-body">
+          Know where this one lives? You can add the link yourself in about two
+          minutes &mdash; see the <a href="edit-guide.html">editing guide</a>.
+        </p>
+
+        <div class="soon-actions">
+          <a class="soon-btn" href="index.html">Back to the repository</a>
+          <a class="soon-btn soon-btn--quiet" href="edit-guide.html">How to add a link</a>
+        </div>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+      <p>Genentech &middot; Oceanside Process Engineering &middot; Internal Use Only</p>
+    </footer>
+
+    <script>
+      // Each placeholder button passes its own label through ?doc=, so the
+      // page can name the thing that was clicked. Without the parameter the
+      // page still reads correctly — the chip just stays hidden.
+      (function () {
+        var doc = new URLSearchParams(location.search).get("doc");
+        if (!doc) return;
+        var el = document.getElementById("docName");
+        el.textContent = doc;          // textContent, so a label can never inject markup
+        el.hidden = false;
+        document.title = doc + " — not linked yet — Oceanside PE Repository";
+      })();
+    </script>
+
+  </body>
+</html>
