@@ -43,10 +43,10 @@
    the room.
 
    The auto steps are deliberately coarse. After zooming, the layout has
-   viewport / zoom css pixels to work with — 1417px at the first step,
-   ~1520px at the second, ~1580px at the third. That keeps the desktop
-   layout intact at every size and simply renders it bigger, rather than
-   letting a 4K panel spread the cards into a thin grid.
+   viewport / zoom css pixels to work with — about 1480px at the first
+   step, 1690px at the second, 1875px at the third. That keeps the
+   desktop layout intact at every size and simply renders it bigger,
+   rather than letting a 4K panel spread the cards into a thin grid.
 
    CAVEAT for anyone editing: viewport units do NOT shrink under zoom the
    way px do — 100vh inside a zoomed body renders 100vh * zoom tall and
@@ -59,11 +59,11 @@
   --ui-zoom: calc(var(--ui-auto) * var(--ui-boost));
 }
 
-@media (min-width: 1700px) { :root { --ui-auto: 1.2; } }
-@media (min-width: 2200px) { :root { --ui-auto: 1.45; } }
-@media (min-width: 3000px) { :root { --ui-auto: 1.9; } }
+@media (min-width: 1700px) { :root { --ui-auto: 1.15; } }
+@media (min-width: 2200px) { :root { --ui-auto: 1.3; } }
+@media (min-width: 3000px) { :root { --ui-auto: 1.6; } }
 
-:root[data-present="on"] { --ui-boost: 1.35; }
+:root[data-present="on"] { --ui-boost: 1.2; }
 
 * {
   box-sizing: border-box;
