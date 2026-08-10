@@ -564,12 +564,13 @@ p {
 }
 
 /* ─── Panel floor photo ───────────────────────────────────────────
-   Process/Cost Models carries the fewest cards of any panel and so
-   leaves the most empty page beneath them. A photo closes it the same
-   way the building shots close the home page: full-bleed, dissolving
-   into the page at the top rather than sitting in a hard box.
-   Only this panel has one — the rule is scoped, not general. */
-#panel-5.active {
+   Basecamp is the shortest panel on the site — four cards holding one
+   link each — so it leaves the most empty page beneath them. A photo
+   closes it the same way the building shots close the home page:
+   full-bleed, dissolving into the page at the top rather than sitting
+   in a hard box. Only this panel has one — the rule is scoped, not
+   general. */
+#panel-7.active {
   display: flex;
   flex-direction: column;
   min-height: 100%;
