@@ -476,23 +476,28 @@ p {
   /* Takes whatever space the cards leave, so the photo lands on the
      bottom of the panel instead of trailing the last card. */
   margin-top: auto;
-  /* Taller than a strip so the manifolds read as a photograph rather than
-     a texture. Because the fade eats the top 55%, the band has to carry
-     roughly twice the height you want to actually see — at 680px that
-     leaves about 300px of clear image. */
-  height: clamp(360px, 48vh, 680px);
+  /* The floor is 520px, not a fraction of the viewport, because a vh-led
+     clamp made this photo short on exactly the screens most people use:
+     48vh on a 900px-tall laptop viewport is 432px, so the generous
+     ceiling never engaged and the band stayed a strip. The viewport term
+     now only adds height on big monitors. */
+  height: clamp(520px, 64vh, 880px);
   overflow: hidden;
   /* The same eased ramp the home photos use — the extra stops put a soft
      knee at each end so there is no visible line where the fade starts or
-     stops. Run out to 55%, roughly double the home page's 27%, for a
-     reason specific to this photo: the home shots fade through sky, which
-     is a flat tone, so a short ramp reads. This one fades through white
-     pipework against a light room, so a short ramp is white dissolving
-     into a near-white page and reads as no fade at all. Length is what
-     makes it visible — pair it with the framing below, which is the other
-     half of the fix. */
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.03) 9%, rgba(0,0,0,0.10) 17%, rgba(0,0,0,0.22) 25%, rgba(0,0,0,0.40) 33%, rgba(0,0,0,0.62) 40%, rgba(0,0,0,0.82) 47%, rgba(0,0,0,0.95) 52%, black 55%);
-  mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.03) 9%, rgba(0,0,0,0.10) 17%, rgba(0,0,0,0.22) 25%, rgba(0,0,0,0.40) 33%, rgba(0,0,0,0.62) 40%, rgba(0,0,0,0.82) 47%, rgba(0,0,0,0.95) 52%, black 55%);
+     stops. Two things differ from the home page.
+
+     It is measured in pixels, not percent. As a percentage the fade grew
+     with the band, so making the photo taller bought 45% more picture and
+     55% more fade; at a fixed 260px every pixel of added height is picture.
+
+     260px is long, roughly double what the home page's building shots use.
+     Those fade through sky — a flat tone, where a short ramp reads. This
+     one fades through white pipework against a near-white page, where a
+     short ramp is invisible. Length is half of what makes it show; the
+     framing below is the other half. */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, rgba(0,0,0,0.03) 42px, rgba(0,0,0,0.10) 81px, rgba(0,0,0,0.22) 117px, rgba(0,0,0,0.40) 156px, rgba(0,0,0,0.62) 190px, rgba(0,0,0,0.82) 221px, rgba(0,0,0,0.95) 247px, black 260px);
+  mask-image: linear-gradient(to bottom, transparent 0, rgba(0,0,0,0.03) 42px, rgba(0,0,0,0.10) 81px, rgba(0,0,0,0.22) 117px, rgba(0,0,0,0.40) 156px, rgba(0,0,0,0.62) 190px, rgba(0,0,0,0.82) 221px, rgba(0,0,0,0.95) 247px, black 260px);
 }
 
 .panel-photo img {
