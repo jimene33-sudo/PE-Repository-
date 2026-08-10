@@ -564,12 +564,15 @@ p {
 }
 
 /* ─── Panel floor photo ───────────────────────────────────────────
-   Basecamp is the shortest panel on the site — four cards holding one
-   link each — so it leaves the most empty page beneath them. A photo
-   closes it the same way the building shots close the home page:
-   full-bleed, dissolving into the page at the top rather than sitting
-   in a hard box. Only this panel has one — the rule is scoped, not
-   general. */
+   Tech Transfers and Basecamp are the two shortest panels on the site —
+   three and four cards, holding one link each — so they leave the most
+   empty page beneath them. A photo closes each the same way the building
+   shots close the home page: full-bleed, dissolving into the page at the
+   top rather than sitting in a hard box.
+
+   Scoped to those two panels, not general. To add a third, name it here
+   and give its .panel-photo a --photo-y; nothing else needs to change. */
+#panel-2.active,
 #panel-7.active {
   display: flex;
   flex-direction: column;
@@ -617,11 +620,12 @@ p {
      instead, the same ramp is invisible — white going transparent over a
      near-white page shows nothing.
 
-     Pulled back from 88% to trim the bottom: at 88% the frame ran past
-     the equipment onto bare floor and grating, so the photo ended on its
-     least interesting content. 78% lands the bottom edge on the manifold
-     row itself. */
-  object-position: center 78%;
+     Each photo sets its own --photo-y in the markup, because the useful
+     band sits at a different depth in each shot. The shared rule is the
+     principle, not the number: frame off the floor and onto equipment.
+     Basecamp's manifolds sit at 78% (88% ran onto bare floor and
+     grating); the Tech Transfers rack is denser and sits at 62%. */
+  object-position: center var(--photo-y, 78%);
   display: block;
 }
 
