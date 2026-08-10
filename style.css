@@ -476,12 +476,14 @@ p {
   /* Takes whatever space the cards leave, so the photo lands on the
      bottom of the panel instead of trailing the last card. */
   margin-top: auto;
-  /* The floor is 520px, not a fraction of the viewport, because a vh-led
-     clamp made this photo short on exactly the screens most people use:
-     48vh on a 900px-tall laptop viewport is 432px, so the generous
+  /* The floor is a pixel value, not a fraction of the viewport, because a
+     vh-led clamp made this photo short on exactly the screens most people
+     use: 48vh on a 900px-tall laptop viewport is 432px, so the generous
      ceiling never engaged and the band stayed a strip. The viewport term
-     now only adds height on big monitors. */
-  height: clamp(520px, 64vh, 880px);
+     now only adds height on big monitors. Ceiling is held below the
+     1600x2133 source's rendered height so the band never has to upscale
+     past its own pixels. */
+  height: clamp(700px, 80vh, 1150px);
   overflow: hidden;
   /* The same eased ramp the home photos use — the extra stops put a soft
      knee at each end so there is no visible line where the fade starts or
