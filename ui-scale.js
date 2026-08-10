@@ -50,4 +50,44 @@
       toggle();
     }
   });
+
+  /* Fullscreen detection.
+   *
+   * Two different things both count as "fullscreen" and only one of them
+   * is visible to CSS:
+   *
+   *   - The Fullscreen API (F11, or requestFullscreen). Sets
+   *     document.fullscreenElement and matches :fullscreen.
+   *   - macOS native window fullscreen — the green button. Sets neither.
+   *     It is a window state, not an element state, so CSS cannot see it.
+   *
+   * The green button is the common case for presenting off a Mac, so it
+   * has to be inferred from geometry. When a window goes native
+   * fullscreen it covers the menu bar: its top edge sits at y=0 and its
+   * outer height equals the full screen height. Merely maximising leaves
+   * the window below the menu bar, so screenY is around 25 and the outer
+   * height is short by at least that much. A couple of pixels of
+   * tolerance absorbs rounding on scaled displays.
+   */
+  function isFullscreen() {
+    if (document.fullscreenElement) return true;
+    if (!window.screen || !window.screen.height) return false;
+    return window.outerHeight >= window.screen.height - 2 && window.screenY <= 2;
+  }
+
+  function syncFullscreen() {
+    var want = isFullscreen();
+    var have = root.getAttribute('data-fullscreen') === 'on';
+    if (want === have) return;          // resize fires continuously; each
+                                        // write would re-run the zoom layout
+    if (want) root.setAttribute('data-fullscreen', 'on');
+    else root.removeAttribute('data-fullscreen');
+  }
+
+  syncFullscreen();
+  // resize covers the green button and any window move; fullscreenchange
+  // covers F11. Both are cheap — syncFullscreen only touches an attribute
+  // when the state actually differs from what is already set.
+  window.addEventListener('resize', syncFullscreen);
+  document.addEventListener('fullscreenchange', syncFullscreen);
 })();

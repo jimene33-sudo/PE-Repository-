@@ -35,12 +35,18 @@
    everything, and unlike `transform: scale()` zoom participates in
    layout, so nothing overflows and no scrollbars appear.
 
-   Two independent factors multiply together:
+   Three independent factors multiply together:
      --ui-auto   grows on genuinely large screens, by viewport width
+     --ui-fs     set while the window is actually fullscreen
      --ui-boost  the manual Presentation-mode toggle, at any size
-   The toggle exists because a TV very often mirrors a laptop at
-   1920x1080, where width alone is no signal that the screen is across
-   the room.
+
+   --ui-fs is the one that matters on a laptop. Going fullscreen on a Mac
+   — the green button — gains vertical space and leaves the width alone,
+   so a width-based step never fires on a 1512px-wide MacBook and the
+   page renders at exactly 1x. Width is also no signal on a TV mirroring
+   a laptop at 1920x1080. Fullscreen state is set from JS, since macOS
+   window fullscreen does not match the :fullscreen pseudo-class — only
+   the Fullscreen API does. See ui-scale.js.
 
    The steps are deliberately gentle — the site should read as itself,
    rendered slightly larger, not as a magnified version of itself. After
@@ -56,14 +62,16 @@
    it must be divided too. */
 :root {
   --ui-auto: 1;
+  --ui-fs: 1;
   --ui-boost: 1;
-  --ui-zoom: calc(var(--ui-auto) * var(--ui-boost));
+  --ui-zoom: calc(var(--ui-auto) * var(--ui-fs) * var(--ui-boost));
 }
 
 @media (min-width: 1700px) { :root { --ui-auto: 1.05; } }
 @media (min-width: 2200px) { :root { --ui-auto: 1.1; } }
 @media (min-width: 3000px) { :root { --ui-auto: 1.25; } }
 
+:root[data-fullscreen="on"] { --ui-fs: 1.15; }
 :root[data-present="on"] { --ui-boost: 1.06; }
 
 * {
