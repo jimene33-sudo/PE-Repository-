@@ -476,7 +476,11 @@ p {
   /* Takes whatever space the cards leave, so the photo lands on the
      bottom of the panel instead of trailing the last card. */
   margin-top: auto;
-  height: clamp(240px, 32vh, 430px);
+  /* Taller than a strip so the manifolds read as a photograph rather than
+     a texture. Because the fade eats the top 55%, the band has to carry
+     roughly twice the height you want to actually see — at 680px that
+     leaves about 300px of clear image. */
+  height: clamp(360px, 48vh, 680px);
   overflow: hidden;
   /* The same eased ramp the home photos use — the extra stops put a soft
      knee at each end so there is no visible line where the fade starts or
