@@ -564,15 +564,19 @@ p {
 }
 
 /* ─── Panel floor photo ───────────────────────────────────────────
-   Tech Transfers and Basecamp are the two shortest panels on the site —
-   three and four cards, holding one link each — so they leave the most
-   empty page beneath them. A photo closes each the same way the building
-   shots close the home page: full-bleed, dissolving into the page at the
-   top rather than sitting in a hard box.
+   Equipment & Automation and Basecamp each close with a photo, the same
+   way the building shots close the home page: full-bleed, dissolving
+   into the page at the top rather than sitting in a hard box.
+
+   The two do different jobs. Basecamp is the shortest panel on the site
+   — four cards holding one link each — so its photo fills a panel that
+   would otherwise end well short of the fold. Equipment & Automation is
+   one of the longest, so its photo is a closing image at the end of a
+   scroll rather than a filler.
 
    Scoped to those two panels, not general. To add a third, name it here
    and give its .panel-photo a --photo-y; nothing else needs to change. */
-#panel-2.active,
+#panel-4.active,
 #panel-7.active {
   display: flex;
   flex-direction: column;
