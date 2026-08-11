@@ -38,6 +38,22 @@
         flex-direction: column;
       }
 
+      /* One factor scales the whole page body: type, icon, buttons and
+         padding together, so nothing has to be re-tuned relative to
+         anything else. Widening the card alone left 0.875rem text marooned
+         in a bigger white box — the complaint was that it reads small on a
+         large monitor, and only the type answers that.
+
+         zoom rather than transform: scale(), because zoom participates in
+         layout. The card still wraps, still centres, and still fits a
+         narrow window — its available width is simply divided by this
+         number first. transform would paint it oversized and let it spill
+         off the edge. */
+      .soon-card,
+      .viewer-breadcrumb {
+        zoom: 1.45;
+      }
+
       .viewer-breadcrumb {
         display: flex;
         align-items: center;
