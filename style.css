@@ -615,10 +615,16 @@ p {
      short panel like Basecamp — one row of cards — it then stretched to
      fill the whole panel and read as a background image rather than a
      band at the bottom. In flow, the panel still grows to hold it. */
-  /* How far the band climbs into the buttons. About half the fade ramp:
-     far enough that the last row of cards sits in visibly tinted picture,
-     not so far that the row above it does too. */
-  --photo-overlap: 165px;
+  /* How far the band climbs into the buttons. Set high on purpose: most
+     of the shift is spent behind the cards, so the picture is present
+     around several rows of buttons rather than only touching the last
+     one. Panels shorter than this override it below — the ceiling is
+     however much panel there is to hide behind. */
+  --photo-overlap: 560px;
+  /* The fade tracks the overlap, so the picture reaches full strength
+     just below the last row wherever that lands. The floor keeps the
+     short panels' ramp at the length that was tuned for them. */
+  --photo-fade: max(340px, calc(var(--photo-overlap) + 40px));
   /* Deliberately NOT margin-top: auto. Pushed to the bottom of the panel
      it floated away from the content on the tall panels — Equipment &
      Automation left a blank corridor between the last card and the top of
@@ -652,18 +658,44 @@ p {
      with the band, so making the photo taller bought 45% more picture and
      55% more fade; at a fixed length every pixel of added height is picture.
 
-     340px is long, roughly two and a half times what the home page's
-     building shots use. Those fade through sky — a flat tone, where a
-     short ramp reads. This one fades through white pipework against a
-     near-white page, where a short ramp is invisible. Length is half of
-     what makes it show; the framing below is the other half.
+     It is long — several times what the home page's building shots use.
+     Those fade through sky, a flat tone where a short ramp reads. This
+     one fades through white pipework against a near-white page, where a
+     short ramp is invisible. Length is half of what makes it show; the
+     framing below is the other half.
 
-     The length is also what makes the fade pass through the buttons
-     rather than stop at them: the ramp is long enough to span the last
-     card row, so the picture is already faint by the time it reaches
-     the gutters between cards and gone by the row above. */
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0, rgba(0,0,0,0.03) 55px, rgba(0,0,0,0.10) 106px, rgba(0,0,0,0.22) 153px, rgba(0,0,0,0.40) 204px, rgba(0,0,0,0.62) 249px, rgba(0,0,0,0.82) 289px, rgba(0,0,0,0.95) 323px, black 340px);
-  mask-image: linear-gradient(to bottom, transparent 0, rgba(0,0,0,0.03) 55px, rgba(0,0,0,0.10) 106px, rgba(0,0,0,0.22) 153px, rgba(0,0,0,0.40) 204px, rgba(0,0,0,0.62) 249px, rgba(0,0,0,0.82) 289px, rgba(0,0,0,0.95) 323px, black 340px);
+     The stops are fractions of --photo-fade rather than fixed pixels, so
+     the eased shape is preserved whatever length a panel asks for. The
+     numbers are the original 340px ramp divided through by 340. */
+  -webkit-mask-image: linear-gradient(to bottom,
+    transparent 0,
+    rgba(0, 0, 0, 0.03) calc(var(--photo-fade) * 0.162),
+    rgba(0, 0, 0, 0.10) calc(var(--photo-fade) * 0.312),
+    rgba(0, 0, 0, 0.22) calc(var(--photo-fade) * 0.450),
+    rgba(0, 0, 0, 0.40) calc(var(--photo-fade) * 0.600),
+    rgba(0, 0, 0, 0.62) calc(var(--photo-fade) * 0.732),
+    rgba(0, 0, 0, 0.82) calc(var(--photo-fade) * 0.850),
+    rgba(0, 0, 0, 0.95) calc(var(--photo-fade) * 0.950),
+    black var(--photo-fade));
+  mask-image: linear-gradient(to bottom,
+    transparent 0,
+    rgba(0, 0, 0, 0.03) calc(var(--photo-fade) * 0.162),
+    rgba(0, 0, 0, 0.10) calc(var(--photo-fade) * 0.312),
+    rgba(0, 0, 0, 0.22) calc(var(--photo-fade) * 0.450),
+    rgba(0, 0, 0, 0.40) calc(var(--photo-fade) * 0.600),
+    rgba(0, 0, 0, 0.62) calc(var(--photo-fade) * 0.732),
+    rgba(0, 0, 0, 0.82) calc(var(--photo-fade) * 0.850),
+    rgba(0, 0, 0, 0.95) calc(var(--photo-fade) * 0.950),
+    black var(--photo-fade));
+}
+
+/* Basecamp is one row of four cards deep. There is no stack of buttons to
+   climb behind — 165px already puts the top of the band level with the
+   panel header, and any more would push it off the top of the panel and
+   into the hero band above. The shift is capped at what the panel has
+   room for, which here is not much. */
+#panel-7 .panel-photo {
+  --photo-overlap: 165px;
 }
 
 .panel-photo img {
