@@ -37,16 +37,17 @@
 
    Three independent factors multiply together:
      --ui-auto   grows on genuinely large screens, by viewport width
-     --ui-fs     set while the window is actually fullscreen
+     --ui-fs     set while the window is actually fullscreen (now 1)
      --ui-boost  the manual Presentation-mode toggle, at any size
 
-   --ui-fs is the one that matters on a laptop. Going fullscreen on a Mac
-   — the green button — gains vertical space and leaves the width alone,
-   so a width-based step never fires on a 1512px-wide MacBook and the
-   page renders at exactly 1x. Width is also no signal on a TV mirroring
-   a laptop at 1920x1080. Fullscreen state is set from JS, since macOS
-   window fullscreen does not match the :fullscreen pseudo-class — only
-   the Fullscreen API does. See ui-scale.js.
+   Because they multiply, watch for compounding: a wide monitor in
+   fullscreen with the toggle on applies all three at once, which is how
+   the fullscreen step ended up too large in practice. Change one at a
+   time and check the combination, not just the factor being edited.
+
+   Fullscreen state is set from JS, since macOS window fullscreen does
+   not match the :fullscreen pseudo-class — only the Fullscreen API
+   does. See ui-scale.js.
 
    The steps are deliberately gentle — the site should read as itself,
    rendered slightly larger, not as a magnified version of itself. After
@@ -71,7 +72,15 @@
 @media (min-width: 2200px) { :root { --ui-auto: 1.1; } }
 @media (min-width: 3000px) { :root { --ui-auto: 1.25; } }
 
-:root[data-fullscreen="on"] { --ui-fs: 1.15; }
+/* Deliberately 1: fullscreen renders at exactly the same scale as the
+   windowed page. Going fullscreen gains vertical space and almost no
+   width, so scaling up on top of that made the text and tabs too large
+   — and on a monitor wide enough to trigger --ui-auto it compounded
+   with it. Fullscreen now shows more of the page at the size the
+   windowed layout already uses, which is the proportion that reads
+   correctly. The detection in ui-scale.js is left wired up so this is a
+   one-number change if a bigger step is ever wanted. */
+:root[data-fullscreen="on"] { --ui-fs: 1; }
 :root[data-present="on"] { --ui-boost: 1.06; }
 
 * {
