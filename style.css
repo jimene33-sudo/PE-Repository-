@@ -584,10 +584,20 @@ p {
 
 /* The cards paint above the photo, which is shifted up into them. Without
    this they share one stacking context in source order and the photo —
-   last in the markup — would cover the bottom row. */
+   last in the markup — would cover the bottom row.
+
+   Note what is NOT lifted: .building-stack itself. It carries a solid
+   --bg-page fill, and lifted as a whole it painted that fill over the
+   photo's entire fade — the band appeared to start with a hard edge at
+   the stack's bottom because the first 165px of it was buried. Left
+   unpositioned, its background paints below the photo and the accordions
+   inside it paint above, which is the layering the fade needs. The
+   accordions themselves have no fill, so the photo shows through their
+   gaps and only the white cards occlude it. .panel-body needs no such
+   care — it has no background of its own. */
 #panel-4.active > .panel-header,
 #panel-7.active > .panel-header,
-#panel-4.active > .building-stack,
+#panel-4.active > .building-stack > *,
 #panel-7.active > .panel-body {
   position: relative;
   z-index: 1;
