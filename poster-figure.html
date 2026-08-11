@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PE Document Landscape — Poster Figure</title>
+    <style>
+      /* ── Palette ────────────────────────────────────────────────────
+         Validated categorical slots 1–3 (all-pairs, both modes).
+         Light mode: aqua sits at 2.74:1 on the surface, under 3:1 — the
+         relief rule applies, so every slice carries a visible direct
+         label and the table below repeats every number. Colour is never
+         the only channel here. */
+      .viz-root {
+        color-scheme: light;
+        --surface-1: #fcfcfb;
+        --page: #f9f9f7;
+        --text-primary: #0b0b0b;
+        --text-secondary: #52514e;
+        --text-muted: #898781;
+        --gridline: #e1e0d9;
+        --baseline: #c3c2b7;
+        --border: rgba(11, 11, 11, 0.1);
+        --series-1: #2a78d6;
+        --series-2: #eb6834;
+        --series-3: #1baf7a;
+        --bar: #2a78d6;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:where(:not([data-theme="light"])) .viz-root {
+          color-scheme: dark;
+          --surface-1: #1a1a19;
+          --page: #0d0d0d;
+          --text-primary: #ffffff;
+          --text-secondary: #c3c2b7;
+          --text-muted: #898781;
+          --gridline: #2c2c2a;
+          --baseline: #383835;
+          --border: rgba(255, 255, 255, 0.1);
+          --series-1: #3987e5;
+          --series-2: #d95926;
+          --series-3: #199e70;
+          --bar: #3987e5;
+        }
+      }
+      :root[data-theme="dark"] .viz-root {
+        color-scheme: dark;
+        --surface-1: #1a1a19;
+        --page: #0d0d0d;
+        --text-primary: #ffffff;
+        --text-secondary: #c3c2b7;
+        --text-muted: #898781;
+        --gridline: #2c2c2a;
+        --baseline: #383835;
+        --border: rgba(255, 255, 255, 0.1);
+        --series-1: #3987e5;
+        --series-2: #d95926;
+        --series-3: #199e70;
+        --bar: #3987e5;
+      }
+
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--page, #f9f9f7);
+        font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      }
+      .viz-root {
+        background: var(--surface-1);
+        color: var(--text-primary);
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 40px 44px 36px;
+      }
+
+      /* ── Heading ───────────────────────────────────────────────── */
+      .fig-eyebrow {
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.09em;
+        color: var(--text-muted);
+        margin: 0 0 8px;
+      }
+      .fig-title {
+        font-size: 1.55rem;
+        font-weight: 700;
+        margin: 0 0 6px;
+        letter-spacing: -0.01em;
+      }
+      .fig-sub {
+        font-size: 0.95rem;
+        color: var(--text-secondary);
+        margin: 0 0 28px;
+        max-width: 74ch;
+        line-height: 1.5;
+      }
+
+      /* ── Hero figure ───────────────────────────────────────────── */
+      .hero {
+        display: flex;
+        align-items: baseline;
+        gap: 16px;
+        padding-bottom: 24px;
+        margin-bottom: 28px;
+        border-bottom: 1px solid var(--gridline);
+      }
+      .hero-value {
+        font-size: 4.2rem;
+        font-weight: 700;
+        line-height: 1;
+        letter-spacing: -0.03em;
+      }
+      .hero-label {
+        font-size: 0.95rem;
+        color: var(--text-secondary);
+        line-height: 1.45;
+        max-width: 34ch;
+      }
+
+      /* ── Two-panel figure ──────────────────────────────────────── */
+      .panels {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+        align-items: start;
+      }
+      .panel-cap {
+        font-size: 0.78rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        color: var(--text-secondary);
+        margin: 0 0 4px;
+      }
+      .panel-note {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        margin: 0 0 14px;
+        line-height: 1.45;
+      }
+      svg { display: block; overflow: visible; max-width: 100%; height: auto; }
+
+      .slice { transition: opacity 0.12s ease; cursor: default; }
+      .viz-root.hovering .slice:not(.on) { opacity: 0.4; }
+      .bar-row .bar-fill { transition: opacity 0.12s ease; }
+      .viz-root.hovering-bar .bar-row:not(.on) .bar-fill { opacity: 0.4; }
+
+      .lead-line { stroke: var(--baseline); stroke-width: 1; fill: none; }
+      .lbl-name {
+        font-size: 13px;
+        font-weight: 600;
+        fill: var(--text-primary);
+      }
+      .lbl-val { font-size: 12px; fill: var(--text-secondary); }
+      .bar-name { font-size: 12.5px; fill: var(--text-primary); }
+      .bar-val {
+        font-size: 12.5px;
+        font-weight: 600;
+        fill: var(--text-secondary);
+        font-variant-numeric: tabular-nums;
+      }
+      .axis-tick { font-size: 11px; fill: var(--text-muted); font-variant-numeric: tabular-nums; }
+      .grid { stroke: var(--gridline); stroke-width: 1; }
+
+      /* ── Legend ────────────────────────────────────────────────── */
+      .legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 18px;
+        margin-top: 18px;
+        font-size: 0.82rem;
+        color: var(--text-secondary);
+      }
+      .legend-item { display: flex; align-items: center; gap: 7px; }
+      .swatch { width: 12px; height: 12px; border-radius: 3px; flex: 0 0 auto; }
+
+      /* ── Table ─────────────────────────────────────────────────── */
+      details.table-wrap { margin-top: 34px; }
+      details.table-wrap > summary {
+        cursor: pointer;
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        color: var(--text-secondary);
+        padding: 10px 0;
+        border-top: 1px solid var(--gridline);
+      }
+      table { border-collapse: collapse; width: 100%; margin-top: 10px; }
+      caption {
+        caption-side: top;
+        text-align: left;
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        padding-bottom: 10px;
+      }
+      th, td {
+        text-align: left;
+        padding: 7px 12px 7px 0;
+        font-size: 0.84rem;
+        border-bottom: 1px solid var(--gridline);
+      }
+      th {
+        color: var(--text-secondary);
+        font-weight: 700;
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+      td.num, th.num {
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+        padding-right: 0;
+      }
+      tr.total td { font-weight: 700; border-bottom: 2px solid var(--baseline); }
+      tr.group td {
+        font-weight: 700;
+        padding-top: 14px;
+        color: var(--text-secondary);
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+
+      .footnotes {
+        margin-top: 26px;
+        padding-top: 16px;
+        border-top: 1px solid var(--gridline);
+        font-size: 0.78rem;
+        color: var(--text-muted);
+        line-height: 1.6;
+      }
+      .footnotes p { margin: 0 0 7px; }
+      .footnotes b { color: var(--text-secondary); }
+
+      /* ── Tooltip ───────────────────────────────────────────────── */
+      .tip {
+        position: fixed;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.1s ease;
+        background: var(--text-primary);
+        color: var(--surface-1);
+        padding: 7px 11px;
+        border-radius: 5px;
+        font-size: 0.78rem;
+        line-height: 1.4;
+        z-index: 50;
+        white-space: nowrap;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.22);
+      }
+      .tip.show { opacity: 1; }
+      .tip b { font-variant-numeric: tabular-nums; }
+
+      @media (max-width: 900px) {
+        .panels { grid-template-columns: 1fr; gap: 34px; }
+        .hero-value { font-size: 3.2rem; }
+      }
+
+      /* Print / PDF export — this is the path to a poster-resolution
+         figure: the SVG stays vector, so it is sharp at any size. */
+      @media print {
+        @page { size: landscape; margin: 12mm; }
+        body { background: #fff; }
+        .viz-root { max-width: none; padding: 0; }
+        details.table-wrap { display: block; }
+        details.table-wrap > summary { display: none; }
+        .tip { display: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="viz-root" id="root">
+      <p class="fig-eyebrow">Process Engineering Document Repository</p>
+      <h1 class="fig-title">The PE document landscape, by category</h1>
+      <p class="fig-sub">
+        Every document class reachable through the PE Repository site, counted at the
+        level of an individual document rather than a link. Equipment documentation
+        dominates the estate by roughly two orders of magnitude.
+      </p>
+
+      <div class="hero">
+        <div class="hero-value" id="heroValue">—</div>
+        <div class="hero-label">
+          documents in scope across <b>2 buildings</b>, <b>448 equipment entities</b>,
+          and <b>11 host systems</b>
+        </div>
+      </div>
+
+      <div class="panels">
+        <div>
+          <p class="panel-cap">Share of all documents</p>
+          <p class="panel-note">
+            Three slices, because the smallest categories are a fraction of a degree
+            at this scale — they are expanded at right.
+          </p>
+          <svg id="pie" viewBox="0 0 540 470" role="img"
+               aria-labelledby="pieTitle pieDesc">
+            <title id="pieTitle">Share of all PE documents by category</title>
+            <desc id="pieDesc">
+              Equipment entity documents 8,960 (91.5 percent); P&amp;IDs 750
+              (7.7 percent); all other documents 79 (0.8 percent).
+            </desc>
+          </svg>
+          <div class="legend" id="pieLegend"></div>
+        </div>
+
+        <div>
+          <p class="panel-cap">Inside the remaining 0.8%</p>
+          <p class="panel-note">
+            The 79 documents the pie cannot resolve, at their own scale.
+          </p>
+          <svg id="bars" viewBox="0 0 540 470" role="img"
+               aria-labelledby="barTitle barDesc">
+            <title id="barTitle">The 79 non-equipment, non-P&amp;ID documents by category</title>
+            <desc id="barDesc">
+              Cheat sheets and floor support 15; PFDs 14; process and cost models 13;
+              process overviews 8; process monitoring 8; additional resources 6;
+              mass and energy balances 4; equipment design specs 4; Basecamp systems 4;
+              tech transfer documents 3.
+            </desc>
+          </svg>
+        </div>
+      </div>
+
+      <details class="table-wrap" open>
+        <summary>Full counts</summary>
+        <table>
+          <caption>
+            Every category, exact counts. Percentages are of the 9,789-document total.
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Category</th>
+              <th scope="col">Source of count</th>
+              <th scope="col" class="num">Documents</th>
+              <th scope="col" class="num">Share</th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </details>
+
+      <div class="footnotes">
+        <p>
+          <b>Equipment entity documents</b> — 448 entities × 20 documents per entity
+          (departmental average). This single assumption drives 91.5% of the total, so
+          the headline number is only as good as the average.
+        </p>
+        <p>
+          <b>Possible double-counting.</b> If the 750 P&amp;IDs or the 14 PFDs are among
+          the ~20 documents attached to each entity, they are counted twice here. Netting
+          them out gives a floor of <b>9,025</b>; the figure above is the ceiling.
+        </p>
+        <p>
+          <b>Not yet counted.</b> Individual tabs inside the linked Google Sheets, and the
+          specification files on the <code>sdfiles</code> network share, are counted as
+          one document each — their true counts are higher. Set
+          <code>SHEET_TABS</code> and <code>SPEC_FILES</code> at the top of this file's
+          script once measured, and every number and slice updates.
+        </p>
+      </div>
+    </div>
+
+    <div class="tip" id="tip" role="status" aria-live="polite"></div>
+
+    <script>
+      // ─────────────────────────────────────────────────────────────
+      //  EDIT HERE. Everything below recomputes from these numbers.
+      // ─────────────────────────────────────────────────────────────
+      const ENTITIES = 448;          // equipment entities
+      const DOCS_PER_ENTITY = 20;    // departmental average
+      const PIDS = 750;              // P&IDs
+      const PFDS = 14;               // PFDs
+      const SHEET_TABS = 0;          // extra Google Sheets tabs beyond the 1-per-link already counted
+      const SPEC_FILES = 0;          // extra spec files on the network share beyond the 4 links counted
+
+      // Categories counted directly off index.html
+      const SITE = [
+        ["Cheat sheets & floor support", "Site inventory", 15],
+        ["Process & cost models",         "Site inventory", 13],
+        ["Process overviews",             "Site inventory", 8],
+        ["Process monitoring",            "Site inventory", 8],
+        ["Additional resources",          "Site inventory", 6],
+        ["Mass & energy balances",        "Site inventory", 4],
+        ["Equipment design specs",        "Site inventory", 4],
+        ["Basecamp systems",              "Site inventory", 4],
+        ["Tech transfer documents",       "Site inventory", 3],
+      ];
+
+      const EQUIP = ENTITIES * DOCS_PER_ENTITY;
+      const siteTotal = SITE.reduce((a, r) => a + r[2], 0) + SHEET_TABS + SPEC_FILES;
+      const tail = PFDS + siteTotal;          // everything outside equipment + P&IDs
+      const TOTAL = EQUIP + PIDS + tail;
+
+      const fmt = (n) => n.toLocaleString("en-US");
+      const pct = (n) => (100 * n) / TOTAL;
+      const pctStr = (n) => {
+        const p = pct(n);
+        return p >= 1 ? p.toFixed(1) + "%" : p < 0.05 ? "<0.05%" : p.toFixed(2) + "%";
+      };
+
+      document.getElementById("heroValue").textContent = fmt(TOTAL);
+
+      const tip = document.getElementById("tip");
+      const root = document.getElementById("root");
+      function showTip(e, html) {
+        tip.innerHTML = html;
+        tip.classList.add("show");
+        const pad = 14;
+        let x = e.clientX + pad;
+        let y = e.clientY + pad;
+        const r = tip.getBoundingClientRect();
+        if (x + r.width > innerWidth - 8) x = e.clientX - r.width - pad;
+        if (y + r.height > innerHeight - 8) y = e.clientY - r.height - pad;
+        tip.style.left = x + "px";
+        tip.style.top = y + "px";
+      }
+      function hideTip() {
+        tip.classList.remove("show");
+        root.classList.remove("hovering", "hovering-bar");
+      }
+
+      const NS = "http://www.w3.org/2000/svg";
+      const el = (n, a = {}) => {
+        const x = document.createElementNS(NS, n);
+        for (const k in a) x.setAttribute(k, a[k]);
+        return x;
+      };
+
+      // ── Pie ──────────────────────────────────────────────────────
+      const pieData = [
+        { name: "Equipment entity documents", v: EQUIP, c: "var(--series-1)" },
+        { name: "P&IDs",                      v: PIDS,  c: "var(--series-2)" },
+        { name: "All other documents",        v: tail,  c: "var(--series-3)" },
+      ];
+
+      const pie = document.getElementById("pie");
+      const CX = 196, CY = 236, R = 158;
+      // 2px surface gap between slices, expressed as an angle at radius R.
+      const GAP = 2 / R;
+
+      let a0 = -Math.PI / 2; // start at 12 o'clock
+      pieData.forEach((d, i) => {
+        const sweep = (d.v / TOTAL) * Math.PI * 2;
+        // Trim half a gap from each end. Never trim a slice out of existence.
+        const trim = Math.min(GAP / 2, sweep / 3);
+        const s = a0 + trim, e = a0 + sweep - trim;
+        const large = e - s > Math.PI ? 1 : 0;
+        const p = el("path", {
+          d: `M ${CX} ${CY} L ${CX + R * Math.cos(s)} ${CY + R * Math.sin(s)} ` +
+             `A ${R} ${R} 0 ${large} 1 ${CX + R * Math.cos(e)} ${CY + R * Math.sin(e)} Z`,
+          fill: d.c,
+          class: "slice",
+        });
+        p.addEventListener("mousemove", (ev) => {
+          root.classList.add("hovering");
+          pie.querySelectorAll(".slice").forEach((n) => n.classList.remove("on"));
+          p.classList.add("on");
+          showTip(ev, `${d.name}<br><b>${fmt(d.v)}</b> documents · <b>${pctStr(d.v)}</b>`);
+        });
+        p.addEventListener("mouseleave", hideTip);
+        pie.appendChild(p);
+
+        // Direct label on a leader line — required relief for the
+        // sub-3:1 slice, and it keeps the sliver readable.
+        const mid = a0 + sweep / 2;
+        const right = Math.cos(mid) >= 0;
+        // Slices under ~6% get their label pushed out to a stacked
+        // shelf so the three labels can never collide.
+        const thin = d.v / TOTAL < 0.06;
+        const r1 = R + 6;
+        const elbowR = thin ? R + 52 : R + 22;
+        const x1 = CX + r1 * Math.cos(mid), y1 = CY + r1 * Math.sin(mid);
+        let x2 = CX + elbowR * Math.cos(mid), y2 = CY + elbowR * Math.sin(mid);
+        if (thin) y2 = CY - 150 + i * 42;
+        const x3 = right ? x2 + 22 : x2 - 22;
+        pie.appendChild(el("polyline", {
+          points: `${x1},${y1} ${x2},${y2} ${x3},${y2}`,
+          class: "lead-line",
+        }));
+        const anchor = right ? "start" : "end";
+        const tx = right ? x3 + 7 : x3 - 7;
+        const t1 = el("text", { x: tx, y: y2 - 2, class: "lbl-name", "text-anchor": anchor });
+        t1.textContent = d.name;
+        const t2 = el("text", { x: tx, y: y2 + 15, class: "lbl-val", "text-anchor": anchor });
+        t2.textContent = `${fmt(d.v)}  ·  ${pctStr(d.v)}`;
+        pie.appendChild(t1);
+        pie.appendChild(t2);
+
+        a0 += sweep;
+      });
+
+      // Legend — always present for ≥2 series.
+      document.getElementById("pieLegend").innerHTML = pieData
+        .map(
+          (d) =>
+            `<span class="legend-item"><span class="swatch" style="background:${d.c}"></span>` +
+            `${d.name} (${pctStr(d.v)})</span>`
+        )
+        .join("");
+
+      // ── Detail bars ──────────────────────────────────────────────
+      // Magnitude comparison, so one hue — colour is not carrying
+      // identity here; the row labels are.
+      const barData = [["PFDs", PFDS], ...SITE.map((r) => [r[0], r[2]])].sort(
+        (a, b) => b[1] - a[1]
+      );
+
+      const bars = document.getElementById("bars");
+      const BL = 196, BT = 16, BW = 300, ROW = 34, BH = 17;
+      const maxV = Math.max(...barData.map((d) => d[1]));
+      const niceMax = Math.ceil(maxV / 5) * 5;
+      const sx = (v) => (v / niceMax) * BW;
+
+      for (let t = 0; t <= niceMax; t += 5) {
+        bars.appendChild(el("line", {
+          x1: BL + sx(t), y1: BT - 6, x2: BL + sx(t), y2: BT + barData.length * ROW - 8,
+          class: "grid",
+        }));
+        const tk = el("text", {
+          x: BL + sx(t), y: BT + barData.length * ROW + 8, class: "axis-tick",
+          "text-anchor": "middle",
+        });
+        tk.textContent = t;
+        bars.appendChild(tk);
+      }
+      const axLbl = el("text", {
+        x: BL + BW / 2, y: BT + barData.length * ROW + 30, class: "axis-tick",
+        "text-anchor": "middle",
+      });
+      axLbl.textContent = "documents";
+      bars.appendChild(axLbl);
+
+      barData.forEach((d, i) => {
+        const y = BT + i * ROW;
+        const g = el("g", { class: "bar-row" });
+        const nm = el("text", { x: BL - 12, y: y + BH - 4, class: "bar-name", "text-anchor": "end" });
+        nm.textContent = d[0];
+        // 4px rounded data-end, anchored to the baseline.
+        const w = Math.max(sx(d[1]), 4);
+        const f = el("rect", {
+          x: BL, y, width: w, height: BH, rx: 4, fill: "var(--bar)", class: "bar-fill",
+        });
+        const sq = el("rect", { x: BL, y, width: Math.min(4, w), height: BH, fill: "var(--bar)" });
+        const vl = el("text", { x: BL + w + 8, y: y + BH - 4, class: "bar-val" });
+        vl.textContent = d[1];
+        g.append(nm, f, sq, vl);
+        g.addEventListener("mousemove", (ev) => {
+          root.classList.add("hovering-bar");
+          bars.querySelectorAll(".bar-row").forEach((n) => n.classList.remove("on"));
+          g.classList.add("on");
+          showTip(ev, `${d[0]}<br><b>${d[1]}</b> documents · <b>${pctStr(d[1])}</b> of all`);
+        });
+        g.addEventListener("mouseleave", hideTip);
+        bars.appendChild(g);
+      });
+
+      // ── Table ────────────────────────────────────────────────────
+      const rows = [
+        ["Equipment entity documents", `${ENTITIES} entities × ${DOCS_PER_ENTITY} docs`, EQUIP],
+        ["P&IDs", "Department count", PIDS],
+        ["PFDs", "Department count", PFDS],
+        ...SITE,
+      ];
+      if (SHEET_TABS) rows.push(["Google Sheets tabs", "Measured", SHEET_TABS]);
+      if (SPEC_FILES) rows.push(["Specification files", "Network share", SPEC_FILES]);
+
+      document.getElementById("tbody").innerHTML =
+        rows
+          .map(
+            (r) =>
+              `<tr><td>${r[0]}</td><td>${r[1]}</td>` +
+              `<td class="num">${fmt(r[2])}</td><td class="num">${pctStr(r[2])}</td></tr>`
+          )
+          .join("") +
+        `<tr class="total"><td>Total</td><td></td>` +
+        `<td class="num">${fmt(TOTAL)}</td><td class="num">100%</td></tr>`;
+    </script>
+  </body>
+</html>
