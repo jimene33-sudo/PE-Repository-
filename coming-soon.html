@@ -13,16 +13,43 @@
          document behind it yet. It exists so a placeholder reads as
          "not built yet" rather than "broken" — a dead href="#" leaves
          the reader wondering whether they mis-clicked. */
+      /* This page holds one short card, so on a large monitor it ran out of
+         content less than two thirds of the way down and left the footer
+         stranded mid-screen with a band of empty page beneath it. Column
+         flex on the body hands the leftover height to the wrapper, which
+         pushes the footer to the bottom where it belongs. Scoped to this
+         page rather than style.css: the repository pages fill their height
+         already, and body carries a zoom that is not worth disturbing for
+         a layout they don't need. */
+      body {
+        display: flex;
+        flex-direction: column;
+      }
+
       .soon-wrapper {
         max-width: 1400px;
+        width: 100%;
         margin: 0 auto;
         padding: 24px 24px 48px;
+        box-sizing: border-box;
+        /* Takes the leftover height, then centres the card in it. */
+        flex: 1;
+        display: flex;
+        flex-direction: column;
       }
 
       .viewer-breadcrumb {
         display: flex;
         align-items: center;
         gap: 8px;
+        /* Held to the card's width and centred with it. Left to run the
+           full 1400px the wrapper allows, on a wide monitor it sat hundreds
+           of pixels out to the left of the card it belongs to and read as
+           an unrelated fragment. */
+        max-width: 620px;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
         font-size: 0.875rem;
         color: #5f6368;
         margin-bottom: 18px;
@@ -46,7 +73,10 @@
         padding: 56px 40px 48px;
         text-align: center;
         max-width: 620px;
-        margin: 0 auto;
+        /* auto on all four sides, not just the sides: in the flex column
+           above this centres the card in the leftover height instead of
+           leaving it hanging off the breadcrumb. */
+        margin: auto;
       }
 
       /* ── The builder ────────────────────────────────────────────
