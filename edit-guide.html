@@ -218,7 +218,7 @@
       <div class="guide-section">
         <h2>Step 2 — Find the button you want to update</h2>
         <p>Press <strong>Cmd+F</strong> (Mac) or <strong>Ctrl+F</strong> (Windows) to open the search bar. Type the exact name of the button you want to update — for example, <em>Bioreactors</em>. VS Code will jump to that line in the code.</p>
-        <p>You'll see something like this next to it: <code>href="#"</code>. The <code>#</code> is a placeholder — it means the button doesn't go anywhere yet.</p>
+        <p>You'll see an <code>href="…"</code> next to it. If the button doesn't have a document yet, what's inside the quotes will be <code>coming-soon.html?doc=Something</code> — that's the placeholder, and it's what sends people to the "not linked yet" page. (Older buttons may still show a bare <code>#</code>; treat it the same way.)</p>
         <div class="guide-shot">
           <img src="screenshotstep2.png" alt="Finding a button in the code" />
           <span class="shot-mark" style="left:62.6%;top:10.4%;width:16.0%;height:4.0%;">
@@ -232,8 +232,8 @@
 
       <div class="guide-section">
         <h2>Step 3 — Replace the link</h2>
-        <p>Click directly on the <code>#</code> and replace it with the real URL. Keep the quotation marks around it. For example:</p>
-        <pre>Before:  href="#"
+        <p>Select everything inside the quotes and replace it with the real URL. Keep the quotation marks themselves. For example:</p>
+        <pre>Before:  href="coming-soon.html?doc=Bioreactors"
 After:   href="https://your-sharepoint-or-google-link-here"</pre>
         <p>Make sure you only change the part inside the quotes — don't delete anything else on that line.</p>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:12px 0;">

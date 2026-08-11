@@ -132,39 +132,55 @@ Building 312's equipment buttons are all `href="#"` placeholders — none are co
 
 The home page has a quiet line under the building photos:
 
-> Know of a document that belongs here? **Suggest a document**
+> Know of a document that belongs here — upstream or downstream? **Suggest a document**
 
-That link is meant to point at a single shared folder. Anyone on the team drops a file in; an admin reviews what's in there and adds the ones that belong to `index.html`. A static site can't accept uploads by itself, so the folder does the receiving — the site only links to it. There is no way around that without a server; any drop zone built into the page would still have to hand the file off to Drive or SharePoint.
+That link points at a single shared folder. Anyone on the team drops a file in; an admin reviews what's in there and adds the ones that belong to `index.html`. A static site can't accept uploads by itself, so the folder does the receiving — the site only links to it. There is no way around that without a server; any drop zone built into the page would still have to hand the file off to Drive or SharePoint.
 
 The whole feature is **one `href` in `index.html`**. Nothing else about the site depends on it, which is what makes the Microsoft migration below a one-line change.
 
-> **Status: not connected yet.** The `href` is still `#`. The intent is a folder in a Shared Drive, but creating one at Genentech requires requesting a *collection* through IT — that request is the blocker. Until it clears, the link stays blank rather than pointing at a personal My Drive folder that would disappear with the account.
+> **Status: connected.** `https://drive.google.com/drive/folders/1prUyXu7Xzy9ahqkmwQwa7Gp_0kbzVy4V`, on the MSAT shared drive.
+
+### One folder, referenced from both PE folders
+
+Process Engineering has two folders on the MSAT shared drive — Upstream and Downstream — and the intake has to be reachable from both. It does **not** follow that there should be two submissions folders.
+
+There is one real folder, with a **Drive shortcut** to it placed inside each of the two PE folders. A shortcut is a pointer, not a copy, so both teams see the intake in their own folder tree while everything still lands in one place. Two folders would mean two queues to watch and a standing chance that something sits unread in whichever one the admin checks less often.
+
+Both PE folders being on the same shared drive is what makes this safe: membership is granted at the drive level, so anyone who can reach one side can open the shortcut from the other. **If the two are ever split onto separate shared drives, the shortcut breaks** — a member of only one drive gets a "Request access" screen — and the intake would have to move to a Google Form, whose permissions are independent of Drive ACLs.
+
+Sorting happens *inside* the folder rather than at the link, via three subfolders:
+
+```
+PE Repository — Document Submissions/
+├── Upstream/
+├── Downstream/
+└── Not sure — file it for me/
+```
+
+The third one is not padding. Plenty of what belongs here is neither upstream nor downstream — facility drawings, cost models, cheat sheets, Basecamp exports — and without a bucket for them people either guess wrong or don't submit at all.
 
 ### Setup (Google Drive — do this once)
 
-1. Get a **Shared Drive** (or a collection) from IT, and create a folder inside it called something like `PE Repository — Submissions`.
-   - It must be a Shared Drive, not personal My Drive. A My Drive folder is owned by one person and can disappear when that account is deprovisioned — fatal for a site meant to outlast whoever set it up.
-   - Before filing a request, check **Shared drives** in the Drive sidebar. If MSAT already has one you're a Content manager or Manager on, you can create the folder there immediately and skip the request.
-2. Share the folder with your team as **Contributor** — the only level that can upload but cannot move or delete, so people can add files without removing each other's. Keep yourself as Manager or Content manager, since moving files *out* is what clears the queue.
-3. Copy the folder's URL. Link the **folder** (`drive.google.com/drive/folders/<id>`), not the Shared Drive root. Drop any `/u/0/` segment — it refers to the account slot in *your* browser and can send a colleague to the wrong account.
-4. Open `index.html`, find `class="home-suggest-link"`, and replace `href="#"` with that URL:
+Already done for the folder above; these are the steps to repeat if it ever has to be rebuilt.
+
+1. Create the folder inside a **Shared Drive**, not personal My Drive. A My Drive folder is owned by one person and can disappear when that account is deprovisioned — fatal for a site meant to outlast whoever set it up.
+2. Add a shortcut to it in each PE folder that needs to reference it: right-click the folder → **Organize** → **Add shortcut** → pick the destination.
+3. Share the folder with your team as **Contributor** — the only level that can upload but cannot move or delete, so people can add files without removing each other's. Keep yourself as Manager or Content manager, since moving files *out* is what clears the queue.
+4. Copy the folder's URL. Link the **folder** (`drive.google.com/drive/folders/<id>`), not the Shared Drive root, and not the shortcut. Drop the trailing `?usp=drive_link` (share tracking, not needed) and any `/u/0/` segment — the latter refers to the account slot in *your* browser and can send a colleague to the wrong account.
+5. Open `index.html`, find `class="home-suggest-link"`, and set the `href` to that URL:
 
 ```html
-<!-- Before -->
-<a href="#" class="home-suggest-link" target="_blank" rel="noopener">Suggest a document</a>
-
-<!-- After -->
 <a href="https://drive.google.com/drive/folders/YOUR-FOLDER-ID" class="home-suggest-link" target="_blank" rel="noopener">Suggest a document</a>
 ```
 
-5. Optional: add an empty Google Doc named `_SUGGESTIONS` inside the folder. A Drive folder only holds files, so that Doc is where people paste **links** to documents that already live somewhere else (Veeva, another Drive folder).
+6. Optional: add an empty Google Doc named `_SUGGESTIONS` inside the folder. A Drive folder only holds files, so that Doc is where people paste **links** to documents that already live somewhere else (Veeva, another Drive folder).
 
 ### Admin workflow
 
 The folder *is* the queue — no tracker to maintain:
 
-1. Open the submissions folder. Anything sitting in it is unprocessed.
-2. For each file, decide where it belongs, then **move it** out of the submissions folder into its real home.
+1. Open the submissions folder. Anything sitting in it — in any of the three subfolders — is unprocessed.
+2. For each file, decide where it belongs, then **move it** out of the submissions folder into its real home. Treat the Upstream/Downstream split as the submitter's guess, not a routing instruction; anything in "Not sure" is yours to place.
 3. Add a `link-btn` line to the right section of `index.html` (see "How to update links" above), then commit and push.
 4. An empty folder means the queue is clear.
 
