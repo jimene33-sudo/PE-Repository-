@@ -46,7 +46,7 @@
            full 1400px the wrapper allows, on a wide monitor it sat hundreds
            of pixels out to the left of the card it belongs to and read as
            an unrelated fragment. */
-        max-width: 620px;
+        max-width: 880px;
         width: 100%;
         margin-left: auto;
         margin-right: auto;
@@ -70,9 +70,15 @@
         background: #ffffff;
         border: 1px solid #dadce0;
         border-radius: 12px;
-        padding: 56px 40px 48px;
+        padding: 76px 56px 64px;
         text-align: center;
-        max-width: 620px;
+        /* width AND max-width, not max-width alone. Auto side margins on a
+           flex item stop it stretching, so the card sized itself to its
+           text and max-width never came into play — raising it did nothing
+           visible. width: 100% gives it something to cap. */
+        width: 100%;
+        max-width: 880px;
+        box-sizing: border-box;
         /* auto on all four sides, not just the sides: in the flex column
            above this centres the card in the leftover height instead of
            leaving it hanging off the breadcrumb. */
@@ -86,9 +92,9 @@
          absent: #e6a817 is reserved for search-match state by the
          Amber Exception, so the figure wears the site's blue. */
       .builder {
-        width: 132px;
-        height: 132px;
-        margin: 0 auto 26px;
+        width: 168px;
+        height: 168px;
+        margin: 0 auto 30px;
         display: block;
         animation: builder-bob 3.2s ease-in-out infinite;
       }
@@ -147,7 +153,7 @@
         line-height: 1.6;
         color: #5f6368;
         margin: 0 auto 10px;
-        max-width: 46ch;
+        max-width: 64ch;
       }
       .soon-body:last-of-type { margin-bottom: 30px; }
       .soon-body a {
