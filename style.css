@@ -582,18 +582,57 @@ p {
   min-height: 100%;
 }
 
+/* The cards paint above the photo, which is shifted up into them. Without
+   this they share one stacking context in source order and the photo —
+   last in the markup — would cover the bottom row. */
+#panel-4.active > .panel-header,
+#panel-7.active > .panel-header,
+#panel-4.active > .building-stack,
+#panel-7.active > .panel-body {
+  position: relative;
+  z-index: 1;
+}
+
 .panel-photo {
-  /* Takes whatever space the cards leave, so the photo lands on the
-     bottom of the panel instead of trailing the last card. */
-  margin-top: auto;
+  /* Last in the flow, shifted up by the overlap below so the fade runs
+     THROUGH the last row of buttons instead of stopping underneath it.
+     The cards are opaque and painted
+     above, so what shows is the photo rising in the gutters between and
+     around them, already faint by the time it gets there.
+
+     Shifted with `top` rather than `position: absolute` on purpose. Taken
+     out of flow entirely the photo stops contributing height, and on a
+     short panel like Basecamp — one row of cards — it then stretched to
+     fill the whole panel and read as a background image rather than a
+     band at the bottom. In flow, the panel still grows to hold it. */
+  /* How far the band climbs into the buttons. About half the fade ramp:
+     far enough that the last row of cards sits in visibly tinted picture,
+     not so far that the row above it does too. */
+  --photo-overlap: 165px;
+  /* Deliberately NOT margin-top: auto. Pushed to the bottom of the panel
+     it floated away from the content on the tall panels — Equipment &
+     Automation left a blank corridor between the last card and the top of
+     the band, and the fade had nothing to fade through. Following the
+     content directly, the band always starts at the last row whatever the
+     panel's height. */
+  position: relative;
+  z-index: 0;
+  top: calc(-1 * var(--photo-overlap));
+  /* Cancels the gap the shift would otherwise leave under the photo. */
+  margin-bottom: calc(-1 * var(--photo-overlap));
+  pointer-events: none;
   /* The floor is a pixel value, not a fraction of the viewport, because a
      vh-led clamp made this photo short on exactly the screens most people
      use: 48vh on a 900px-tall laptop viewport is 432px, so the generous
      ceiling never engaged and the band stayed a strip. The viewport term
      now only adds height on big monitors. Ceiling is held below the
      1600x2133 source's rendered height so the band never has to upscale
-     past its own pixels. */
-  height: clamp(700px, calc(80vh / var(--ui-zoom)), 1150px);  /* vh under zoom — divided */
+     past its own pixels.
+
+     The overlap is added on top rather than absorbed, so climbing into
+     the buttons costs no picture below them — the visible band under the
+     last card row is the same size it was before the shift. */
+  height: calc(clamp(700px, calc(80vh / var(--ui-zoom)), 1150px) + var(--photo-overlap));  /* vh under zoom — divided */
   overflow: hidden;
   /* The same eased ramp the home photos use — the extra stops put a soft
      knee at each end so there is no visible line where the fade starts or
@@ -601,15 +640,20 @@ p {
 
      It is measured in pixels, not percent. As a percentage the fade grew
      with the band, so making the photo taller bought 45% more picture and
-     55% more fade; at a fixed 260px every pixel of added height is picture.
+     55% more fade; at a fixed length every pixel of added height is picture.
 
-     260px is long, roughly double what the home page's building shots use.
-     Those fade through sky — a flat tone, where a short ramp reads. This
-     one fades through white pipework against a near-white page, where a
-     short ramp is invisible. Length is half of what makes it show; the
-     framing below is the other half. */
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0, rgba(0,0,0,0.03) 42px, rgba(0,0,0,0.10) 81px, rgba(0,0,0,0.22) 117px, rgba(0,0,0,0.40) 156px, rgba(0,0,0,0.62) 190px, rgba(0,0,0,0.82) 221px, rgba(0,0,0,0.95) 247px, black 260px);
-  mask-image: linear-gradient(to bottom, transparent 0, rgba(0,0,0,0.03) 42px, rgba(0,0,0,0.10) 81px, rgba(0,0,0,0.22) 117px, rgba(0,0,0,0.40) 156px, rgba(0,0,0,0.62) 190px, rgba(0,0,0,0.82) 221px, rgba(0,0,0,0.95) 247px, black 260px);
+     340px is long, roughly two and a half times what the home page's
+     building shots use. Those fade through sky — a flat tone, where a
+     short ramp reads. This one fades through white pipework against a
+     near-white page, where a short ramp is invisible. Length is half of
+     what makes it show; the framing below is the other half.
+
+     The length is also what makes the fade pass through the buttons
+     rather than stop at them: the ramp is long enough to span the last
+     card row, so the picture is already faint by the time it reaches
+     the gutters between cards and gone by the row above. */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, rgba(0,0,0,0.03) 55px, rgba(0,0,0,0.10) 106px, rgba(0,0,0,0.22) 153px, rgba(0,0,0,0.40) 204px, rgba(0,0,0,0.62) 249px, rgba(0,0,0,0.82) 289px, rgba(0,0,0,0.95) 323px, black 340px);
+  mask-image: linear-gradient(to bottom, transparent 0, rgba(0,0,0,0.03) 55px, rgba(0,0,0,0.10) 106px, rgba(0,0,0,0.22) 153px, rgba(0,0,0,0.40) 204px, rgba(0,0,0,0.62) 249px, rgba(0,0,0,0.82) 289px, rgba(0,0,0,0.95) 323px, black 340px);
 }
 
 .panel-photo img {
