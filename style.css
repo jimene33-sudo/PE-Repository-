@@ -563,18 +563,21 @@ p {
 }
 
 /* ─── Panel floor photo ───────────────────────────────────────────
-   Equipment & Automation and Basecamp each close with a photo, the same
-   way the building shots close the home page: full-bleed, dissolving
-   into the page at the top rather than sitting in a hard box.
+   Process Design & Specs, Equipment & Automation and Basecamp each close
+   with a photo, the same way the building shots close the home page:
+   full-bleed, dissolving into the page at the top rather than sitting in
+   a hard box.
 
-   The two do different jobs. Basecamp is the shortest panel on the site
-   — four cards holding one link each — so its photo fills a panel that
-   would otherwise end well short of the fold. Equipment & Automation is
-   one of the longest, so its photo is a closing image at the end of a
-   scroll rather than a filler.
+   They do different jobs. Basecamp is the shortest panel on the site —
+   four cards holding one link each — so its photo fills a panel that
+   would otherwise end well short of the fold. The other two are among the
+   longest, so their photos are closing images at the end of a scroll
+   rather than filler.
 
-   Scoped to those two panels, not general. To add a third, name it here
-   and give its .panel-photo a --photo-y; nothing else needs to change. */
+   Scoped to those three panels, not general. To add a fourth, name it in
+   both rules below and give its .panel-photo a --photo-y; nothing else
+   needs to change. */
+#panel-3.active,
 #panel-4.active,
 #panel-7.active {
   display: flex;
@@ -595,8 +598,10 @@ p {
    accordions themselves have no fill, so the photo shows through their
    gaps and only the white cards occlude it. .panel-body needs no such
    care — it has no background of its own. */
+#panel-3.active > .panel-header,
 #panel-4.active > .panel-header,
 #panel-7.active > .panel-header,
+#panel-3.active > .building-stack > *,
 #panel-4.active > .building-stack > *,
 #panel-7.active > .panel-body {
   position: relative;
