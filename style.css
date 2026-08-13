@@ -563,113 +563,90 @@ p {
 }
 
 /* ─── Panel floor photo ───────────────────────────────────────────
-   Process Design & Specs, Equipment & Automation and Basecamp each close
-   with a photo, the same way the building shots close the home page:
-   full-bleed, dissolving into the page at the top rather than sitting in
-   a hard box.
+   Every panel closes with a photo, the same way the building shots close
+   the home page: full-bleed, dissolving into the page at the top rather
+   than sitting in a hard box.
 
-   They do different jobs. Basecamp is the shortest panel on the site —
-   four cards holding one link each — so its photo fills a panel that
-   would otherwise end well short of the fold. The other two are among the
-   longest, so their photos are closing images at the end of a scroll
-   rather than filler.
+   Each photo fills its whole panel and the buttons sit on top of it. One
+   arrangement covers both extremes without a special case: on Basecamp
+   and Additional Resources — one row of cards each — the picture fills a
+   panel that would otherwise end well short of the fold, and on Process
+   Design & Specs and Equipment & Automation, the longest on the site, the
+   same rule makes it the background of a full screen of buttons.
 
-   Scoped to those three panels, not general. To add a fourth, name it in
-   both rules below and give its .panel-photo a --photo-y; nothing else
-   needs to change. */
-#panel-3.active,
-#panel-4.active,
-#panel-7.active {
-  display: flex;
-  flex-direction: column;
+   Matched with :has() rather than a list of panel ids. The list had to be
+   repeated in both rules below and kept in step with the markup, and it
+   fell out of step every time a panel gained a photo. Now a panel opts in
+   by holding a .panel-photo and needs no other per-panel value. */
+.content-panel.active:has(> .panel-photo) {
+  /* The photo's containing block, so it can be sized off the panel rather
+     than off a number. */
+  position: relative;
   min-height: 100%;
+  /* The strip of picture below the last row. The photo spans the panel,
+     so the only thing that decides how much of it shows past the buttons
+     is how much taller than its content the panel is — this. It answers
+     to the viewport so the strip grows a little on a tall monitor instead
+     of staying a laptop-sized band on a 1440px-tall screen. */
+  --photo-trail: clamp(220px, calc(24vh / var(--ui-zoom)), 400px);  /* vh under zoom — divided */
+  padding-bottom: var(--photo-trail);
+  box-sizing: border-box;
 }
 
-/* The cards paint above the photo, which is shifted up into them. Without
-   this they share one stacking context in source order and the photo —
-   last in the markup — would cover the bottom row.
+/* The cards paint above the photo, which spans the panel underneath them.
+   Without this the photo — positioned, and last in the markup — would
+   cover the whole panel and every button on it.
 
    Note what is NOT lifted: .building-stack itself. It carries a solid
    --bg-page fill, and lifted as a whole it painted that fill over the
-   photo's entire fade — the band appeared to start with a hard edge at
-   the stack's bottom because the first 165px of it was buried. Left
-   unpositioned, its background paints below the photo and the accordions
-   inside it paint above, which is the layering the fade needs. The
+   photo everywhere the stack reaches, which is everywhere that matters.
+   Left unpositioned, its background paints below the photo and the
+   accordions inside it paint above, which is the layering this needs. The
    accordions themselves have no fill, so the photo shows through their
    gaps and only the white cards occlude it. .panel-body needs no such
    care — it has no background of its own. */
-#panel-3.active > .panel-header,
-#panel-4.active > .panel-header,
-#panel-7.active > .panel-header,
-#panel-3.active > .building-stack > *,
-#panel-4.active > .building-stack > *,
-#panel-7.active > .panel-body {
+.content-panel.active:has(> .panel-photo) > .panel-header,
+.content-panel.active:has(> .panel-photo) > .building-stack > *,
+.content-panel.active:has(> .panel-photo) > .panel-body {
   position: relative;
   z-index: 1;
 }
 
 .panel-photo {
-  /* Last in the flow, shifted up by the overlap below so the fade runs
-     THROUGH the last row of buttons instead of stopping underneath it.
-     The cards are opaque and painted
-     above, so what shows is the photo rising in the gutters between and
-     around them, already faint by the time it gets there.
+  /* Spans the whole panel and paints behind everything in it, so the
+     buttons sit on the picture rather than above a band at the end of
+     one. The panel header covers the top edge — it is opaque and lifted
+     below — and the mask has the photo at nothing there anyway.
 
-     Shifted with `top` rather than `position: absolute` on purpose. Taken
-     out of flow entirely the photo stops contributing height, and on a
-     short panel like Basecamp — one row of cards — it then stretched to
-     fill the whole panel and read as a background image rather than a
-     band at the bottom. In flow, the panel still grows to hold it. */
-  /* How far the band climbs into the buttons. Set high on purpose: most
-     of the band's height is spent behind the cards, so the picture is
-     present around most of a panel's buttons rather than only touching
-     the last row. Panels shorter than this override it below — the
-     ceiling is however much panel there is to hide behind. */
-  --photo-overlap: 700px;
-  /* The fade tracks the overlap, so the picture reaches full strength
-     just below the last row wherever that lands — and every panel gets
-     the same amount of ramp spent on its buttons regardless of how far
-     the band climbs. A fixed 340px floor was in here and it made the
-     short panel the odd one out: 165px of climb inside a 340px ramp
-     left the photo at a quarter strength where the buttons were, so
-     Basecamp had a hint of picture behind its row while the tall panels
-     had most of one. */
-  --photo-fade: calc(var(--photo-overlap) + 40px);
-  /* Deliberately NOT margin-top: auto. Pushed to the bottom of the panel
-     it floated away from the content on the tall panels — Equipment &
-     Automation left a blank corridor between the last card and the top of
-     the band, and the fade had nothing to fade through. Following the
-     content directly, the band always starts at the last row whatever the
-     panel's height. */
-  position: relative;
+     This was a fixed-height band shifted up by a per-panel pixel amount,
+     and the amount had to be smaller than that panel's button stack or
+     the top of the band cleared the panel and painted up into the hero.
+     Stacks are a function of viewport width, so any number tuned at one
+     width was wrong at another: the values that framed Process Design &
+     Specs at 1440px put its band 228px above the top of the document at
+     3440px, where the card grid reflows wider and the stack collapses to
+     little over half its height. Sized off the panel there is no number
+     to get wrong, and no per-panel value at all. */
+  position: absolute;
+  inset: 0;
   z-index: 0;
-  top: calc(-1 * var(--photo-overlap));
-  /* Cancels the gap the shift would otherwise leave under the photo. */
-  margin-bottom: calc(-1 * var(--photo-overlap));
   pointer-events: none;
-  /* The floor is a pixel value, not a fraction of the viewport, because a
-     vh-led clamp made this photo short on exactly the screens most people
-     use: 48vh on a 900px-tall laptop viewport is 432px, so the generous
-     ceiling never engaged and the band stayed a strip. The viewport term
-     now only adds height on big monitors. Ceiling is held below the
-     source's rendered height so the band never has to upscale past its
-     own pixels.
-
-     The overlap is ABSORBED, not added. This is the whole height budget
-     of the band, and the part of it spent climbing behind the buttons is
-     part of the picture that no longer trails below them — which is what
-     stops the panels running so long. The floor has to clear the overlap
-     by the width of the band you want left underneath; at 700px of
-     overlap a 960px floor leaves 260px. */
-  height: clamp(960px, calc(70vh / var(--ui-zoom)), 1180px);  /* vh under zoom — divided */
   overflow: hidden;
+  /* How far down the panel the picture reaches full strength. Everything
+     above is ramp, so the top of the button stack is nearly clear page
+     and the weight arrives under it. Viewport-led rather than fixed,
+     because it is really answering "how much of the screen should be
+     ramp" — a fixed length is most of a laptop panel and a sliver of a
+     tall monitor's. */
+  --photo-fade: clamp(520px, calc(72vh / var(--ui-zoom)), 900px);  /* vh under zoom — divided */
   /* The same eased ramp the home photos use — the extra stops put a soft
      knee at each end so there is no visible line where the fade starts or
      stops. Two things differ from the home page.
 
-     It is measured in pixels, not percent. As a percentage the fade grew
-     with the band, so making the photo taller bought 45% more picture and
-     55% more fade; at a fixed length every pixel of added height is picture.
+     It is an absolute length, not a percentage of the photo. As a
+     percentage the ramp grew with the panel, so a long panel was faint
+     all the way down it; as a length, everything a panel adds past the
+     ramp is picture at full strength.
 
      It is long — several times what the home page's building shots use.
      Those fade through sky, a flat tone where a short ramp reads. This
@@ -700,21 +677,6 @@ p {
     rgba(0, 0, 0, 0.82) calc(var(--photo-fade) * 0.850),
     rgba(0, 0, 0, 0.95) calc(var(--photo-fade) * 0.950),
     black var(--photo-fade));
-}
-
-/* Basecamp is one row of four cards deep. There is no stack of buttons to
-   climb behind — 165px already puts the top of the band level with the
-   panel header, and any more would push it off the top of the panel and
-   into the hero band above. The shift is capped at what the panel has
-   room for, which here is not much. */
-#panel-7 .panel-photo {
-  --photo-overlap: 165px;
-  /* Shorter band as well as a shorter shift. With only 165px absorbed by
-     the climb, the shared 960px floor would leave nearly 800px trailing
-     underneath and make the shortest panel on the site the longest page.
-     700px leaves about 535px below the row, which still closes the panel
-     at the fold without running well past it. */
-  height: clamp(700px, calc(58vh / var(--ui-zoom)), 900px);  /* vh under zoom — divided */
 }
 
 .panel-photo img {
@@ -824,6 +786,13 @@ p {
   align-items: center;
   gap: 10px;
   padding: 10px 4px 9px;
+  /* Opaque, not transparent. Everywhere else on the site this sits on the
+     page and the fill is invisible, but on a panel whose photo now climbs
+     the whole button stack the label was landing straight on the picture:
+     0.67rem text at #202124 over the dark side of a stainless skid
+     measured 2.3:1, well under the 4.5:1 floor. The bar reads the same as
+     the accordion headers below it, which have always been filled. */
+  background: var(--bg-page);
   border-bottom: 1px solid var(--border);
   font-family: "Roboto", sans-serif;
   font-size: 0.67rem;
