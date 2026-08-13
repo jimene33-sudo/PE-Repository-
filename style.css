@@ -793,6 +793,11 @@ p {
      measured 2.3:1, well under the 4.5:1 floor. The bar reads the same as
      the accordion headers below it, which have always been filled. */
   background: var(--bg-page);
+  /* Same 8px as the cards below it. The fill only became visible when the
+     photo went behind the stack, and against a picture a square-cornered
+     slab was the one hard-edged surface on a page where everything else
+     is rounded. */
+  border-radius: 8px;
   border-bottom: 1px solid var(--border);
   font-family: "Roboto", sans-serif;
   font-size: 0.67rem;
