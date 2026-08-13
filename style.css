@@ -621,15 +621,20 @@ p {
      fill the whole panel and read as a background image rather than a
      band at the bottom. In flow, the panel still grows to hold it. */
   /* How far the band climbs into the buttons. Set high on purpose: most
-     of the shift is spent behind the cards, so the picture is present
-     around several rows of buttons rather than only touching the last
-     one. Panels shorter than this override it below — the ceiling is
-     however much panel there is to hide behind. */
-  --photo-overlap: 560px;
+     of the band's height is spent behind the cards, so the picture is
+     present around most of a panel's buttons rather than only touching
+     the last row. Panels shorter than this override it below — the
+     ceiling is however much panel there is to hide behind. */
+  --photo-overlap: 700px;
   /* The fade tracks the overlap, so the picture reaches full strength
-     just below the last row wherever that lands. The floor keeps the
-     short panels' ramp at the length that was tuned for them. */
-  --photo-fade: max(340px, calc(var(--photo-overlap) + 40px));
+     just below the last row wherever that lands — and every panel gets
+     the same amount of ramp spent on its buttons regardless of how far
+     the band climbs. A fixed 340px floor was in here and it made the
+     short panel the odd one out: 165px of climb inside a 340px ramp
+     left the photo at a quarter strength where the buttons were, so
+     Basecamp had a hint of picture behind its row while the tall panels
+     had most of one. */
+  --photo-fade: calc(var(--photo-overlap) + 40px);
   /* Deliberately NOT margin-top: auto. Pushed to the bottom of the panel
      it floated away from the content on the tall panels — Equipment &
      Automation left a blank corridor between the last card and the top of
@@ -647,13 +652,16 @@ p {
      use: 48vh on a 900px-tall laptop viewport is 432px, so the generous
      ceiling never engaged and the band stayed a strip. The viewport term
      now only adds height on big monitors. Ceiling is held below the
-     1600x2133 source's rendered height so the band never has to upscale
-     past its own pixels.
+     source's rendered height so the band never has to upscale past its
+     own pixels.
 
-     The overlap is added on top rather than absorbed, so climbing into
-     the buttons costs no picture below them — the visible band under the
-     last card row is the same size it was before the shift. */
-  height: calc(clamp(700px, calc(80vh / var(--ui-zoom)), 1150px) + var(--photo-overlap));  /* vh under zoom — divided */
+     The overlap is ABSORBED, not added. This is the whole height budget
+     of the band, and the part of it spent climbing behind the buttons is
+     part of the picture that no longer trails below them — which is what
+     stops the panels running so long. The floor has to clear the overlap
+     by the width of the band you want left underneath; at 700px of
+     overlap a 960px floor leaves 260px. */
+  height: clamp(960px, calc(70vh / var(--ui-zoom)), 1180px);  /* vh under zoom — divided */
   overflow: hidden;
   /* The same eased ramp the home photos use — the extra stops put a soft
      knee at each end so there is no visible line where the fade starts or
@@ -701,6 +709,12 @@ p {
    room for, which here is not much. */
 #panel-7 .panel-photo {
   --photo-overlap: 165px;
+  /* Shorter band as well as a shorter shift. With only 165px absorbed by
+     the climb, the shared 960px floor would leave nearly 800px trailing
+     underneath and make the shortest panel on the site the longest page.
+     700px leaves about 535px below the row, which still closes the panel
+     at the fold without running well past it. */
+  height: clamp(700px, calc(58vh / var(--ui-zoom)), 900px);  /* vh under zoom — divided */
 }
 
 .panel-photo img {
