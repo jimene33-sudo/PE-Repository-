@@ -27,43 +27,6 @@
   --shadow-hover: 0 3px 10px rgba(60, 64, 67, 0.2), 0 2px 4px rgba(60, 64, 67, 0.12);
 }
 
-/* ─── UI scale (presenting on a large screen) ─────────────────────
-   The site is drawn in fixed pixels in ~300 places, so growing the type
-   alone would leave the padding, gutters and sidebar behind and the
-   layout would read as cramped rather than large. Scaling the whole body
-   with `zoom` keeps every proportion intact — one number moves
-   everything, and unlike `transform: scale()` zoom participates in
-   layout, so nothing overflows and no scrollbars appear.
-
-   The site renders at ONE scale at every window size. Nothing about
-   resizing, maximising or going fullscreen changes it. The only thing
-   that does is the explicit Presentation-mode toggle.
-
-   That is a fix, not a simplification. This used to scale by viewport
-   width, which made going fullscreen change size on its own: a window
-   narrower than 1700px sat at 1x, and the same window fullscreen on a
-   1920px monitor crossed the step and jumped to 1.05x. Fullscreen was
-   therefore still bigger than windowed even after the fullscreen factor
-   itself was set to 1 — the width step was doing it. Any width-keyed
-   scale has this problem, because resizing silently crosses a
-   threshold, and the two mechanisms multiplied rather than replacing
-   one another. One deliberate control is worth more than three
-   automatic ones that interact.
-
-   CAVEAT for anyone editing: viewport units do NOT shrink under zoom the
-   way px do — 100vh inside a zoomed body renders 100vh * zoom tall and
-   overflows the screen. Every vh/svh value in this file is therefore
-   divided by --ui-zoom. There are five; they are marked. Add a sixth and
-   it must be divided too. */
-:root {
-  --ui-boost: 1;
-  --ui-zoom: var(--ui-boost);
-}
-
-/* The one deliberate step. Subtle by request; this is the number to
-   raise if the TV needs more. */
-:root[data-present="on"] { --ui-boost: 1.06; }
-
 * {
   box-sizing: border-box;
 }
@@ -81,9 +44,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background: var(--bg-page);
   color: var(--text-dark);
-  /* vh under zoom — divided. See the UI scale block above. */
-  min-height: calc(100vh / var(--ui-zoom));
-  zoom: var(--ui-zoom);
+  min-height: 100vh;
 }
 
 h1,
@@ -156,66 +117,6 @@ p {
 
 .ocn-msat-link:hover {
   color: #003366;
-}
-
-/* ─── Presentation mode toggle ────────────────────────────────────
-   Quiet by default: this is a presenter's control, not a feature of the
-   repository, and it should not compete with search. It states which
-   way it will move rather than what it currently is, so it reads the
-   same to someone who has never seen it before. */
-.present-toggle {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  flex-shrink: 0;
-  margin-left: 16px;
-  padding: 6px 12px;
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  background: var(--white);
-  font-family: "Roboto", sans-serif;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--text-medium);
-  cursor: pointer;
-  white-space: nowrap;
-  transition: background 0.15s, color 0.15s, border-color 0.15s;
-}
-
-.present-toggle:hover {
-  background: var(--blue-hover-bg);
-  border-color: var(--blue-primary);
-  color: var(--blue-primary);
-}
-
-.present-toggle:focus-visible {
-  outline: 2px solid var(--blue-primary);
-  outline-offset: 2px;
-}
-
-.present-toggle svg {
-  width: 14px;
-  height: 14px;
-  flex-shrink: 0;
-}
-
-/* On, the control stops being quiet — it is the one thing on screen
-   that is not showing the repository, and leaving it switched on by
-   accident is the failure mode worth guarding against. */
-:root[data-present="on"] .present-toggle {
-  background: var(--blue-hover-bg);
-  border-color: var(--blue-primary);
-  color: var(--blue-primary);
-}
-
-/* The label swaps with state; both strings live in the markup so the
-   button never renders empty before the script runs. */
-.present-toggle .present-on-label { display: none; }
-:root[data-present="on"] .present-toggle .present-off-label { display: none; }
-:root[data-present="on"] .present-toggle .present-on-label { display: inline; }
-
-@media (max-width: 900px) {
-  .present-toggle { display: none; }
 }
 
 .gene-text {
@@ -479,9 +380,7 @@ p {
   display: flex;
   flex-direction: row;
   align-items: stretch;
-  /* vh under zoom — divided. The 280px is not: it is already in the
-     zoomed coordinate space and should grow with everything else. */
-  min-height: calc(100vh / var(--ui-zoom) - 280px);
+  min-height: calc(100vh - 280px);
 }
 
 /* Left sidebar */
@@ -492,8 +391,7 @@ p {
   border-right: 1px solid var(--border);
   position: sticky;
   top: 0;
-  /* svh under zoom — divided. See the UI scale block. */
-  height: calc(100svh / var(--ui-zoom));
+  height: 100svh;
   overflow-y: auto;
   box-shadow: 2px 0 6px rgba(60, 64, 67, 0.06);
   z-index: 10;
@@ -588,7 +486,7 @@ p {
      is how much taller than its content the panel is — this. It answers
      to the viewport so the strip grows a little on a tall monitor instead
      of staying a laptop-sized band on a 1440px-tall screen. */
-  --photo-trail: clamp(220px, calc(24vh / var(--ui-zoom)), 400px);  /* vh under zoom — divided */
+  --photo-trail: clamp(220px, 24vh, 400px);
   padding-bottom: var(--photo-trail);
   box-sizing: border-box;
 }
@@ -638,7 +536,7 @@ p {
      because it is really answering "how much of the screen should be
      ramp" — a fixed length is most of a laptop panel and a sliver of a
      tall monitor's. */
-  --photo-fade: clamp(520px, calc(72vh / var(--ui-zoom)), 900px);  /* vh under zoom — divided */
+  --photo-fade: clamp(520px, 72vh, 900px);
   /* The same eased ramp the home photos use — the extra stops put a soft
      knee at each end so there is no visible line where the fade starts or
      stops. Two things differ from the home page.
@@ -1279,7 +1177,7 @@ p {
      stopping short, but stays within a fixed range so the photos never
      dominate a laptop screen or shrink to a strip. Tall enough that the whole
      building clears the fade above it — see the mask note below. */
-  height: clamp(480px, calc(60vh / var(--ui-zoom)), 820px);  /* vh under zoom — divided */
+  height: clamp(480px, 60vh, 820px);
   overflow: hidden;
   /* The photos dissolve into the page rather than sitting in a hard box.
      Eased rather than linear — the extra stops put a soft knee at each end so
