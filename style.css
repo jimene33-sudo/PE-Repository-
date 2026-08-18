@@ -1286,9 +1286,10 @@ p {
   --rule-bottom: calc(var(--band-pad-bottom) + 1px);
 
   display: flex;
-  /* Always two rows (3 then 3), at every width down to the single-column
-     breakpoint. A one-third basis with no column gap breaks the row on its
-     own, and an even split keeps both rows the same full-bleed width. */
+  /* Always two rows (4 then 3), at every width down to the single-column
+     breakpoint. Each row's basis is 100/n for its own count, so the row fills
+     and breaks on its own with no column gap, and both rows stay the same
+     full-bleed width even though they hold different numbers of entries. */
   flex-wrap: wrap;
   justify-content: center;
   align-items: stretch;
@@ -1413,17 +1414,20 @@ p {
   line-height: 1.5;
 }
 
-/* Row 1 closes its band with its own bottom border. Its ::after sits on that
-   border (1px past its own edge) — not on the band's. */
-.home-card:nth-child(-n + 3) {
+/* Row 1 holds four entries and closes its band with its own bottom border.
+   Its ::after sits on that border (1px past its own edge) — not on the
+   band's. */
+.home-card:nth-child(-n + 4) {
+  flex-basis: 25%;
   border-bottom-width: 1px;
   padding-bottom: var(--row-pad-bottom);
   --rule-bottom: 1px;
 }
 
-/* Row 2 opens its band with its own top border, on the far side of the gap.
-   Both rows draw one edge of the gap, so neither rule is shared. */
-.home-card:nth-child(n + 4) {
+/* Row 2 holds three and opens its band with its own top border, on the far
+   side of the gap. Both rows draw one edge of the gap, so neither rule is
+   shared. */
+.home-card:nth-child(n + 5) {
   border-top-width: 1px;
   padding-top: var(--row-pad-top);
   --rule-top: 1px;
@@ -1441,12 +1445,15 @@ p {
     padding: 0;
   }
 
-  .home-card:nth-child(-n + 3) {
+  /* Restates the basis because the row-1 rule above is more specific than the
+     `.home-card` reset in this block and would otherwise hold row 1 at 25%. */
+  .home-card:nth-child(-n + 4) {
+    flex-basis: 100%;
     border-bottom-width: 0;
     padding-bottom: 0;
   }
 
-  .home-card:nth-child(n + 4) {
+  .home-card:nth-child(n + 5) {
     border-top-width: 0;
     padding-top: 0;
   }

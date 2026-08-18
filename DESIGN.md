@@ -108,7 +108,7 @@ A functional spectrum, not a decorative one. Each color maps to a navigational r
 - **Upstream Green** (`#1a6b3c`): Equipment & Automation panel anchor and upstream sub-heading labels. Signals biological/upstream process areas.
 
 ### Tertiary
-- **Facility Purple** (`#6a3c94`): Facility Cheat Sheet & Tools panel. The only non-blue/teal in the core spectrum — distinguishes a utility-heavy section by register.
+- **Facility Purple** (`#6a3c94`): eVALRoche panel anchor. The only non-blue/teal in the core spectrum — marks the one section that points at an outside system rather than at documents held here.
 - **Resources Rust** (`#b5460f`): Additional Resources panel. Warm terracotta; signals an outlier category without clashing with the cooler spectrum.
 - **Search Amber** (`#e6a817`): Used exclusively as the search-match indicator on sidebar buttons. Never decorative.
 
