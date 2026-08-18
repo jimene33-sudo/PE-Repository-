@@ -789,6 +789,15 @@ p {
   width: calc(100% - 16px);
 }
 
+/* A .building-body used at the top of a stack rather than inside a building.
+   It only needs the grid and the card treatment, not the leading gap — the
+   stack's own 34px already separates it from the first building. */
+.stack-lead {
+  padding-top: 0;
+}
+
+/* An empty slot in a section that has no documents yet. Dashed rather than
+   filled so it reads as pending, not as a button that failed to load. */
 .blank-card {
   margin: 0 8px 8px;
   height: 48px;

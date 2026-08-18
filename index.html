@@ -588,16 +588,60 @@
           <div class="panel-header">
             <h2 class="panel-title">eVALRoche</h2>
           </div>
-          <div class="panel-body">
+          <div class="building-stack">
 
-            <details class="sub-section" open>
-              <summary class="sub-heading">Platform<span class="sub-chevron">&#9660;</span></summary>
-              <a href="https://evalroche.roche.com/EVALROCHE-PRD/default.aspx" class="link-btn" target="_blank" rel="noopener">eVALRoche</a>
+            <!-- Sits above the buildings because it is the way into the system
+                 itself, not into either facility's records. It borrows
+                 .building-body so it lands on the same grid column and takes
+                 the same card treatment as the sections below, rather than
+                 stretching into a full-width banner. -->
+            <div class="building-body stack-lead">
+              <details class="sub-section" open>
+                <summary class="sub-heading">Platform<span class="sub-chevron">&#9660;</span></summary>
+                <a href="https://evalroche.roche.com/EVALROCHE-PRD/default.aspx" class="link-btn" target="_blank" rel="noopener">eVALRoche</a>
+              </details>
+            </div>
+
+            <!-- Building 311 -->
+            <details class="building-accordion" open>
+              <summary class="building-header bldg-311">
+                Building 311 &mdash; Stainless
+                <span class="building-chevron">&#9660;</span>
+              </summary>
+              <div class="building-body">
+                <details class="sub-section" open>
+                  <summary class="sub-heading upstream">Upstream<span class="sub-chevron">&#9660;</span></summary>
+                  <div class="blank-card"></div>
+                </details>
+                <details class="sub-section" open>
+                  <summary class="sub-heading downstream">Downstream<span class="sub-chevron">&#9660;</span></summary>
+                  <div class="blank-card"></div>
+                </details>
+              </div>
+            </details>
+
+            <!-- Building 312 -->
+            <details class="building-accordion" open>
+              <summary class="building-header bldg-312">
+                Building 312 &mdash; Single Use
+                <span class="building-chevron">&#9660;</span>
+              </summary>
+              <div class="building-body">
+                <details class="sub-section" open>
+                  <summary class="sub-heading upstream">Upstream<span class="sub-chevron">&#9660;</span></summary>
+                  <div class="blank-card"></div>
+                </details>
+                <details class="sub-section" open>
+                  <summary class="sub-heading downstream">Downstream<span class="sub-chevron">&#9660;</span></summary>
+                  <div class="blank-card"></div>
+                </details>
+              </div>
             </details>
 
           </div>
-          <!-- One row deep like Basecamp and Additional Resources, so it takes
-               the same filling photo treatment. equipment-rack.jpg is reused
+
+          <!-- The background the button stack sits on, the same treatment the
+               other building-stacked panels take. equipment-rack.jpg is reused
                here on purpose — eVALRoche is where this equipment's
                qualification records live. -->
           <div class="panel-photo" style="--photo-y: 62%;">
