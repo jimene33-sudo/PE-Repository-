@@ -789,6 +789,32 @@ p {
   width: calc(100% - 16px);
 }
 
+/* A line of orienting text at the top of a stack. Used where every button in
+   the panel shares one navigation prefix: stating it once here beats
+   repeating it under ten labels.
+
+   Filled for the same reason .building-header is — on a panel whose photo
+   climbs the whole stack, unfilled body text lands straight on the picture
+   and drops under the 4.5:1 floor. */
+.panel-note {
+  margin: 0;
+  padding: 12px 16px;
+  background: var(--bg-page);
+  border-radius: 8px;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--text-medium);
+}
+
+/* The click path itself. Medium weight and ink rather than a color — the
+   panel color is already spoken for on its three surfaces, and the Amber
+   Exception rules out the other obvious highlight. */
+.panel-note strong {
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
 /* An empty slot in a section that has no documents yet. Dashed rather than
    filled so it reads as pending, not as a button that failed to load. */
 .blank-card {
