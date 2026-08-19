@@ -4,13 +4,14 @@ description: Internal process engineering repository for Genentech Oceanside MSA
 colors:
   blue-primary: "#1d4e89"
   blue-bldg-311: "#2c5f8a"
-  teal-tech: "#136076"
   teal-bldg-312: "#3a7a6b"
-  green-upstream: "#1a6b3c"
-  blue-process: "#1c4587"
-  blue-basecamp: "#2e6b9e"
-  purple-facility: "#6a3c94"
-  rust-resources: "#b5460f"
+  panel-1-transfers: "#257494"
+  panel-2-design: "#1a678e"
+  panel-3-equipment: "#125a88"
+  panel-4-models: "#0e4d81"
+  panel-5-basecamp: "#0f407a"
+  panel-6-evalroche: "#123371"
+  panel-7-resources: "#152569"
   amber-search: "#e6a817"
   blue-hover-bg: "#e8f0fb"
   bg-page: "#f1f3f4"
@@ -96,20 +97,42 @@ This system explicitly rejects the legacy intranet feel: dense link tables, no v
 
 A functional spectrum, not a decorative one. Each color maps to a navigational role; its presence on any element tells the user which section they're in.
 
-### Primary
-- **Authority Navy** (`#1d4e89`): The system default, not a panel anchor. Used for sidebar active states, search input focus rings, and link button left-border indicators system-wide when no panel-specific color overrides.
-- **Process Blue** (`#1c4587`): Process Design & Specs panel anchor. Slightly deeper than Authority Navy; reads as a distinct zone.
-- **Station Blue** (`#2c5f8a`): Building 311 accordion header. Mid-navy between Authority Navy and the teals.
-- **Fleet Blue** (`#2e6b9e`): Basecamp panel anchor. Lighter and more open than the deep navies; communicates a slightly different register.
+### Panel anchors — one blue ramp
+Seven panels, one hue family, stepping steadily darker down the sidebar. The
+ramp is the wayfinding: position in the list and depth of the blue move
+together, so the header tells you how far down the nav you are. Steps are even
+at ~4.0 ΔE (OKLab ×100), a deliberate compromise twice over. Seven hues would
+separate further, but every panel title sits in its own header, so color is a
+second cue here and never the only one. A wider ramp was also possible — and
+rejected: pushing the dark end past ~14:1 turns the last two anchors into
+near-black, which reads as plain ink wherever the panel color is used as text
+rather than as a filled bar.
 
-### Secondary
-- **Operations Teal** (`#136076`): Tech Transfers panel anchor and the default accent for product accordions and downstream sub-heading labels. The workhorse teal — serious, functional.
-- **Bldg 312 Teal** (`#3a7a6b`): Building 312 accordion header. Warmer and greener than Operations Teal; distinguishes the two facilities at a glance.
-- **Upstream Green** (`#1a6b3c`): Equipment & Automation panel anchor and upstream sub-heading labels. Signals biological/upstream process areas.
+Each value clears 4.5:1 on all three surfaces it touches: white header text,
+and the panel color used *as text* on the sidebar active tint (`#f0f4fa`) and
+the link hover tint (`#e8f0fb`). That third check is the binding one — it sets
+how light the top of the ramp can go.
 
-### Tertiary
-- **Facility Purple** (`#6a3c94`): eVALRoche panel anchor. The only non-blue/teal in the core spectrum — marks the one section that points at an outside system rather than at documents held here.
-- **Resources Rust** (`#b5460f`): Additional Resources panel. Warm terracotta; signals an outlier category without clashing with the cooler spectrum.
+| # | Panel | Hex | On white | On `#f0f4fa` | On `#e8f0fb` |
+|---|-------|-----|----------|--------------|--------------|
+| 1 | Tech Transfers | `#257494` | 5.24:1 | 4.75:1 | 4.57:1 |
+| 2 | Process Design & Specs | `#1a678e` | 6.22:1 | 5.64:1 | 5.42:1 |
+| 3 | Equipment & Automation | `#125a88` | 7.38:1 | 6.69:1 | 6.43:1 |
+| 4 | Process/Cost Models & Cheat Sheets | `#0e4d81` | 8.76:1 | 7.94:1 | 7.63:1 |
+| 5 | Basecamp | `#0f407a` | 10.32:1 | 9.35:1 | 8.99:1 |
+| 6 | eVALRoche | `#123371` | 12.08:1 | 10.95:1 | 10.52:1 |
+| 7 | Additional Resources | `#152569` | 14.00:1 | 12.68:1 | 12.19:1 |
+
+Adding an eighth panel means re-spacing the whole ramp, not appending a color.
+The top is already at the contrast floor, so a new step has to come out of the
+middle.
+
+### Supporting
+- **Authority Navy** (`#1d4e89`): The system default, not a panel anchor. Sidebar active states, search focus rings, and link-button left borders where no panel color overrides.
+- **Hero Navy** (`#1a3a5c`): The hero banner. Sits directly above every panel header; the cyan accent rule between them is what keeps steps 4 and 5 of the ramp from merging into it.
+- **Station Blue** (`#2c5f8a`): Building 311 accordion header.
+- **Bldg 312 Teal** (`#3a7a6b`): Building 312 accordion header. The one warm-side survivor of the all-blue change — it distinguishes the two facilities *within* a panel, a different job from the ramp, and going blue here would collide with whatever panel it sits in.
+- **Upstream Green** (`#1a6b3c`) / **Operations Teal** (`#136076`): sub-heading labels for upstream and downstream groupings. No longer panel anchors.
 - **Search Amber** (`#e6a817`): Used exclusively as the search-match indicator on sidebar buttons. Never decorative.
 
 ### Neutral

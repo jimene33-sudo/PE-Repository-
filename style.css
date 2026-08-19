@@ -1623,7 +1623,7 @@ p {
 
 .edit-guide-code {
   background: #f1f3f4;
-  border-left: 3px solid var(--col-color, #2d7a50);
+  border-left: 3px solid var(--col-color, #152569);
   border-radius: 0 4px 4px 0;
   padding: 8px 12px;
   font-family: "SFMono-Regular", Consolas, monospace;
