@@ -18,36 +18,81 @@ No installation needed. Just open `index.html` in any web browser:
 ```
 index.html                          Main dashboard (all tabs, sidebar, search)
 style.css                           All styles for the site
-GNE_Logo_Strapline_BLK_081525.svg   Genentech logo used in the top nav
-fonts/
-  lato-700.woff2                    Lato Bold — self-hosted, no Google needed
-  roboto-latin.woff2                Roboto (all weights) — self-hosted, no Google needed
-cell-culture-overview.html          Sub-page: Cell Culture Overview
+coming-soon.html                    Shown by any button with no document behind it yet
+edit-guide.html                     "How to Edit This Repo" — the walkthrough linked
+                                      from Additional Resources
+poster-figure.html                  Standalone figure, not linked from the site
+
+  Sub-pages (each embeds one document in a viewer frame)
+cell-culture-overview.html
 cell-culture-process-intensification.html
 chromatography.html
 media-prep-hold.html
-product-a.html                      Sub-pages: individual product pages (A–E)
-product-b.html
-product-c.html
-product-d.html
-product-e.html
 purification-overview.html
+product-a.html … product-e.html     Individual product pages (A–E)
+
+docs/                               Documents served BY the site rather than linked.
+  upstream-pfds-312.pdf               See "Open items" — this folder is the one place
+  downstream-pfds-312.pdf             the repo holds documents instead of pointing at
+  solution-prep-pfds-312.pdf          them, which is worth understanding before adding
+                                      anything to it.
+fonts/
+  lato-700.woff2                    Lato Bold — self-hosted, no Google needed
+  roboto-latin.woff2                Roboto (all weights) — self-hosted, no Google needed
+GNE_Logo_Strapline_BLK_081525.svg   Genentech logo used in the top nav
+
+  Design and product documentation (not part of the site)
+CLAUDE.md                           Working instructions and the six named design rules
+DESIGN.md                           Full visual spec — colors, type, components
+PRODUCT.md                          Strategic intent
 ```
+
+### The tabs
+
+Seven sections, in sidebar order. The hex is that panel's colour identity, which
+appears on exactly three surfaces: the sidebar active border, the panel header
+background, and the left border of its link buttons.
+
+| # | Tab | Panel id | Colour |
+|---|-----|----------|--------|
+| 1 | Tech Transfers | `panel-2` | `#257494` |
+| 2 | Process Design & Specs | `panel-3` | `#1a678e` |
+| 3 | Equipment & Automation | `panel-4` | `#125a88` |
+| 4 | Process/Cost Models & Cheat Sheets | `panel-5` | `#0e4d81` |
+| 5 | Basecamp | `panel-7` | `#0f407a` |
+| 6 | eVALRoche | `panel-8` | `#123371` |
+| 7 | Additional Resources | `panel-6` | `#152569` |
+
+**The panel ids are not in sidebar order** — `panel-6` and `panel-7` were added
+before the order settled, and renumbering them would touch every reference in the
+markup and the JavaScript for no functional gain. Go by the label, not the number.
 
 ---
 
 ## How to update links
 
-Most buttons in `index.html` currently use `href="#"` as a placeholder — meaning they don't go anywhere yet. When a real document or SharePoint link is ready, open `index.html` in any text editor, find the button by its label, and replace `href="#"` with the real URL.
+Buttons with no document behind them point at `coming-soon.html`, which renders a short page explaining that the button works but nothing has been linked to it yet. The button's own label is passed along in `?doc=` so that page can name it.
 
-**Example — changing a placeholder to a real link:**
+**This replaced an older `href="#"` convention.** A bare `#` looked identical to a working button and did nothing when clicked, which read as broken. There are no `href="#"` buttons left in the site; if you add one, you are reintroducing that problem.
+
+**Changing a placeholder to a real link:**
 ```html
 <!-- Before -->
-<a href="#" class="link-btn">Bioreactors</a>
+<a href="coming-soon.html?doc=Bioreactors" class="link-btn">Bioreactors</a>
 
 <!-- After -->
-<a href="https://your-sharepoint-link-here" class="link-btn" target="_blank" rel="noopener">Bioreactors</a>
+<a href="https://your-real-url-here" class="link-btn" target="_blank" rel="noopener">Bioreactors</a>
 ```
+
+Note the two attributes that get added along with the URL: `target="_blank"` opens the document in a new tab so the reader doesn't lose the repository, and `rel="noopener"` is a standard security precaution that goes with it. Internal links to pages inside this repo don't need either.
+
+**Going the other way** — if a link dies and you want to park the button:
+```html
+<a href="coming-soon.html?doc=Button%20Label%20Here" class="link-btn">Button Label Here</a>
+```
+Spaces in the `?doc=` value are written `%20`, and a slash is `%2F`.
+
+> **Watch out for duplicate labels.** Several button labels appear more than once in different sections — `Upstream` and `Downstream` each appear four times, for instance, under both *Process Fit Models* and *Mass & Energy Balances*. A find-and-replace on the label or the URL will hit all of them. Before editing, scroll up from the button to the nearest `building-header bldg-311` / `bldg-312` line to confirm which building you're in, and to the nearest `sub-heading` to confirm the section.
 
 ---
 
@@ -55,24 +100,24 @@ Most buttons in `index.html` currently use `href="#"` as a placeholder — meani
 
 These buttons have real links pointing to Google Docs/Drive. If Genentech moves to Microsoft 365, replace each `href` value with the equivalent SharePoint/OneDrive URL.
 
-> **Line numbers shift whenever anything is added above them.** They're a rough guide only — find buttons by searching for their label text (`Cmd+F`), not by jumping to the line. Last verified 2026-08-03.
+> **Line numbers used to be listed here and have been removed.** They were wrong within a fortnight — everything below line 200 shifted by about 28 lines as sections were added above. Find buttons by searching for their label text (`Cmd+F`), and check which building's accordion you have landed in, because most labels appear in both.
 
 ### Top navigation (2 places)
 
-| Location | Line in index.html | Current URL |
-|---|---|---|
-| Genentech logo (clickable) | 14 | `https://sites.google.com/gene.com/oceanside-msat/ocn-msat` |
-| "OCN MSAT" nav button | 31 | `https://sites.google.com/gene.com/oceanside-msat/ocn-msat` |
+| Location | Current URL |
+|---|---|
+| Genentech logo (clickable) | `https://sites.google.com/gene.com/oceanside-msat/ocn-msat` |
+| "OCN MSAT" nav button | `https://sites.google.com/gene.com/oceanside-msat/ocn-msat` |
 
-Both point to the same OCN MSAT Google Site. Update both lines together.
+Both point to the same OCN MSAT Google Site, and both live in the `<nav class="topnav">` block at the top of `index.html`. Update them together.
 
 ---
 
 ### Tech Transfers tab — Building 311 folder
 
-| Line | Button label | Current URL |
-|---|---|---|
-| 203 | Open Building 311 Tech Transfer Folder | Google Drive folder |
+| Button label | Current URL |
+|---|---|
+| Open Building 311 Tech Transfer Folder | Google Drive folder |
 
 ---
 
@@ -82,49 +127,49 @@ All of these point to tabs within the same Google Sheet (`1QNP9ZL3BJLuwrZ4NPC0Zl
 
 **Upstream Equipment Assets**
 
-| Line | Button label | Sheet tab (gid) |
-|---|---|---|
-| 381 | Media Prep/Hold | 2018799983 |
-| 382 | Seed Vessels | 2060189543 |
-| 383 | Bioreactors | 2060189543 |
-| 384 | Harvest | 508020010 |
+| Button label | Sheet tab (gid) |
+|---|---|
+| Media Prep/Hold | 2018799983 |
+| Seed Vessels | 2060189543 |
+| Bioreactors | 2060189543 |
+| Harvest | 508020010 |
 
 **Downstream Equipment P1**
 
-| Line | Button label | Sheet tab (gid) |
-|---|---|---|
-| 388 | Buffer Prep/Hold | 948042938 |
-| 389 | Chrom Skids | 1678843139 |
-| 390 | Chrom Columns | 1787453987 |
-| 391 | Pool Vessels | 948042938 |
-| 392 | Viral Filtration | 1106166267 |
-| 393 | UFDF | 1613798372 |
-| 394 | Final Form | 1613798372 |
-| 395 | Fill & Freeze Thaw | 902795370 |
+| Button label | Sheet tab (gid) |
+|---|---|
+| Buffer Prep/Hold | 948042938 |
+| Chrom Skids | 1678843139 |
+| Chrom Columns | 1787453987 |
+| Pool Vessels | 948042938 |
+| Viral Filtration | 1106166267 |
+| UFDF | 1613798372 |
+| Final Form | 1613798372 |
+| Fill & Freeze Thaw | 902795370 |
 
 **Downstream Equipment P2**
 
-| Line | Button label | Sheet tab (gid) |
-|---|---|---|
-| 399 | Buffer Prep/Hold | 948042938 |
-| 400 | Chrom Skids | 1678843139 |
-| 401 | Chrom Columns | 1787453987 |
-| 402 | Pool Vessels | 948042938 |
-| 403 | Viral Filtration | 1106166267 |
-| 404 | Final Form | 1613798372 |
-| 405 | Fill & Freeze Thaw | 902795370 |
+| Button label | Sheet tab (gid) |
+|---|---|
+| Buffer Prep/Hold | 948042938 |
+| Chrom Skids | 1678843139 |
+| Chrom Columns | 1787453987 |
+| Pool Vessels | 948042938 |
+| Viral Filtration | 1106166267 |
+| Final Form | 1613798372 |
+| Fill & Freeze Thaw | 902795370 |
 
 **Ancillary Equipment**
 
-| Line | Button label | Sheet tab (gid) |
-|---|---|---|
-| 409 | Caustic System | 1191589342 |
+| Button label | Sheet tab (gid) |
+|---|---|
+| Caustic System | 1191589342 |
 
 ---
 
 ### Equipment & Automation tab — Building 312
 
-Building 312's equipment buttons are all `href="#"` placeholders — none are connected yet. (An earlier version of this README listed Google Sheet links here; those buttons have since been rewritten with different labels, so the links are gone.)
+Building 312's equipment buttons are all placeholders pointing at `coming-soon.html` — none are connected. Unlike Building 311, there is no equivalent Google Sheet; the labels were written first and the documents were never supplied.
 
 ---
 
@@ -275,6 +320,93 @@ After installing, click the spark icon (✱) in the top-right corner of VS Code 
 
 ---
 
-## Questions or handoff
+## Handover
 
-This site was built during a summer 2026 internship. For questions about the structure or design, the git history (`git log`) shows every change made and when. Each commit message describes what was changed.
+Built during a summer 2026 internship that ended 4 September 2026. `git log` shows
+every change and why; commit messages carry the reasoning, not just the what. What
+follows is the part that isn't in the code.
+
+### Where the site lives
+
+| | |
+|---|---|
+| Repo | `github.com/jimene33-sudo/PE-Repository-` |
+| Live site | `jimene33-sudo.github.io/PE-Repository-` |
+| Hosting | GitHub Pages, published from `main` |
+
+**This is a personal GitHub account, not a Genentech one.** It was created with a
+Genentech email address, which does not make it company-managed — the account is
+`type: User`, belongs to no GitHub organization, and cannot be administered,
+transferred, or deactivated by Genentech IT. The manager at the time was added as a
+repository collaborator so that someone at Genentech has access, but collaborator
+access is not ownership.
+
+**The repository is public.** Everything in it, including this file and everything
+in `docs/`, is readable and downloadable by anyone on the internet with no sign-in.
+This was raised with the manager, who assessed it and was not concerned; it is
+recorded here as fact rather than as an open action.
+
+Moving the repo into a Genentech GitHub organization is the durable fix: it puts the
+repo under company control, and if that org is on GitHub Enterprise Cloud the Pages
+site can be published privately so only org members can reach it, with no change to
+the HTML. A conversation with IT about this was started and not concluded. GitLab is
+**not** a destination — it was being decommissioned, which is why the site was on
+GitHub in the first place.
+
+### Open items
+
+| What | Where | Notes |
+|---|---|---|
+| **35 placeholder buttons** | throughout | Point at `coming-soon.html`. Each needs a document. |
+| **10 eVALRoche buttons** | eVALRoche tab | All land on the same login page — see below. |
+| **4 `smb://` buttons** | Process Design & Specs → EDS | Chrome and Edge refuse `smb://` silently, so these do nothing when clicked, with no error. All four point at the same folder. Needs either an HTTPS equivalent or conversion to selectable copy-paste text. |
+| **3 PDFs in `docs/`** | Process Design & Specs → 312 → PFDs | The only documents the site hosts rather than links. **Not in Veeva** — checked. The 311 equivalents all link to one Veeva document (`559802`); 312 has no counterpart. |
+| **4 Biosolve entries** | Process/Cost Models → Models | Continuous, Test, Live and Nimble Model are unlinked. |
+| **Utility Capacities & Limits** | Global Plant Utilities, both buildings | Requested from Allison; not yet supplied. |
+
+### Who to ask
+
+- **Allison** — WFI, clean steam, and plant utilities. The AWFI/HWFI/clean steam
+  links under Global Plant Utilities came from her. The outstanding request is
+  utility capacities and limits.
+- **Bahar** — manager at handover time; repository collaborator.
+- **IT** — hosting and the GitHub organization question.
+
+### Decisions that look like mistakes and aren't
+
+Read this before "fixing" any of the following.
+
+- **The 311/312 split in the eVALRoche tab is this repository's, not eVALRoche's.**
+  eVALRoche has no per-building branch: `Inventory → Oceanside → Custom Systems`
+  holds one set of `CU` folders covering both buildings. The two accordions were kept
+  so the tab reads like the other four, which does mean the same folder is reachable
+  from both. The note at the top of that panel says so, and needs to stay if the
+  structure does.
+- **All ten eVALRoche buttons point at the same URL on purpose.** The platform is
+  ASP.NET WebForms; its navigation runs on `__doPostBack` and never changes the
+  address bar, so there is no per-folder URL to link. Navigating four different areas
+  produced zero browser history entries. The click path is stated once in the panel
+  note instead of repeated under every button. This is a platform limitation — the
+  ask goes to whoever administers the ValGenesis instance, not to this repo.
+- **`coming-soon.html` is the deliberate placeholder**, not a dead link. See
+  "How to update links".
+- **The seven tab colours are a checked ramp, not seven arbitrary blues.** Each one
+  clears 4.5:1 against white *and* against the two pale tints it sits on as text
+  (`#f0f4fa` sidebar-active, `#e8f0fb` link-hover) — that third check is what caps how
+  light the lightest one can be. Adding an eighth tab means re-spacing the whole ramp,
+  not appending a colour. Values and ratios are tabulated in `DESIGN.md`.
+- **Building 312's accordion tick stays teal** while everything else went blue. It
+  separates the two facilities *inside* a panel, which is a different axis from the
+  tab colours; making it blue would collide with whichever panel it appears in.
+- **`solution-prep-pfds-312.pdf` carries the internal title
+  "14.02B_Upstream OSUT PFDS…"** — possibly stale metadata from a Save As, possibly
+  the wrong file. Never verified. Worth opening before trusting that button.
+
+### A standing rule from this README, worth keeping
+
+> Don't route submitted documents through this GitHub repo. Committed files are
+> permanent and GitHub is outside Genentech's boundary. The repo should only ever
+> hold the *link* to a document, never the document itself.
+
+The three PDFs in `docs/` are the existing exception to that rule, which is why they
+are called out above.
